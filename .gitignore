@@ -1,3 +1,9 @@
+#php ignore
 fuel/app/logs/*/*/*
 fuel/app/cache/*/*
+
+#eclipse java ignore
 .metadata/
+.settings/
+.buildpath
+.project
