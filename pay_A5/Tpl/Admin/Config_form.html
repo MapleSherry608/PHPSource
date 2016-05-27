@@ -1,0 +1,61 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Admin Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+
+<!--            
+              CONTENT 
+                        -->
+<div id="content" class="white">
+
+  <div class="bloc">
+    <div class="title">表单配置</div>
+    <form method="post" action="">
+    <div class="content">
+      <div class="input">
+        <label>商品名称</label>
+       <br />显示名称: <br /><input type="text" name="name_shop" value="{$Think.config.name_shop}" />
+      </div>
+      <div class="input">
+        <label>快捷金额</label>
+       <br />显示名称: <br /><input type="text" name="name_kj"  value="{$Think.config.name_kj}" />
+      </div>
+      <div class="input">
+        <label>输入金额</label>
+       <br />显示名称: <br /><input type="text" name="name_sl" value="{$Think.config.name_sl}" />
+       <br /> 提示文字: <br /><input type="text" name="prompt_sl" value="{$Think.config.prompt_sl}" />
+       <br />默认值: (默认值已写,提示文字无效)<br /><input type="text" name="default_sl" value="{$Think.config.default_sl}" />
+      </div>
+      <div class="input">
+        <label >付款留言</label>
+     <br />显示名称: <br /><input type="text" name="name_message" value="{$Think.config.name_message}" />
+     <br /> 提示文字: <br /><input type="text" name="prompt_message" value="{$Think.config.prompt_message}" />
+       <br />默认值: (默认值已写,提示文字无效)<br /><input type="text" name="default_message" value="{$Think.config.default_message}" />
+      </div>
+      
+      <div class="submit">
+        <input type="submit" value="确定保存" class="black"/>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

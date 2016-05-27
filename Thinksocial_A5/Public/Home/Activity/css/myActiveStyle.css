@@ -1,0 +1,33 @@
+/*标签*/
+.myTagBox{ margin-left:2%; margin-right:2%; width:96%; padding-top:48px;}
+.myTagBox h1{ width: 96%; margin:10px 2%; font-weight: bold;}
+.myTagBox h1 span{ float: right; color: red;}
+.myTag{ overflow:hidden;}
+.myTag li{ float:left; width:32%;margin-right:2%; margin-bottom:10px;}
+.myTag li a{ display:block; height:48px;text-align:center; line-height:48px; font-size:18px; color:white;}
+.myTag li:nth-child(1){ background:#93969b;}
+.myTag li:nth-child(2){ background:#df5f52;}
+.myTag li:nth-child(3){ background:#a06d3e; margin-right:0;}
+.myTag li:nth-child(4){ background:#2493cb;}
+.myTag li:nth-child(5){ background:#dd7c2d;}
+.myTag li:nth-child(6){ background:#bbd57c; margin-right:0;}
+/*我的活动*/
+.myActiveColum{ width:100%; margin-bottom:70px;}
+.myActiveContainer{ width:100%; margin-bottom:10px;}
+.myActiveBox{ width:100%;  background:white;}
+.myActiveTitle{ height:45px; margin-left:10px; margin-right:10px; border-bottom:solid 1px #c8c8c8;}
+.myActiveTitle a{ float:left; font-size:16px; line-height:45px;}
+.myActiveTitle span{ float:right; font-size:16px; line-height:45px;}
+.myActiveInfro{ height:45px; margin-left:5px; margin-right:5px; border-top:solid 1px #c8c8c8;}
+.myActiveInfro a{ float:left; font-size:16px; line-height:45px; padding-left:5%;}
+.myActiveInfro span{ float:right; font-size:16px; line-height:45px;padding-right:10%;}
+.myActiveContent{ width: 100%;overflow: hidden; margin-top:10px; margin-bottom:10px; position: relative;}
+.myActiveContent img{float: left; width: 100px; height: 100px; margin-left:20px;}
+.myActivePro{ float: left; margin-left:10px;  }
+.myActivePro p{ margin-bottom:5px;}
+.myActiveProTip{ float: left; margin-left:10px;  }
+.myActiveProTip p{ margin-bottom:20px;} 
+.myActiveContent p span{ max-width:150px;  display: -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical; overflow: hidden;}
+.myActiveContent a{ position: absolute; right: 0px;bottom:0px; margin-right:20px; margin-top:50px; color:white; width:72px; height:36px; font-size:14px; line-height:36px; text-align:center;cursor: pointer;}
+.myActiveContent .ableSign{ background: #e8a719; border-radius: 5px;}
+.myActiveContent .disableSign{ background: #2981dc; border-radius: 5px;}

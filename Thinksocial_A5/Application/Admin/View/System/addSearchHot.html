@@ -1,0 +1,56 @@
+<extend name="Public/basic"/>
+
+<block name="body">
+    <ul class="nav nav-tabs">
+		<li><a href="{:U('System/searchHot')}">菜单列表</a></li>		
+		<li class="active"><a href="{:U()}"><i class="fa fa-plus"></i>添加菜单</a></li>
+	</ul>
+    <form action="{:U()}" method="post" class="form-horizontal">
+    	<div class="panel panel-default">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+					style="width: 130px;">热搜词名称</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="form-control" name="menu[hotname]" value="{$info.hotname|default=''}" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+					style="width: 130px;">强制排序 </label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="form-control" name="menu[rank]" value="{$info.rank|default=0}" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 130px;">热搜词类型</label>
+				<div class="col-sm-7 col-lg-9 col-xs-12">
+					<select name="menu[type]" class="form-control">
+					  	<volist name=":C('SEARCHHOTTYPE')" id="vo" key="k" >
+					       <option value='{$k}'  <if condition=" $info.type eq $k ">selected="selected" </if>  >{$vo}</option>
+					  	</volist>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label" style="width: 130px;">状态 </label>
+				<div class="col-sm-9 col-xs-12">
+					<label for="status1" class="radio-inline"><input type="radio" name="menu[status]" value="1" id="status1"/> 显示</label>
+					&nbsp;&nbsp;&nbsp;
+					<label for="status2" class="radio-inline"><input type="radio" name="menu[status]" value="0" id="status2" /> 隐藏</label>
+					<span class="help-block"></span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="menu[id]" value="{$info.id|default=''}">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" /> 
+		</div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+       	setFromValue("menu[status]", {$info.status|default = 0});
+        highlight_subnav('{:U('index')}');
+    </script>
+</block>

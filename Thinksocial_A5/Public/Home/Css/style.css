@@ -1,0 +1,101 @@
+/*初始化*/
+*{ margin:0; padding:0; font-size:14px; color:#323232; font-family:"微软雅黑";}
+h1,h2{ font-weight:normal; font-size:14px;}
+li{ list-style:none;}
+a{text-decoration: none;}
+a:visited{text-decoration: none;}
+body{ background:#eaeaea;}
+.containerBox{ width:100%; padding-bottom: 50px;}
+/*底部栏*/
+.footerBox{ width: 100%; height: 50px;position: fixed;left: 0;bottom: 0;border-top: solid 1px #c8c8c8;background: #fafafa;}
+.footerBox ul{ width: 100%;overflow: hidden;}
+.footerBox ul li{ float: left;width:25%; text-align: center;}
+.footerBox ul li a{ display: block;height: 50px;}
+.footerBox ul li p{width: 24px; height: 24px;line-height:24px; text-align: center;margin: 0 auto;padding-top:5px;}
+.footerBox ul li p i{font-size: 22px;color: #646464;}
+.footerBox ul li span{display: block;margin: 0 auto;}
+/*加载更多*/
+.loadMore{ width: 100%; background: #fafafa;margin-bottom: 10px; border-top: solid 1px #ddd;border-bottom: solid 1px #ddd;}
+.loadMore a{width: 100%; display: block; height:42px;line-height:42px;text-align: center;}
+.loadMore a span{display: block;width: 100%;height: 100%;text-align: center;color: #969696;}
+.loadMore a p{display: none; width: 24px; height: 42px;margin-left: auto;margin-right: auto; background: url(../Images/loading.gif) no-repeat center center; background-size: 24px 24px;}
+
+//上传图片
+.pub-pics {
+	padding: 0 20px
+}
+
+.pub-pics::before{
+	display: none
+}
+
+.pub-pics::after {
+	border-color: #eee
+}
+.pub-pics {
+	padding: 9px 0 15px 10px
+}
+ .pub-pics {
+	display: block
+}
+.pub-pics {
+	overflow: hidden;
+	padding: 9px 18px 15px
+}
+
+.pub-pics li {
+	float: left;
+	position: relative;
+	margin: 6px 6px 0 0;
+	width: 65px;
+	height: 65px
+}
+
+.pub-pics li .clip {
+	overflow: hidden;
+	border-radius: 5px;
+	width: 65px;
+	height: 65px
+}
+
+.pub-pics li img {
+	display: none;
+	width: 65px;
+	height: 65px
+}
+
+.pub-pics li:nth-child(9) {
+	display: none
+}
+
+.pub-pics-tips {
+	clear: both;
+	padding-left: 20px;
+	width: 100%;
+	font-size: 13px;
+	color: #b2b2b2
+}
+
+.pub-pics::after {
+	margin-left: 18px
+}
+.pub-pics {
+	display: none
+}
+.pub-pics {
+	padding: 0 20px
+}
+
+.pub-pics::before {
+	display: none
+}
+
+.pub-pics::after {
+	border-color: #eee
+}
+.pub-pics {
+	padding: 9px 0 15px 10px
+}
+.pub-pics {
+	display: block
+}

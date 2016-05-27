@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	background:#D8D8D8;
+	font-family:"microsoft yahei";
+}
+.ver_line{
+	text-align:center;
+	height:32px;
+	line-height:32px;
+	color:#bfbeda;
+	font-size:12px;
+	background:#4c4b71;
+}
+.left_nav{
+	width:225px;
+	margin:12px 0px;
+}
+.left_nav ul li{
+	list-style-type:none;
+	font-size:14px;
+	text-indent:5.8em;
+	background:url(../images/delta_icon.gif) no-repeat 62px center  #E7E7E7;
+	color: #999;
+	height:35px;
+	line-height:30px;
+	margin-bottom:3px;
+}
+.left_nav ul li a{
+	color:#666;
+	text-decoration:none;
+}
+.left_nav ul li a:hover{
+	color: #000;
+}
+.left_nav ul li.selected{
+	background:url(../images/delta_icon.gif) no-repeat 70px center #666;
+
+}
+.left_nav ul li.selected a{
+	color:#fff;
+
+}
+.left_nav ul li.selected a:hover{
+	color:#CCC;
+}

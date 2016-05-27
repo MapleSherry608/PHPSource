@@ -1,0 +1,95 @@
+@charset "utf-8";
+.cart_box{
+	font-family:Arial, Helvetica, sans-serif;
+}
+.cart_box .tit{
+	height:35px;
+	line-height:35px;
+	border-bottom:1px solid #FF9900;
+	font-size:18px;
+	font-family:"microsoft yahei";
+	color:#FF9900;
+	text-indent:1em;
+}
+.cart_box .content{
+	margin-top:10px;
+	background:#fff;
+}
+.cart_box .content .p_tit{
+	height:30px;
+	line-height:30px;
+	padding:5px;
+	background: #F3F3F3;
+	font-size:14px;
+	font-weight:bold;
+	color: #333333;
+	border:1px solid #ccc;
+}
+.cart_box .content .p_tit ul li{
+	float:left;
+	text-align:center;
+}
+.cart_box .content .p_con {
+	border:1px solid #ccc;
+	border-top:none;
+	padding:5px;
+}
+.cart_box .content .p_con ul li{
+	float:left;
+	height:50px;
+	line-height:50px;
+	font-size:12px;
+	color: #333;
+	text-align:center;
+}
+.cart_box .content .p_con ul li a{
+	color:#3399FF;
+	text-decoration:none;
+}
+.cart_box .content .p_con ul li a:hover{
+	color:#33CCFF;
+}
+.cart_box .content .p_con img{
+	width:50px;
+	height:50px;
+	border:1px solid  #F3F3F3;
+}
+/*订单成功开始*/
+.cart_box .content .order_success{
+	text-align:center;
+	line-height:50px;
+	font-family:"microsoft yahei";
+}
+.cart_box .content .order_success .success{
+	font-size:35px;
+	color:#F00;
+}
+.cart_box .content .order_success .sn{
+	font-size:20px;
+	
+}
+/*订单成功结束*/
+.cart_box .input_box{
+	border:1px solid #ccc;
+	border-radius:5px;
+	height:30px;
+	outline:none;
+}
+.cart_box .input_box:focus{
+	border:1px solid #999;
+}
+.cart_box .submit{
+	border:0px;
+	background:#CC0000;
+	border-radius:5px;
+	width:100px;
+	height:30px;
+	color:#fff;
+	margin-left:60px;
+}
+.cart_box .submit:hover{
+	background:#FF0000;
+}
+.select_box{
+	height:30px;
+}

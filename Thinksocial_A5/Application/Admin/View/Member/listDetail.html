@@ -1,0 +1,116 @@
+<extend name="Public/basic"/>
+<block name="style">
+
+</block>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U()}">用户列表</a></li>
+	</ul>
+	<div class="clearfix">
+		<div class="panel panel-info">
+			<div class="panel-heading">筛选</div>
+			<div class="panel-body form-horizontal">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">筛选条件</label>
+					<div class="col-sm-4 col-xs-12">
+						<input type="text" class="form-control search-input" placeholder="请输入用户名称、昵称或手机号！"  name="title" value="{:I('title')}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
+					<div class="col-sm-2 col-xs12">
+						<label class="radio-inline">
+							<input type="radio" name="status" value="" <if condition="!is_numeric($_REQUEST['status'])&&empty($_REQUEST['status'])">checked="checked"</if> > 不限
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="1" <if condition="I('status') eq 1">checked="checked"</if> >正常
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="0" <if condition="is_numeric($_REQUEST['status'])&&empty($_REQUEST['status'])">checked="checked"</if> >禁用
+						</label>
+					</div>
+					<div class="col-xs-12 col-sm-2 col-lg-1 text-left">
+						<span class="btn btn-default" url="{:U()}" id="search"><i class="fa fa-search"></i> 搜索</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="table-responsive panel-body">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th style="width:44px;">ID</th>
+						<th style="width:100px;">真实姓名</th>
+						<th style="width:100px;">用户昵称</th>
+						<th style="width:100px;">积分</th>
+						<th style="width:100px;">余额</th>
+						<th style="min-width:150px;">手机或电话</th>
+						<th style="min-width:150px;">电子邮箱</th>
+						<th style="width:80px;">状态</th>
+						<th style="min-width:150px;">创建时间</th>
+						<th style="min-width:90px;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="list" id="vo">
+						<tr>
+							<td>{$vo.id}</td>
+							<td>{$vo.realname}</td>
+							<td>{$vo.nickname}</td>
+							<td>{$vo.score}</td>
+							<td>{$vo.deposit}</td>
+							<td>{$vo.mobile}</td>
+							<td>{$vo.email}</td>
+							<td>{$vo.status_text}</td>
+							<td>{$vo.createtime|time_format}</td>
+							<td>
+								<span url="{:U('Member/initRecharge?membid='.$vo['id'])}" class="btn btn-default btn-xs init-model">充值</span>
+								<a href="{:U('Member/scoreDetail',array('id'=>$vo['id']))}" class="btn btn-primary btn-xs">积分明细</a>
+								<a href="{:U('Member/depositDetail',array('id'=>$vo['id']))}" class="btn btn-info btn-xs">余额明细</a>
+							</td>
+						</tr>
+					</volist>
+				</tbody>
+			</table>
+			 <!-- 分页 -->
+	        <div class="page">
+				{$_page}
+	        </div>
+		</div>
+	</div>
+</block>
+<block name="script">
+<div id="publicMyModalDialogs" class="modal fade" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard = "true" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.form-horizontal').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	publicModel={
+		"Initialize":function(target){
+			 $("#publicMyModalDialogs").load(target);
+			 $("#publicMyModalDialogs").modal('show');
+		}
+	};
+	highlight_subnav("{:U('Member/listDetail')}");
+</script>
+</block>
+	

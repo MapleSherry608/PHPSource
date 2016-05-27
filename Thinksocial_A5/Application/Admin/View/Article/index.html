@@ -1,0 +1,110 @@
+<extend name="Public/basic" />
+<block name="style">
+	<style>
+		.table td span {display: inline-block;margin-top: 4px;}
+		.table td input {margin-bottom: 0;}
+	</style>
+</block>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li><a href="{:U('Article/edit')}">添加文章</a></li>
+		<li class="active"><a href="{:U()}">文章列表</a></li>
+	</ul>
+	<div class="panel panel-info">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body">
+			<form method="get" class="form-horizontal" role="form">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 control-label">关键字</label>
+					<div class="col-sm-8 col-md-8 col-lg-8 col-xs-12">
+						<input class="form-control" name="keyword" id="" type="text" value="{:I('keyword')}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 control-label">文章分类</label>
+					<div class="col-sm-8 col-md-8 col-lg-8 col-xs-12">
+						{:tpl_form_field_category_2level('category', $parent, $children, $pcate, $ccate)}
+					</div>
+					<div class="pull-right col-xs-12 col-sm-2 col-md-2 col-lg-2">
+						<span class="btn btn-default" id="search" url="{:U()}"><i class="fa fa-search"></i> 搜索</span>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="table-responsive panel-body">
+			<table class="table">
+				<thead>
+					<tr>
+						<th style="width:50px">ID</th>
+						<th style="width:50px">排序</th>
+						<th>标题</th>
+						<th style="width:180px;">属性</th>
+						<th style="width:100px; text-align:right;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="list" id="vo">
+						<tr>
+							<td>{$vo.id}</td>
+							<td><span>{$vo.displayorder}</span></td>
+							<td>
+								<if condition="getNameTableid($vo['pcate'],'SiteCate','name')"><span class="text-error">[{:getNameTableid($vo['pcate'],'SiteCate','name')}]</span></if>
+								<if condition="getNameTableid($vo['ccate'],'SiteCate','name')"><span class="text-error">[{:getNameTableid($vo['ccate'],'SiteCate','name')}]</span></if>
+								<a href="{:U('Article/edit',array('id'=>$vo['id']))}" style="color:#333;">{$vo.title}</a></td>
+							<td>
+								<if condition="$vo['ishot']"><span class="label label-success">头条</span></if>
+								<if condition="$vo['iscommend']"><span class="label label-warning">推荐</span></if>
+							</td>
+							<td style="text-align:right;">
+								<a href="{:U('Article/edit',array('id'=>$vo['id']))}" title="编辑" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></a>
+								<a onclick="return confirm('此操作不可恢复，确认吗？'); return false;" href="{:U('Article/deledit',array('id'=>$vo['id']))}" title="删除" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm"><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+					</volist>
+				</tbody>
+			</table>
+			<div class="page">
+				{$_page}
+			</div>
+		</div>
+	</div>
+	
+</block>
+<block name="script">
+	<script type="text/javascript">
+		var category = "";
+		require(['bootstrap'], function($) {
+			$('.btn').hover(function() {
+				$(this).tooltip('show');
+			}, function() {
+				$(this).tooltip('hide');
+			});
+		});
+		highlight_subnav("{:U('Article/index')}");
+		
+		//搜索功能
+		$("#search").click(function(){
+			var url = $(this).attr('url');
+	        var query  = $('.form-horizontal').serialize();
+	        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+	        query = query.replace(/^&/g,'');
+	        if( url.indexOf('?')>0 ){
+	            url += '&' + query;
+	        }else{
+	            url += '?' + query;
+	        }
+			window.location.href = url;
+		});
+		//回车搜索
+		$(".search-input").keyup(function(e){
+			if(e.keyCode === 13){
+				$("#search").click();
+				return false;
+			}
+		});
+	</script>
+	
+</block>

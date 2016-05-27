@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<title>首页</title>
+		<link rel="stylesheet" href="__HOME_CSS__/style.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/iconfont.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/fonts.css" />
+		<link rel="stylesheet" href="__HOME_PUNCH__/css/index.css" />
+		<link rel="stylesheet" href="__HOME_PUNCH__/css/swipebox.css" />
+		<link href="__HOME_CSS__/weui.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+		<link href="__HOME_CSS__/example.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<div class="containerBox">
+			<div class="topTabBox">
+				<ul class="topTab">
+					<li class="currentLi"><a href="{:U('Punchcard/posted')}">发新帖</a></li>
+					<li><a>逛商城</a></li>
+				</ul>
+			</div>
+			<div class="sportShareContainer">
+				<notempty name="punchInfoList">
+					<volist name="punchInfoList" id="punchInfo">
+						<div class="sportShareBox">
+							<div class="myHeadBox">
+								<div class="myHeadLeft">
+									<a href="{:U('Punchcard/friendIndex',array('membid'=>$punchInfo['membid']))}">
+										<img src="{$punchInfo['userInfo']['avatar']}">
+									</a>
+								</div>
+								<div class="myHeadRight">
+									<h1><a href="{:U('Punchcard/friendIndex',array('membid'=>$punchInfo['membid']))}">{$punchInfo['userInfo']['nickname']}</a></h1>
+									<h2>{$punchInfo['punchDate']}</h2>
+								</div>
+							</div>
+							<div class="myShareBox">
+								<h1 class="myShareInfro" style="color:#0F65B5;">{$punchInfo['title']}</h1>
+								<h1 class="myShareInfro">{$punchInfo['content']}</h1>
+								<div class="mySharePic">
+									<notempty name="punchInfo.images">
+										<volist name="punchInfo.images" id="image" key="k">
+											<div class="myPicBox">
+												<a rel="gallery-{$punchInfo['id']}" href="{$image|tomedia}" class="swipebox" title="{$punchInfo['title']}"><img src="{$image|getThumbUrl}" alt="" title="" border="0" /></a>
+											</div>
+										</volist>
+									</notempty>
+								</div>
+							</div>
+							<div class="myCommentBox">
+								<div class="myCommentTitle">
+									<div class="comment_icon"
+										onclick="javascript:location.href='{:U('Punchcard/commentOption',array('punchid'=>$punchInfo['id']))}'"
+										data-uuid="{$punchInfo['id']}">
+										<i class="am-icon-comment-o"></i>评论（{$punchInfo['commentCount']}） 
+									</div>
+									<div class="praise_icon" name="praise_icon"
+										onclick="addPraiseCount(this)" data-uuid="{$punchInfo['id']}">
+										<i class="am-icon-thumbs-o-up"></i>赞（<span>{$punchInfo['praiseCount']}</span>）
+									</div>
+									<div class="sendInfro_icon"
+										onclick="sendMsg('{$punchInfo['membid']}')">
+										<i class="am-icon-envelope-o"></i>发消息
+									</div>
+								</div>
+								<div class="myPraiseBox">
+									<div class="myPraiseTitle"
+										onclick="javascript:location.href='{:U('Punchcard/PraiseList',array('punchid'=>$punchInfo['id']))}'">
+										<span><i class="am-icon-heart-o"></i></span>
+									</div>
+									<notempty name="punchInfo.praiseInfo">
+										<volist name="punchInfo.praiseInfo" id="praise" offset="0" length='5'>
+											<div class="myPraiseContent">
+												<div class="myPraisePic" onclick="location.href='{:U('Punchcard/friendIndex',array('membid'=>$praise['id']))}'">
+													<img src="{$praise['avatar']}">
+												</div>
+												<p>{$praise['nickname']}</p>
+											</div>
+										</volist>
+										<if condition="$punchInfo.praiseCount gt 5">
+										   <div class="myPraiseMore">...</div>
+										</if>
+									</notempty>
+								</div>
+							</div>
+						</div>
+					</volist>
+				</notempty>
+		    </div>
+		    <input type="hidden" value="{$nextNumber}" class="nextnum">
+		    <div class="loadMore"><a><p></p><span>加载更多</span></a></div>
+		</div>
+		<div class="viewPicBox">
+			<div id="viewPic" class="flexslider" width="100%">
+				<ul class="slides"  width="100%">
+				</ul>
+			</div>
+		</div>
+		<include file='Public:contact_foot'/>
+		<div class="weui_dialog_alert" id="dialog2" style="display: none;">
+	        <div class="weui_mask"></div>
+	        <div class="weui_dialog">
+	            <div class="weui_dialog_hd"><strong class="weui_dialog_title">温馨提示</strong></div>
+	            <div class="weui_dialog_bd"></div>
+	            <div class="weui_dialog_ft">
+	                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+	            </div>
+	        </div>
+	    </div>
+		<script type="text/javascript" src="__HOME_JS__/jquery-1.9.0.min.js"></script>
+		<script type="text/javascript" src="__HOME_PUNCH__/js/common.js"></script>
+		<script type="text/javascript" src="__HOME_PUNCH__/js/jquery.swipebox.js"></script>
+		<script type="text/javascript" src="__HOME_PUNCH__/js/idangerous.swiper-2.1.min.js"></script>
+		<script type="text/javascript" src="__HOME_PUNCH__/js/idangerous.swiper.scrollbar-2.1.js"></script>
+		<script type="text/javascript" src="__HOME_PUNCH__/js/code.js"></script>
+		
+		<script type="text/javascript">
+		$(function(){
+			loadFunction();
+			//加载更多
+			/**
+			 * 异步加载页面
+			 */
+			$(".loadMore").click(function(){
+				if($(".loadMore a span").css("display")=="block"){
+					$(".loadMore a span").hide();
+					$(".loadMore a p").show();
+				}
+				var nextNumber=$(".nextnum").val();
+				if(typeof(nextNumber)=='undefined'){
+					if($(".loadMore a span").css("display")=="none"){
+						$(".loadMore a span").show();
+						$(".loadMore a p").hide();
+					}
+					return;
+				}
+				$(".nextnum").remove();
+				var url="{:U('Punchcard/ajaxIndex')}";
+				$.get(url,{
+					'nextNumber':nextNumber
+				},function(html){
+					if(html.indexOf('sportShareBox') > -1){
+						$(".sportShareContainer").append(html);
+						$(".swipebox").swipebox();
+					}else{
+						$('.loadMore a span').text('已加载完毕');
+					}
+			  		loadFunction();
+					if($(".loadMore a span").css("display")=="none"){
+						$(".loadMore a span").show();
+						$(".loadMore a p").hide();
+					}
+				});
+			});
+			$(".viewPicBox").click(function(){
+				$(this).hide();
+			});
+		});
+	
+		/**
+		 * 加载事件
+		 */
+		function loadFunction(){
+			/*头像裁切*/
+			$(".myHeadBox").find("img").each(function(){
+				clipPic($(this),50);
+			});
+			/*图片裁切*/
+			var averWidth=($(".mySharePic").width()-16)/3;
+			$(".myPicBox").width(averWidth);
+			$(".myPicBox").height(averWidth);
+			$(".mySharePic").find("img").each(function(){
+				clipPic($(this),averWidth);
+			});
+			/*头像裁切*/
+			$(".myPraiseBox").find("img").each(function(){
+				clipPic($(this),30);
+			});
+		}
+		/**
+		 * 点赞功能
+		 */
+		function addPraiseCount(currentThis){
+			$.post(
+				"{:U('Punchcard/praiseOption')}",
+				{
+					'punchId':$(currentThis).attr('data-uuid'),
+					'praiseCount':$(currentThis).children('span').text()//点赞次数
+				},function(response){
+					if(response.code==200){
+						$(currentThis).children('span').text(response.praiseCount);
+						$(currentThis).parent().siblings(".myPraiseBox").find(".myPraiseTitle").after(response.praisePeople);
+						loadFunction();
+					}else{
+						var $dialog = $('#dialog2');
+						$dialog.find('.weui_dialog_bd').text(response.mes);
+	                    $dialog.show();
+	                    $dialog.find('.weui_btn_dialog').on('click', function () {
+	                        $dialog.hide();
+	                    });
+					}
+				},
+				'json'
+			);
+			loadFunction();
+		}
+		function sendMsg(){
+			var $dialog = $('#dialog2');
+			$dialog.find('.weui_dialog_bd').text('亲！该功能正在努力上线');
+            $dialog.show();
+            $dialog.find('.weui_btn_dialog').on('click', function () {
+                $dialog.hide();
+            });
+		}
+		</script>
+	</body>
+</html>

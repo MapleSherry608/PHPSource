@@ -1,0 +1,229 @@
+<extend name="Public/basic" />
+<block name="style">
+	<style type="text/css">
+		.table thead tr td span{ width: 100px;}
+		.index-main { margin: 0 20px; padding-top: 30px;}
+		.container-span .span2 { width: 48%;  float: left;}
+		.columns-mod { border: 1px solid #cdcdcd;}
+		.columns-mod .hd { margin-bottom: 1px; padding: 0 10px 0 15px; height: 35px; line-height: 35px; border-bottom: 1px solid #cdcdcd; background-color: #eee;}
+		.columns-mod .bd { height: 275px; background-color: #fafafa;}
+		.sys-info {padding: 15px;}
+		.sys-info table { width: 100%;}
+		.sys-info th, .sys-info td { padding: 8px 0; height: 20px; line-height: 20px; border-bottom: 1px solid #e9e9e9;}
+		.sys-info tr { display: table-row; vertical-align: inherit; border-color: inherit;}
+		.top-columns { margin: 20px 0 5px; text-align: center;}
+		.show-num-mod { display: inline-block; margin: 0 15px 15px; border: 1px solid #cdcdcd; background-color: #fff;}
+		.show-num-mod dt { width: 65px; height: 56px; line-height: 56px; float: left; padding: 10px;}
+		.show-num-mod dd { float: left; min-width: 100px; border-left: 1px solid #cdcdcd; padding: 20px;}
+		.show-num-mod dd strong { display: block; font-size: 20px; }
+		.show-num-mod dd span { font-size: 12px; letter-spacing: .15em;}
+		.count-icon { display: inline-block; width: 48px; height: 48px; vertical-align: middle; background: url(__ADMIN_IMG__/count_icon.png) no-repeat;}
+		.user-count-icon {background-position: 0 0;}
+		.user-action-icon {background-position: 0 -50px;}
+		.doc-count-icon { background-position: 0 -100px;}
+		.doc-modal-icon { background-position: 0 -150px;}
+		.category-count-icon { background-position: 0 -200px;}
+	</style>
+</block>
+<block name="middle">
+	<!-- 主体 -->
+	<div id="indexMain" class="index-main">
+		<!-- 插件块 -->
+		<div class="container-span">
+			<div class="container-span top-columns cf">
+				<dl class="show-num-mod">
+					<dt><i class="count-icon user-count-icon"></i></dt>
+					<dd>
+						<strong>{$coumemb}</strong>
+						<span>用户数</span>
+					</dd>
+				</dl>
+				<dl class="show-num-mod">
+					<dt><i class="count-icon user-action-icon"></i></dt>
+					<dd>
+						<strong>{$aclog}</strong>
+						<span>用户行为</span>
+					</dd>
+				</dl>
+				<dl class="show-num-mod">
+					<dt><i class="count-icon doc-count-icon"></i></dt>
+					<dd>
+						<strong>27</strong>
+						<span>文档数</span>
+					</dd>
+				</dl>
+				<dl class="show-num-mod">
+					<dt><i class="count-icon doc-modal-icon"></i></dt>
+					<dd>
+						<strong>3</strong>
+						<span>文档模型</span>
+					</dd>
+				</dl>
+				<dl class="show-num-mod">
+					<dt><i class="count-icon category-count-icon"></i></dt>
+					<dd>
+						<strong>15</strong>
+						<span>分类数</span>
+					</dd>
+				</dl>
+			</div>
+			
+			<div class="row">
+				<div class="span2 col-md-6">
+					<div class="columns-mod">
+						<div class="hd cf">
+							<h5>产品团队</h5>
+							<div class="title-opt">
+							</div>
+						</div>
+						<div class="bd">
+							<div class="sys-info">
+								<table>
+									<tbody>
+										<tr>
+											<th>总策划</th>
+											<td>无语僧</td>
+										</tr>
+										<tr>
+											<th>产品设计及研发团队</th>
+											<td>无语僧  扬帆·远航  归海  荒漠屠夫  碎月无晴  信念&&勇气</td>
+										</tr>
+										<tr>
+											<th>界面及用户体验团队</th>
+											<td>信念&&勇气  呃～</td>
+										</tr>
+										<tr>
+											<th>测试团队</th>
+											<td>。✨Sunny！！   豆豆     小ㄆ谗§☆猫</td>
+										</tr>
+										<tr>
+											<th>官方网址</th>
+											<td><a href="http://www.thinksocial.cn/" target="_blank">杭州搜雪网络科技有限公司</a></td>
+										</tr>
+										<tr>
+											<th>官方QQ群</th>
+											<td>
+												<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ddb3a2d06260a670efd4a8bef33269c27a2e9e320ae51539768b87c04dc159c5"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="搜雪开发官方群" title="搜雪开发官方群"></a>
+											</td>
+										</tr>
+										<tr>
+											<th>BUG反馈</th>
+											<td><a href="http://bbs.thinksocial.cn/forum.php" target="_blank">http://bbs.thinksocial.cn</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="span2 col-md-6">
+					<div class="columns-mod">
+						<div class="hd cf">
+							<h5>系统信息</h5>
+							<div class="title-opt">
+							</div>
+						</div>
+						<div class="bd">
+							<div class="sys-info">
+								<table>
+									<tbody>
+										<tr>
+											<th>框架版本</th>
+											<td>
+												1.0.131218&nbsp;&nbsp;&nbsp;
+											</td>
+										</tr>
+										<tr>
+											<th>服务器操作系统</th>
+											<td>{$Think.const.PHP_OS}</td>
+										</tr>
+										<tr>
+											<th>框架版本</th>
+											<td>{$Think.VERSION}</td>
+										</tr>
+										<tr>
+											<th>运行环境</th>
+											<td>{$_SERVER['SERVER_SOFTWARE']}</td>
+										</tr>
+										<tr>
+											<th>MYSQL版本</th>
+											<php>
+												$system_info_mysql = M()->query("select version() as v;");
+											</php>
+											<td>{$system_info_mysql.0.v}</td>
+										</tr>
+										<tr>
+											<th>上传限制</th>
+											<td>{:ini_get('upload_max_filesize')}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="span2 col-sm-6">
+					<div class="columns-mod">
+						<div class="hd cf">
+							<h5>当前管理员信息</h5>
+							<div class="title-opt">
+							</div>
+						</div>
+						<div class="bd">
+							<div class="sys-info">
+								<table>
+									<tbody>
+										<tr>
+											<th>用户名</th>
+											<td>{$admininfo['username']}</td>
+											<th>管理员状态</th>
+											<td>{$admininfo['status_text']}</td>
+										</tr>
+										<tr>
+											<th>电子邮箱</th>
+											<td>{$admininfo['email']|default="未设置"}</td>
+											<th>联系电话</th>
+											<td>{$admininfo['mobile']|default="未设置"}</td>
+										</tr>
+										<tr>
+											<th>性别</th>
+											<td>{$admininfo['sex']|default="未设置"}</td>
+											<th>生日</th>
+											<td>{$admininfo['birthday']}</td>
+										</tr>
+										<tr>
+											<th>qq号</th>
+											<td>{$admininfo['qq']}</td>
+											<th>登录次数</th>
+											<td>{$admininfo['login']}</td>
+										</tr>
+										<tr>
+											<th>注册IP</th>
+											<td>{:long2ip($admininfo['reg_ip'])}</td>
+											<th>注册时间</th>
+											<td>{$admininfo['reg_time']|time_format}</td>
+										</tr>
+										<tr>
+											<th>最后登录IP</th>
+											<td>{:long2ip($admininfo['last_login_ip'])}</td>
+											<th>最后登录时间</th>
+											<td>{$admininfo['last_login_time']|time_format}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</block>
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav("{:U('IntroIndex/index')}");
+	</script>
+</block>

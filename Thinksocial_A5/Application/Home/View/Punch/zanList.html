@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<meta charset="utf-8">
+<title>点赞列表</title>
+<link rel="stylesheet" href="__HOME_CSS__/style.css" />
+<link rel="stylesheet" href="__HOME_CSS__/iconfont.css" />
+<link rel="stylesheet" href="__HOME_CSS__/fonts.css" />
+<link rel="stylesheet" href="__HOME_PUNCH__/css/praiseList.css" />
+</head>
+<body>
+<div class="containerBox">
+	<ul class="msgListBox">
+		<notempty name="praiseList">
+			<volist name="praiseList" id="praiseInfo">
+				<li>
+					<div class="userHeader">
+						<a href="{:U('Punchcard/friendIndex',array('membid'=>$praiseInfo['membid']))}">
+							<img src="{$praiseInfo['members']['avatar']}">
+						</a>
+					</div>
+					<div class="userInfoBox">
+						<h1 class="userNickname" style="color:#0E90D2;" onclick="javascript:location.href='{:U('Punchcard/friendIndex',array('membid'=>$praiseInfo['membid']))}'">{$praiseInfo['members']['nickname']}</h1>
+						<p class="userSendinfo">{$praiseInfo['createtime']|date="Y-m-d H:i",###}</p>
+					</div>
+				</li>
+			</volist>
+		</notempty>
+	</ul>
+	<input type="hidden" value="{$nextNumber}" class="nextnum"/>
+	<input type="hidden" id="punchId" value="{$punchId}">
+	<div class="readMore"><a><p></p><span>显示更多</span></a></div>
+</div>
+<script type="text/javascript" src="__HOME_JS__/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="__HOME_PUNCH__/js/common.js"></script>
+<script type="text/javascript">
+$(function(){
+	loadImage();
+	//加载更多
+	$(".readMore").click(function(){
+		if($(".readMore a span").css("display")=="block"){
+			$(".readMore a span").hide();
+			$(".readMore a p").show();
+		}
+		ajaxLoadPage();
+	});
+});
+function loadImage(){
+	/*头像裁切*/
+	$(".userHeader").find("img").each(function(){
+		clipPic($(this),50);
+	});
+	/*消息提示裁剪*/
+	$(".userHeader span").each(function(){
+		//alert($(this).text().length);
+		if($(this).text().length>2){
+			$(this).text("...");
+		}
+	});
+}
+function ajaxLoadPage(){
+	var url="{:U('Punchcard/ajaxPraise')}";
+	var punchId=parseInt($("#punchId").val());
+	var nextNumber=$(".nextnum").val();
+	if(typeof(nextNumber)=='undefined'){
+		if($(".readMore a span").css("display")=="none"){
+			$(".readMore a span").show();
+			$(".readMore a p").hide();
+		}
+		return;
+	}
+	$(".nextnum").remove();
+	$.get(url,{
+		'punchid':punchId,
+		'nextNumber':nextNumber,
+	},function(html){
+		if(html.indexOf('userHeader') > -1){
+			$(".msgListBox").append(html);
+		}else{
+			$('.readMore a span').text('已加载完毕');
+		}
+		if($(".readMore a span").css("display")=="none"){
+			$(".readMore a span").show();
+			$(".readMore a p").hide();
+		}
+		loadImage();
+	});
+	loadImage();
+}
+</script>
+</body>
+</html>

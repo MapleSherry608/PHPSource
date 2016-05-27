@@ -1,0 +1,16 @@
+<notempty name="praiseList">
+	<volist name="praiseList" id="praiseInfo">
+		<li>
+			<div class="userHeader">
+				<a href="{:U('Punchcard/friendIndex',array('membid'=>$praiseInfo['membid']))}">
+					<img src="{$praiseInfo['members']['avatar']}">
+				</a>
+			</div>
+			<div class="userInfoBox">
+				<h1 class="userNickname" style="color:#0E90D2;" onclick="javascript:location.href='{:U('Punchcard/friendIndex',array('membid'=>$praiseInfo['membid']))}'">{$praiseInfo['members']['nickname']}</h1>
+				<p class="userSendinfo">{$praiseInfo['createtime']|date="Y-m-d H:i",###}</p>
+			</div>
+		</li>
+	</volist>
+</notempty>
+<input type="hidden" value="{$nextNumber}" class="nextnum"/>

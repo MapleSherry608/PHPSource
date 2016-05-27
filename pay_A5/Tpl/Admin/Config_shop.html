@@ -1,0 +1,44 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Admin Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+
+<!--            
+              CONTENT 
+                        -->
+<div id="content" class="white">
+
+  <div class="bloc">
+    <div class="title">商品配置</div>
+    <form method="post" action="">
+    <div class="content">
+      <div class="input">
+        <label for="input2">项目商品 (多个商品,请用|隔开)</label>
+        <textarea name="shop" cols="" rows="" style="height:200px"  placeholder="多个商品,请用|隔开">{$Think.config.shop}</textarea>
+      </div>
+      <div class="submit">
+        <input type="submit" value="确定保存" class="black"/>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

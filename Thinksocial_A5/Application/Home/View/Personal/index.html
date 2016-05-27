@@ -1,0 +1,98 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<link rel="stylesheet" href="__HOME_CSS__/personal/style.css" />
+	<link rel="stylesheet" href="__HOME_CSS__/personal/index.css" />
+</block>
+<block name="body">
+		<div class="containerBox">
+			<div class="myself_info">
+				<div class="avatar_box">
+					<img src="{$memb['avatar']}" />
+				</div>
+				<div class="user_name">
+					用户名:{$memb['nickname']|default=($memb['realname']?$memb['realname']:('SX'.$memb['id']))}
+				</div>
+				<div class="user_id">
+					ID:SX{$memb['id']}
+				</div>
+			</div>
+			<div class="show_bar">
+				<ul>
+					<li onclick="javascript:location.href='{:U('Personal/rechargeScore')}';">
+						<p>积分</p>
+						<p>{$memb['score']}</p>
+					</li>
+					<!--<li>
+						<p>余额</p>
+						<p>{$memb['deposit']}</p>
+					</li>-->
+					<li class="integral more_item_ul_url"  url="{:U('Personal/bondCredit')}">积分明细</li>
+					<!--<li>余额明细</li>-->
+				</ul>
+			</div>
+			<div class="more_box">
+				<div class="more_item">
+					<ul class="more_item_ul_url" url="{:U('Personal/updperso')}">
+						<li><img src="__HOME_IMG__/iconfont-gerenxinxi.png"></li>
+						<li>个 人 信 息</li>
+						<li></li>
+					</ul>
+				</div>
+				<foreach name="person" item="vo" >
+				<div class="more_item">
+					<ul class="more_item_ul_url" url="{:tomedia($vo['url'])}">
+						<li><img src="{:tomedia($vo['icon'])}"></li>
+						<li>{$vo.name}</li>
+						<li></li>
+					</ul>
+				</div>
+				</foreach>
+				<!--<div class="more_item">
+					<ul class="more_item_ul_url" url="{:U('Personal/updPwd')}">
+						<li><img src="__HOME_IMG__/iconfont-xiugaimima.png"></li>
+						<li>修 改 密 码</li>
+						<li></li>
+					</ul>
+				</div>-->
+				
+				<if condition="false">
+					<div class="more_item">
+						<ul>
+							<li><img src="__HOME_IMG__/iconfont-tuichu.png"></li>
+							<li>退 出 系 统</li>
+							<li></li>
+						</ul>
+					</div>
+				</if>
+			</div>
+		</div>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		$('.avatar_box').click(function(){
+			if(confirm('点击以后系统将自动同步微信信息，是否继续？')){
+				$.ajax({
+					type:"get",
+					url:"<?php echo U('Personal/synchroniz');?>",
+					async:true,
+					success: function(data, textStatus){
+						if(data.status){
+							location.reload();
+						}else{
+							alert(data.info);
+						}
+					},
+					error:function(XMLHttpRequest, textStatus, errorThrown){
+						console.log(XMLHttpRequest);
+					}
+				});
+			}
+		});
+		$('.more_item_ul_url').click(function(){
+			var url = $(this).attr('url');
+			if(url != undefined && url != ''){
+				window.location.href = url;
+			}
+		});
+	</script>
+</block>

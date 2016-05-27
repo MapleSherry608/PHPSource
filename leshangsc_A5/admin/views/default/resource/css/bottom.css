@@ -1,0 +1,13 @@
+/* CSS Document */
+body{
+	background:#5f5d8f;
+}
+
+.bottom{
+	height:24px;
+	line-height:24px;
+	text-align:center;
+	color:#fff;
+	font-size:12px;
+	font-family:Arial, Helvetica, sans-serif;
+}

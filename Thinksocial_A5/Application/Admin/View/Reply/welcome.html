@@ -1,0 +1,43 @@
+<extend name="Public/basic"/>
+<block name="body">
+<!-- 公众号管理 -->
+	<div class="panel panel-default">
+			<form action="{:U('Reply/welcome')}" method="post" class="form-horizontal" role="form" id="form1"  onsubmit="return checkWel()">
+						<div class="form-group"></div> 
+						<div class="form-group" style="margin-left:10px;">
+							<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+								style="width: 130px;">欢迎信息关键词 </label>
+							   <div class="col-sm-8 col-xs-12">
+									<select name="rule" class="form-control">
+									    <volist name="rule" id="vo">
+									   	 <option value="{$vo.id}">{$vo.name}</option>
+									    </volist>
+									</select>
+								</div>
+						</div>
+						<div class="form-group" style="margin-left:30px;">
+							<p>  指定用户添加公众帐号好友时，发送的欢迎信息, 你可以在这里选择关键字, 那么用户添加公众号好友时就相当于发送这个内容至用户 </p>
+							 <p> 这个过程是程序模拟的, 比如这里选择关键字:欢迎关注, 那么用户添加公众号好友时,系统相当于发送给粉丝用户触发这个关键字的消息  </p>
+						</div>
+					<div class="form-group col-sm-12">
+						<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" /> 
+					</div>
+			</form>
+		</div>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav('{:U('Reply/welcome')}');
+		setFromValue("rule", {$ruleid});
+		//验证欢迎语
+		function checkWel(){
+			var welcome=document.getElementById('welcome').value;
+			if(welcome==null||welcome==""){
+				alert("请输入欢迎语!");
+				return false;
+			}else{
+				return true;
+			}
+		}
+	</script>
+</block>

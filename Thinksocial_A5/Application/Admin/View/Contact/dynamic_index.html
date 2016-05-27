@@ -1,0 +1,27 @@
+<extend name="Public/basic"/>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="./index.php?c=home&amp;a=welcome&amp;do=ext&amp;">账号概况 - 扩展功能概况 - 官方活动</a></li>
+	</ul>
+	
+	<div class="clearfix welcome-container">
+		<div class="page-header">
+			<h4><i class="fa fa-plane"></i> 业务功能菜单</h4>
+		</div>
+		<div class="shortcut clearfix">
+			<a href="./index.php?c=site&amp;a=entry&amp;eid=11" title="发起活动">
+				<i class="fa fa-puzzle-piece"></i>
+				<span>发起活动</span>
+			</a>
+			<a href="./index.php?c=site&amp;a=entry&amp;eid=12" title="报名管理">
+				<i class="fa fa-puzzle-piece"></i>
+				<span>报名管理</span>
+			</a>
+		</div>
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav('{:U('Contact/activeList')}');
+	</script>
+</block>

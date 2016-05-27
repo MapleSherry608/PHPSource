@@ -1,0 +1,92 @@
+<!-- 成员授权编辑页面 -->
+<extend name="Public/basic" />
+<block name="body">
+	<div class="tab-wrap">
+		<ul class="nav nav-tabs">
+			<li><a href="{:U('AuthManager/access',array('group_name'=>I('group_name') ,'group_id'=> I('group_id')))}">访问授权</a></li>
+			<li class="active"><a href="javascript:;">成员授权</a></li>
+			<li class="fr">
+				<select name="group" class="form-control">
+					<volist name="auth_group" id="vo">
+						<option value="{:U('AuthManager/user',array('group_id'=>$vo['id'],'group_name'=>$vo['title']))}" <eq name="vo['id']" value="$this_group['id']">selected</eq> >{$vo.title}</option>
+					</volist>
+				</select>
+			</li>
+		</ul>
+		<!-- 数据列表 -->
+		<div class="panel panel-default" style="padding: 10px;">
+			<div class="main-title">
+				<div id="add-to-group" class="tools fr">
+					<button url="{:U('AuthManager/addGroupUser',array('group_id'=>I('group_id')))}" class="btn btn-success init-model" target-form="add-user">新 增</button>
+				</div>
+			</div>
+			<div class="table-responsive panel-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>UID</th>
+							<th>昵称</th>
+							<th>最后登录时间</th>
+							<th>最后登录IP</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<volist name="_list" id="vo">
+							<tr>
+								<td>{$vo.id} </td>
+								<td>{$vo.username}</td>
+								<td><span>{$vo.last_login_time|time_format}</span></td>
+								<td><span>{$vo.last_login_ip|long2ip}</span></td>
+								<td>{$vo.status_text}</td>
+								<td>
+									<a href="{:U('AuthManager/removeFromGroup?uid='.$vo['uid'].'&group_id='.I('group_id'))}" class="ajax-get">解除授权</a>
+								</td>
+							</tr>
+						</volist>
+					</tbody>
+				</table>
+				<div class="page_nav fl">
+					{$_page}
+				</div>
+			</div>
+		</div>
+		
+
+	</div>
+</block>
+
+<block name="script">
+	<div id="publicMyModalDialogs" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+	<script type="text/javascript" charset="utf-8">
+		publicModel={
+			"Initialize":function(target){
+				 $("#publicMyModalDialogs").load(target,null,function(){
+				 	$('.AjaxLoadModel ul li a').click(function(e){
+				 		e.preventDefault();
+				 		if(publicModel!=null&&publicModel!=undefined&&publicModel!=""){
+					        var target;
+					        var that = this;
+					        if ( $(this).hasClass('confirm') ) {
+					            if(!confirm('确认要执行该操作吗?')){
+					                return false;
+					            }
+					        }
+					        if ( (target = $(this).attr('href')) || (target = $(this).attr('url')) ) {
+					        	publicModel.Initialize(target,!($(this).hasClass('model-key')));
+					        }
+					    }
+				 	});
+				 	
+				 });
+				 $("#publicMyModalDialogs").modal('show');
+			}
+		};
+		$('select[name=group]').change(function() {
+			location.href = this.value;
+		});
+		//导航高亮
+		highlight_subnav("{:U('AuthManager/index')}");
+	</script>
+</block>

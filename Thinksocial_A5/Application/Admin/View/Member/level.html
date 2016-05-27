@@ -1,0 +1,111 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<style type="text/css">
+		.table thead tr td span{ width: 100px;}
+	</style>
+</block>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U()}">用户等级列表</a></li>		
+		<li><a href="{:U('Member/addLevel')}"><i class="fa fa-plus"></i>添加用户等级</a></li>
+	</ul>
+	<div class="clearfix">
+		<div class="panel panel-info">
+			<div class="panel-heading">筛选</div>
+			<div class="panel-body form-horizontal">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">筛选条件</label>
+					<div class="col-sm-4 col-xs-12">
+						<input type="text" class="form-control search-input" placeholder="请输入会员级别！"  name="title" value="{:I('title')}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
+					<div class="col-sm-2 col-xs12">
+						<label class="radio-inline">
+							<input type="radio" name="status" value="" <if condition="!is_numeric($_REQUEST['status'])&&empty($_REQUEST['status'])">checked="checked"</if> > 不限
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="1" <if condition="I('status') eq 1">checked="checked"</if> >正常
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="0" <if condition="is_numeric($_REQUEST['status'])&&empty($_REQUEST['status'])">checked="checked"</if> >禁用
+						</label>
+					</div>
+					<div class="col-xs-12 col-sm-2 col-lg-1 text-left">
+						<span class="btn btn-default" url="{:U()}" id="search"><i class="fa fa-search"></i> 搜索</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			详细数据
+		</div>
+		<div class="table-responsive panel-body">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th><span>ID</span></th>
+						<th><span>会员级别</span></th>
+						<th><span>数字等级</span></th>
+						<th><span>级别图标</span></th>
+						<th><span>创建时间</span></th>
+						<th><span>排序</span></th>
+						<th><span>状态</span></th>
+						<th><span>操作</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="list" id="vo">
+						<tr>
+							<td>{$vo.id}</td>
+							<td>{$vo.title}</td>
+							<td>{$vo.grade}</td>
+							<td><img src="{:tomedia($vo['levelicon'])}" onerror="this.src='./Public/Admin/Images/nopic.jpg'; this.title='图片未找到.'" width="60px"></td>
+							<td>{$vo.createtime|time_format}</td>
+							<td>{$vo.sort}</td>
+							<td>{$vo.status_text}</td>
+							<td>
+								<a href="{:U('Member/addLevel',array('id'=>$vo['id']))}" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" data-original-title="编辑"><i class="fa fa-edit"></i></a>
+								<a href="{:U('Member/changeStatus',array('id'=>$vo['id'],'method'=>'deleteLevel','unlimited'=>1))}" onclick="return confirm('删除后不能恢复，您确定删除吗？')" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="" data-original-title="禁用"><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+					</volist>
+				</tbody>
+			</table>
+			 <!-- 分页 -->
+	        <div class="page">
+				{$_page}
+	        </div>
+		</div>
+	</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.form-horizontal').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	highlight_subnav("{:U('Member/level')}");
+</script>
+</block>
+	

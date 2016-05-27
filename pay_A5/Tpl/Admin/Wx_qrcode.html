@@ -1,0 +1,55 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Admin Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+
+<!--            
+              CONTENT 
+                        -->
+<div id="content" class="white">
+  <div class="bloc">
+    <div class="title">微信二维码收款</div>
+    <form method="post" action="">
+    <div class="content">
+      <div class="input">
+ 
+        <div class="input">
+        <label>商品名称</label>
+        <input name="pay_shop" type="text" value="{$_POST['pay_shop']}" />
+        </div>
+      
+         <div class="input">
+        <label>收款金额</label>
+        <input name="pay_fee" type="text" value="{$_POST['pay_fee']}" />
+      </div>
+      </div>
+      <div class="submit">
+        <input type="submit" value="生成二维码"   class="black"/>
+      </div>
+      
+      <php> if($_POST){ </php>
+        <img src="http://www.liantu.com/api.php?text={$url}&bg=ffffff&fg=000000" />
+      <php> } </php>
+    </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

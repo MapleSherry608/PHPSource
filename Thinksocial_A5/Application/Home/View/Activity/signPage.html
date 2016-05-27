@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0" />
+		<link rel="stylesheet" href="__HOME_CSS__/iconfont.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/fonts.css" />
+		<link rel="stylesheet" href="__HOME_ACTIVE__/css/signPage.css" />
+		<script type="text/javascript" src="__HOME_JS__/jquery-1.9.0.min.js" ></script>
+		<title>活动扫码</title>
+	</head>
+<body>
+	<div class="containerBox">
+		<div class="mainBox">
+			<div class="agent_login">
+				<form action="" method="post" id="adminInfo">
+					<input type="hidden" name="activeid" value="{$params['activeid']}">
+					<input type="hidden" name="userid" value="{$params['userid']}">
+					<div class="loginUser"><span></span><input type="text" placeholder="" readonly="readonly" value="扫码员"></div>
+					<div class="loginPwd"><span></span><input name="codeid" type="text" placeholder="请输入扫码标识"></div>
+					<input type="hidden" name="token" value="{$_W['token']}" />
+					<div style="display: none;"><input type="submit" name="submit" value="提交" class="btn" /></div>
+					<div class="loginBtn"><a href="javascript:void(0);">确认</a></div>
+				</form>
+			</div>
+		</div>
+	</div>
+<script>
+	$('.loginBtn a').click(function(){
+		var value=$('.loginPwd input').val();
+		if(value==null||value==""){
+			alert("请输入扫描码!");
+			return;
+		}
+		$(".btn").click();
+	})
+</script>
+</body>
+</html>

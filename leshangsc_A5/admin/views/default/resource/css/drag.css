@@ -1,0 +1,21 @@
+/* CSS Document */
+
+html,body {
+	background-color:#d3d3d3;
+	cursor: pointer;
+	margin:0;
+	padding:0;
+	height:100%;
+}
+img {
+	border:0;
+}
+a {
+	outline:none;
+	blr:expression(this.onFocus=this.blur());
+}
+
+.blue_box{
+	height:32px;
+	background:#4c4b71;
+}

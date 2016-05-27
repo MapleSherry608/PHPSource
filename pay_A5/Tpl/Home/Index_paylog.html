@@ -1,0 +1,59 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$Think.config.name} - 梦雪网络</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/style/reset.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/style/root.css" />
+<script type="text/javascript" src="__PUBLIC__/Home/js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/toogle.js"></script>
+<style>th,td{ padding:3px;}
+tr:nth-child(2n){ background-color: #EFEFEF;}
+.p a{ margin:5px;}
+</style>
+</head>
+<body>
+<include file="header" /> 
+
+<!-- start page -->
+<div class="page">
+  <div class="simplebox">
+    <div class="content">
+    
+    <table width="100%" border="0">
+  <tr>
+    <th align="center">爱心人士/企业</th>
+    <th align="center">捐赠金额</th>
+    <th align="center">时间</th>
+  </tr>
+     <volist name='list' id='vo'>
+       
+  <tr>
+    <td align="center"><eq name='vo.user_name' value=''>匿名<else />
+                  {$vo.user_name}</eq></td>
+    <td align="center">{$vo.pay_price|get_price}元</td>
+    <td align="center">{$vo.f_time|date="Y-m-d H:i:s",###}</td>
+  </tr>
+
+
+     </volist>
+     
+     </table>
+     <div class="p">
+     {$page}
+     </div>
+    </div>
+  </div>
+  <include file="footer" /> 
+</div>
+<!-- end page -->
+<script type="text/javascript" src="__PUBLIC__/Home/js/frame.js"></script>
+</body>
+</html>

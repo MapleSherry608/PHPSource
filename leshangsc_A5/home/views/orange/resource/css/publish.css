@@ -1,0 +1,69 @@
+/* CSS Document */
+body{
+	background: #EAEAEA;
+}
+.outline{
+	width:1000px;
+	border:10px solid  #fff;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-top:-310px;
+	margin-left:-510px;
+	background:#FFF;
+	font-family:"microsoft yahei";
+}
+.outline.p{
+	top:50%;
+	left:50%;
+	margin-top:-380px;
+	margin-left:-510px;
+}
+.outline .title{
+	height:50px;
+	line-height:50px;
+	background:#85acc0;
+}
+.outline .title h1{
+	font-size:23px;
+	color:#fff;
+	text-indent:1em;
+}
+.outline .title_p{
+	height:50px;
+	line-height:50px;
+	background: #F60;
+}
+.outline .title_p h1{
+	font-size:23px;
+	color:#fff;
+	text-indent:1em;
+}
+.outline .content{
+	font-size:14px;
+	padding:5px;
+}
+.outline .content td{
+	padding:5px;
+	border-bottom:1px dotted #ccc;
+}
+.input_box{
+	padding:5px;
+	width:600px;
+	border:1px dotted #369;
+}
+.input_box:focus{
+	outline:1px solid #999;
+}
+.tips{
+	margin-left:10px;
+	color:#F00;
+}
+.sub_button{
+	width:108px;
+	height:31px;
+	border:0;
+	color:#fff;
+	font-family:"microsoft yahei";
+	background:url(../images/comment_button.gif) no-repeat;
+}

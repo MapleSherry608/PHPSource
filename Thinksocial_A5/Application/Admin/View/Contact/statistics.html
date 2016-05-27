@@ -1,0 +1,76 @@
+<extend name="Public/basic"/>
+<block name="body">
+	<ol class="breadcrumb" style="padding:5px 0;">
+		<li><a href="{:U('Contact/index')}"><i class="fa fa-cogs"></i> &nbsp;社交</a></li>
+		<li><a href="{:U('Contact/activeList')}">主要业务模块 - 官方活动</a></li>
+		<li class="active"></li>
+	</ol>
+	<table class="table table-hover table-bordered">
+		<thead>
+			<tr>
+				<td>活动名称</td>
+				<td colspan="3">
+					{$activeInfo['title']}
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>活动人数</td>
+				<td>{$activeInfo['max_acount']}</td>
+				<td>活动费用</td>
+				<td>{$activeInfo['active_fee']}</td>
+			</tr>
+			<tr>
+				<td colspan="4">报名信息</td>
+			</tr>
+			<tr align="center">
+				<td>状态</td>
+				<td>总人数</td>
+				<td>成人</td>
+				<td>儿童</td>
+			</tr>
+			<tr align="center">  
+				<td>已报名</td>
+				<td>{$applyInfo['totalnum']|default=0}</td>
+				<td>{$applyInfo['signupnum']|default=0}</td>
+				<td>{$applyInfo['childnum']|default=0}</td>
+			</tr>
+			<tr align="center">  
+				<td>成功</td>
+				<td>{$winTotalInfo['totalNum']|default=0}</td>
+				<td>{$winTotalInfo['signupnum']|default=0}</td>
+				<td>{$winTotalInfo['childNum']|default=0}</td>
+			</tr>
+			<tr align="center">  
+				<td>待付款</td>
+				<td>{$paymentInfo['totalNum']|default=0}</td>
+				<td>{$paymentInfo['signupnum']|default=0}</td>
+				<td>{$paymentInfo['childNum']|default=0}</td>
+			</tr>
+			<tr align="center">  
+				<td>待审核</td>
+				<td>{$auditInfo['totalNum']|default=0}</td>
+				<td>{$auditInfo['signupnum']|default=0}</td>
+				<td>{$auditInfo['signupnum']|default=0}</td>
+			</tr>
+			<tr align="center">  
+				<td>驳回</td>
+				<td>{$rejectInfo['totalNum']|default=0}</td>
+				<td>{$rejectInfo['signupnum']|default=0}</td>
+				<td>{$rejectInfo['childNum']|default=0}</td>
+			</tr>
+			<tr align="center">  
+				<td>已签到</td>
+				<td>{$registrationInfo['totalNum']|default=0}</td>
+				<td>{$registrationInfo['signupnum']|default=0}</td>
+				<td>{$registrationInfo['childNum']|default=0}</td>
+			</tr>
+		</tbody>
+	</table>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav('{:U('Contact/applyList')}');
+	</script>
+</block>

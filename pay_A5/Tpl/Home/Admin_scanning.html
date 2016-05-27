@@ -1,0 +1,86 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$Think.config.name} - 梦雪网络</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/style/reset.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/style/root.css" />
+<script type="text/javascript" src="__PUBLIC__/Home/js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/toogle.js"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+<include file="Index:header" /> 
+
+<!-- start page -->
+<div class="page">
+  <div class="simplebox">
+    <div class="content">
+      <form id="form" name="form" method="post" action="">
+       
+        <div class="form-line">
+          <label class="st-label">扫入的授权码</label>
+          
+          <label>
+            <input type="text" id="auth_code" name="auth_code" value=""  style=" width:93%;" /> </label>
+        </div>
+		  <div class="form-line">
+          <label class="st-label">金额</label>
+          
+          <label>
+            <input type="text" name="pay_fee" placeholder="" value="0.01"  style=" width:30%;" />
+            元 </label>
+        </div>
+         <div class="form-line">
+          
+          <label>注意: 必须扫入正确的微信付款码才能收款 </label>
+        </div>
+		<div class="form-line">
+          
+          <label>扫描其他无效二维码是没作用的哦! </label>
+        </div>
+        
+        <div>
+          <input type="submit"  value="&nbsp;确 定 收 款&nbsp;" class="submit-button" />   <input style="float:right" type="button" id="scanQRCode"  value="&nbsp;重 新 扫 码&nbsp;" class="submit-button" />
+        </div>
+      </form>
+    </div>
+  </div>
+  <include file="Index:footer" /> 
+<script type="text/javascript" src="http://ajax.useso.com/ajax/libs/jquery/1.7.2/jquery.min.js?ver=3.4.2"></script>
+<script type="text/javascript">
+wx.ready(function () {
+	wx.scanQRCode({
+		needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+		scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+		success: function (res) {
+			var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+			$("#auth_code").val(result);
+		}
+	});
+	document.querySelector('#scanQRCode').onclick = function () {
+		wx.scanQRCode({
+			needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+			scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+			success: function (res) {
+				var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+				$("#auth_code").val(result);
+			}
+		});	 
+	};
+});
+
+
+</script>
+</div>
+</body>
+</html>

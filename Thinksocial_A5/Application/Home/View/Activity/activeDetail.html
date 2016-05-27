@@ -1,0 +1,573 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0" />
+		<title>{$activeInfo['title']}</title>
+		<link rel="stylesheet" href="__HOME_CSS__/style.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/iconfont.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/fonts.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/weui.css" />
+		<link rel="stylesheet" href="__HOME_ACTIVE__/css/activeDetailed.css" />
+		<link href="__HOME_PUNCH__/css/webuploader.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+	</head>
+<body>
+	<div class="containerBox">
+	    <div class="bannerBox">
+	    	<img src="{$activeInfo['movement_pic']|tomedia}">
+	        <div class="bannerTitle">{$activeInfo['title']}</div>
+	    </div>
+	    <ul class="actInfroBox">
+	    	<li class="actInfro"><i class="am-icon-map-marker"></i><span>集合地：</span>{$activeInfo['detailaddress']}</li>
+	        <li class="actInfro"><i class="am-icon-male"></i><span>发起人：</span>{$activeInfo['initiator']}</li>
+	        <li class="actInfro actInfro_last"><i class="am-icon-dollar"></i><span>费&nbsp;&nbsp;用：</span><empty name="activeInfo.active_fee">免费<else/>{$activeInfo['active_fee']}</empty></li>
+	    </ul>
+	    <ul class="actInfroBox">
+	    	<li class="actTime">
+	    		<i class="am-icon-clock-o"></i>
+	        	<span>报名截止：</span>
+	            <p>{$activeInfo['end_time']|date="Y-m-d H:i",###}</p>
+	        </li>
+	        <li class="actTime">
+	        	<i class="am-icon-calendar-o"></i>
+	        	<span>开始时间：</span>
+	            <p>{$activeInfo['active_begin_time']|date="Y-m-d H:i",###}</p>
+	        </li>
+	        <li class="actTime">
+	        	<i class="am-icon-calendar"></i>
+	        	<span>结束时间：</span>
+	            <p>{$activeInfo['active_end_time']|date="Y-m-d H:i",###}</p>
+	        </li>
+	    </ul>
+	    <div class="actDetailContainer">
+		    <ul class="actIntroBox">
+		    	<li id="actIntro"  ><a>活动概况</a></li>
+		        <li id="actRegist" class="currentLi"><a>报名入口</a></li>
+		        <li id="actReviw"><a>评论（<span>{$activeInfo['commentCount']}</span>）</a></li>
+		    </ul>
+		    <div class="actContentContainer" style="display:none;">
+		        <div class="actContent">
+		        	{$activeInfo['content']}
+		        </div>
+		        <div class="actSlide" id="actContentSlide">收起</div>
+		    </div>
+		    <div class="inforBox">
+		    	<notempty name="applyed">
+		    		<if condition="$applyed['status'] eq 0">
+		    			<div class="defaltTipInfo">
+				    		<img src="__HOME_ACTIVE__/images/tip_icon.png" />
+				    		<p>报名正在审核...</p>
+				    	</div>
+		    		<elseif condition="$applyed['status'] eq 1"/>
+		    			<div class="defaltTipInfo">
+				    		<img src="__HOME_ACTIVE__/images/tip_icon.png" />
+				    		<p>待付费！<a style="color:red;" href="{:U('Activity/Payment',array('id'=>$applyed['id']))}">去付款...</a></p>
+			    		</div>
+		    		<elseif condition="$applyed['status'] eq 2"/>
+		    			<div class="defaltTipInfo">
+				    		<img src="__HOME_ACTIVE__/images/tip_icon.png" />
+				    		<p>该报名已被取消...</p>
+				    	</div>
+		    		<else/>
+		    			<div style='margin:10px 10px 10px 30px;'>
+				   			<center>恭喜您报名成功!以下是签到二维码,在参加活动的时候，出示二维码，让活动组织者刷码签到！</center>
+				   			<img height="90%" width="90%" src="{$applyed['location']|tomedia}"/>
+				   		</div>
+		    		</if>
+		    	<else/>
+		   			<div class="yourInfo">
+			            <p><span>*</span>姓&nbsp;名</p>
+			            <div class="infoInput"><input type="text" class="realname" value="{$userInfo['realname']}"/></div>
+			        </div>
+			        <div class="yourInfo">
+			            <p><span>*</span>手&nbsp;机</p>
+			            <div class="infoInput"><input type="text" class="mobile" value="{$userInfo['mobile']}"/></div>
+			        </div>
+		   			<if condition="$activeInfo['if_persion'] eq 1">
+			    		<div class="yourInfo">
+				            <p><span>*</span>成人数</p>
+				            <div class="infoInput"><input type="text" class="personNum"  placeholder="再报名成人数" value="1"/></div>
+				            
+				        </div>
+				        <div class="yourInfo">
+				            <p><span>*</span>儿童数</p>
+				            <div class="infoInput"><input type="text" class="childNum"  placeholder="再参加儿童数" value="0"/></div>
+				        </div>
+				        <div class="yourInfo">
+				            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+				            <div style="color:red;">注意：总人数不可超过{$activeInfo['wechatmaxnum']}人</div>
+				        </div>
+		    		</if>
+		    		<notempty name="applyInfo">
+		    			<volist name="applyInfo" id="item" key="k">
+		    				<if condition="$item['info_type'] eq 1">
+				    			<div class="yourInfo">
+				           		   <p><if condition="$item['isrequired'] eq 1"><span>*</span></if>{$item['info_name']}</p>
+				            	   <div class="infoInput"><input type="text" class="inputValue" /></div>
+				            	</div>
+				             <elseif condition="$item['info_type'] eq 2"/>
+				            	<div class="yourInfo">
+				            		<p><if condition="$item['isrequired'] eq 1"><span>*</span></if>{$item['info_name']}</p>
+				             		<div class="infoInput mySelectBox"><input type="text" class="inputValue"/></div>
+				             	</div>
+				             	<div class="dragListBox">
+									<ul class="dragList">
+										<notempty name="item.child">
+											<volist name="item.child" id="child">
+												<li>{$child['text']}</li>
+											</volist>
+										</notempty>
+									</ul>
+								</div>
+							 <elseif condition="$item['info_type'] eq 3"/>
+				             	<div class="selectInfo">
+				             		<p><if condition="$item['isrequired'] eq 1"><span>*</span></if>{$item['info_name']}</p>
+					             	<div class="infoInput">
+					             		<notempty name="item.child">
+					             			<volist name="item.child" key="key" id="child">
+												<input type="radio" name='radio{$k}' class="inputValue" value="{$child['text']}" id="RadioButton_{$key}"/><label for="RadioButton_{$key}">{$child['text']}</label>
+					             			</volist>
+					             		</notempty>
+									</div>
+								</div>
+				             <elseif condition="$item['info_type'] eq 4"/>
+				             	 <div class="selectInfo">
+				             	 	 <p><if condition="$item['isrequired'] eq 1"><span>*</span></if>{$item['info_name']}</p>
+					            	 <div class="infoInput">
+					            	 	<notempty name="item.child">
+											<volist name="item.child" id="child">
+												<input type="checkbox" class="inputValue"  value="{$child['text']}"  id="ChecboxButton_{$key}"/><label for="ChecboxButton_{$key}">{$child['text']}</label>
+											</volist>
+										</notempty>
+									 </div>
+								 </div>
+				             </if>
+		    			</volist>
+		    		</notempty>
+			    	<if condition="$activeInfo['if_show_pic'] eq 1">
+			    		<div class="uploadInfo">
+				        	<p>图&nbsp;片&nbsp;上&nbsp;传</p>
+			        		<input type="hidden" class="imgUrlPath" value=""/>
+				        	<div class="infoInput" id="uploadImg">
+			            		<div class="weui_uploader_input_wrp" id="picBtn">
+	                                &nbsp;
+	                            </div>
+				            </div>
+				        </div>
+			    	</if>
+			        <div class="inforSubmit"><a>立即报名</a></div>
+		   		</notempty>
+		    </div>
+		    <div class="actReviewContainer">
+		    	<notempty name="commentList">
+				    <volist name="commentList" id="comment">
+				  		<div class="actReviewBox">
+						 	<div class="myReviewBox">
+						     	  <div class="myHeadBox">
+								      <a href="{:U('Punchcard/friendIndex',array('membid'=>$comment['membid']))}">
+											<img src="{$comment['avatar']}">
+									  </a>
+								  </div>
+							      <div class="myReviewContent">
+							          <h1><span onclick="javascript:location.href='{:U('Punchcard/friendIndex',array('membid'=>$comment['membid']))}'">{$comment['nickname']}</span>{$comment['createtime']|date="Y-m-d H:i:s",###}</h1>
+							          <p>{$comment['content']}</p>
+							      </div>
+						  	</div>
+						</div>
+				  	</volist>
+					<input type="hidden" value="{$nextNumber}" class="nextnum">
+			        <div class="readMore"><a><p></p><span>查看更多</span></a></div>
+				</notempty>
+		        <div class="actReview">
+		        	<textarea placeholder="说点什么吧！~"></textarea>
+		        </div>
+		        <div class="reviewSubmit"><a>发送</a></div>
+		    </div>
+	    </div>
+	</div>
+	<include file='Public:contact_foot'/>
+	<!-- loading toast -->
+    <div id="loadingToast" class="weui_loading_toast" style="display:none;">
+        <div class="weui_mask_transparent"></div>
+        <div class="weui_toast">
+            <div class="weui_loading">
+                <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+                <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+            </div>
+            <p class="weui_toast_content">正在上传</p>
+        </div>
+    </div>
+	
+	<div class="weui_dialog_alert" id="dialog2" style="display: none;">
+	    <div class="weui_mask"></div>
+	    <div class="weui_dialog">
+	        <div class="weui_dialog_hd"><strong class="weui_dialog_title">温馨提示</strong></div>
+	        <div class="weui_dialog_bd"></div>
+	        <div class="weui_dialog_ft">
+	            <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+	        </div>
+	    </div>
+	</div>
+	<script type="text/javascript" src="__HOME_JS__/jquery-1.9.0.min.js" ></script>
+	<script type="text/javascript" src="__HOME_JS__/jweixin-1.0.0.js"></script>
+	<script type="text/javascript" src="__HOME_ACTIVE__/js/common.js" ></script>
+	<script type="text/javascript" src="__HOME_PUNCH__/js/webuploader.html5only.min.js" ></script>
+<script type="text/javascript">
+
+
+
+$(function(){
+	var activeId=parseInt("{$activeInfo['id']}");
+	var ifPersion=parseInt("{$activeInfo['if_persion']}");//是否显示成人
+	var ifShowPic=parseInt("{$activeInfo['if_show_pic']}");//是否显示图片
+	var ifPic=parseInt("{$activeInfo['if_show_pic']}");//是否显示图片
+	var active_fee=parseFloat("{$activeInfo['active_fee']}");//成人费用
+	var child_fee=parseFloat("{$activeInfo['child_fee']}");//儿童费用
+	loadImage();
+	
+	//图片上传实例
+	var uploader = WebUploader.create({ 
+		// 选完文件后，是否自动上传。
+		auto: true, 
+		// swf文件路径 
+		swf: '__HOME_ACTIVE__/js/Uploader.swf', 
+		// 文件接收服务端。
+		server: "{:U('Punchcard/uploadify')}", 
+		// 选择文件的按钮。可选。 // 内部根据当前运行是创建，可能是input元素，也可能是flash. 
+		pick: '#picBtn', 
+		multiple :false,
+		// 只允许选择图片文件。
+		accept: { 
+			title: 'Images', 
+			extensions: 'gif,jpg,jpeg,bmp,png', 
+			mimeTypes: 'image/*' 
+		} 
+	});
+	// 当有文件添加进来的时候
+	uploader.on('fileQueued', function( file ) {
+		$img = $('#picBtn'); 
+		// $list为容器jQuery实例
+		// 创建缩略图 // 如果为非图片文件，可以不用调用此方法。 // thumbnailWidth x thumbnailHeight 为 100 x 100 
+		uploader.makeThumb( file, function( error, src ) { 
+			if ( !error ) {	
+				if(file.size>1048576){
+					show_tooltips('所选图片过大！');
+					return;
+				}
+				$img.css({'background-image':'url("'+src+'")'});
+				$img.css({'border':'none'});
+				$img.removeClass('weui_uploader_input_wrp');
+			}
+	    }); 
+	});
+	
+	// 文件上传成功，给item添加成功class, 用样式标记上传成功。
+	uploader.on( 'uploadSuccess', function( file ,data) { 
+		console.log(data);
+		if(data.code==200){
+			showDialog('上传图片过大！');
+			return;
+		}else{
+			if(data.imgUrl==null||data.imgUrl==""){
+				showDialog('错误提示','图片上传失败！');
+			}else{
+   				$(".imgUrlPath").val(data.imgUrl);
+			}
+		}
+ 	});
+	
+	// 文件上传失败，显示上传出错。
+	uploader.on( 'uploadError', function( file ,data) {
+		showDialog('错误提示','图片上传失败！');
+	}); 
+	
+	/*小标题头像裁切*/
+	$(".myHeadBox").find("img").each(function(){
+		clipPic($(this),50);
+	});
+	
+	/*活动内容与活动评论选项卡*/
+	$(".actIntroBox li a").click(function(event){
+		$(".actIntroBox li").removeClass("currentLi");
+		$(this).parent().addClass("currentLi");
+		if($(event.target).get(0)==$("#actIntro a").get(0)){
+			$(".actReviewContainer").hide();
+			$(".inforBox").hide();
+			$(".actContentContainer").show();
+		}
+		else if($(event.target).get(0)==$("#actReviw a").get(0)){
+			$(".actContentContainer").hide();
+			$(".inforBox").hide();
+			$(".actReviewContainer").show();
+			$(".actSign").html("发表");
+		}
+		else if($(event.target).get(0)==$("#actRegist a").get(0)){
+			$(".actContentContainer").hide();
+			$(".actReviewContainer").hide();
+			$(".inforBox").show();
+			$(".actSign").html("报名");
+		}
+	});
+	$("#actRegist").trigger("click");
+	
+	/*活动内容*/
+	$("#actContentSlide").click(function(){
+		if($("#actContentSlide").html()=="全文"){
+			$(".actContent").css({"overflow":null,"height":"100%"});
+			$(this).html("收起");
+		}
+		else if($("#actContentSlide").html()=="收起"){
+			$(".actContent").css({"overflow":"hidden","height":"40px"});
+			$(this).html("全文");
+		}
+	})
+	 
+	//下拉框
+	mySelectBox();
+	//加载更多
+	$(".readMore").click(function(){
+		if($(".readMore a span").css("display")=="block"){
+			$(".readMore a span").hide();
+			$(".readMore a p").show();
+		}
+		var nextValue=$(".nextnum").val();
+		if(typeof(nextValue)=='undefined'){
+			if($(".readMore a span").css("display")=="none"){
+				$(".readMore a span").show();
+				$(".readMore a p").hide();
+			}
+			return;
+		}
+		$(".nextnum").remove();
+		//查询评论
+		$.post("{:U('Activity/ajaxComment')}",{
+			'activeid':activeId,
+			'nextNumber':nextValue
+		},function(html){
+			if(html.indexOf('actReviewBox')>-1){
+				$('.readMore').before(html);
+			}else{
+				$('.readMore a').find('span').text('已加载完毕');
+			}
+			if($(".readMore a span").css("display")=="none"){
+				$(".readMore a span").show();
+				$(".readMore a p").hide();
+			}
+			loadImage();
+		})
+		loadImage();
+	});
+	
+	//发送评论
+	$('.reviewSubmit').click(function(){
+		var content=$(".actReview textarea").val();
+		if(content==null||content==""){
+			showDialog('错误提示','请填写评论');
+			return;
+		}
+		var punchId=$("#currentUuid").val();
+		$.post("{:U('Activity/addComment')}",{
+			'activeid':activeId,
+			'content':content
+		},function(response){
+			$('.actReviewContainer').prepend(response);
+			$(".actReview textarea").val('');
+			var value=$('#actReviw span').text();
+			$('#actReviw a span').text(parseInt(value)+1);
+			loadImage();
+		});
+		loadImage();
+	});
+	//立即报名
+	$(".inforSubmit").click(function(){
+		var inputValue=$(".inputValue");
+		var personNum=$('.personNum').val();//成人数量
+		var childNum=$('.childNum').val();//儿童数量
+		var realname=$('.realname').val();//用户姓名
+		var mobile=$('.mobile').val();//手机号
+		if(realname==null||realname==""){
+			showDialog('温馨提示',"姓名不能为空！！");
+			return;
+		}
+		if(mobile==null||mobile==""){
+			showDialog('温馨提示',"手机不能为空！！");
+			return;
+		}
+		if(ifPersion==1){
+			if(personNum==null||personNum==''){
+				$('.personNum').val(1)
+				personNum=parseInt($('.personNum').val());
+			}
+			if(childNum==null||childNum==''){
+				$('.childNum').val(0);
+				childNum=parseInt($('.childNum').val());
+			}
+		}
+		if(ifShowPic==1&&ifPic==1){
+			var imgUrl=$('.imgUrlPath').val();//上传图片路径
+			if(imgUrl==null||imgUrl==""){
+				showDialog('温馨提示',"请上传图片！");
+				return;
+			}
+		}
+		//非空验证begin==============================================
+		var resultInfo=false;
+		var resultName="";
+		var resultInt=0;
+		for(var i=0;i<inputValue.length;i++){
+			var node=$(inputValue[i]).parent().prev();
+			if(node.has('span').length>0){
+				if(inputValue[i].value==null||inputValue[i].value==""){
+					var nodeLableValue=node.text();
+					nodeLableValue=nodeLableValue.replace('*','');
+					showDialog('温馨提示',nodeLableValue+"不能为空！");
+					return;
+				}
+			}else{
+				if(inputValue[i].value==null||inputValue[i].value==""){
+					inputValue[i].value='';
+				}
+			}
+		}
+		for(var i=0;i<inputValue.length;i++){
+			var node=$(inputValue[i]).parent().prev();
+			if($(inputValue[i]).attr('type')=='radio'||$(inputValue[i]).attr('type')=='checkbox'){
+				//是否进行非空验证
+				if(node.has('span').length>0){
+					resultName=node.text();
+					var radioName=$(inputValue[i]).attr('name');
+					var val=$("input:radio[name='"+radioName+"']:checked").val();
+					if(val==null){
+						resultInfo=false;
+						break;
+					}else{
+						resultInfo=true;
+					}
+				}
+			}else{
+				resultInt=1;
+			}
+		}
+		
+		if(inputValue.length==0){
+			resultInfo=true;
+		}else{
+			for(var i=0;i<inputValue.length;i++){
+				var node=$(inputValue[i]).parent().prev();
+				if($(inputValue[i]).attr('type')=='radio'||$(inputValue[i]).attr('type')=='checkbox'){
+					resultInt=0;
+					break;
+				}
+			}
+		}
+		if(resultInt==1){
+			resultInfo=true;
+		}
+		if(resultInfo==false){
+			resultName=resultName.replace('*','');
+			showDialog('温馨提示',resultName+"不能为空！");
+			return;
+		}
+		//非空验证end=================================================
+		//动态填写信息
+		var inputArray=new Array();
+		for(var i=0;i<inputValue.length;i++){
+			if(inputValue[i].getAttribute('type')=='radio'||inputValue[i].getAttribute('type')=='checkbox'){
+				if(inputValue[i].checked){
+					inputArray.push(inputValue[i].value);
+				}
+			}else{
+				inputArray.push(inputValue[i].value);
+			}
+		}
+		var msg="请确认你的报名信息\n";
+		if(ifPersion==1){
+			var totalNum=parseInt(personNum)+parseInt(childNum);
+			var totalFee=(parseInt(personNum))*active_fee+(parseInt(childNum)*child_fee);
+			msg+="报名人数: "+totalNum+" 人\n";
+			msg+="成人: "+personNum+" 人\n";
+			msg+="儿童："+childNum+" 人\n";
+			msg+="费用："+totalFee+" 元\n";
+		}else{
+			msg+="报名人数:1 人\n";
+			msg+="费用："+active_fee+" 元\n";
+		}
+		var result=confirm(msg);
+		if(!result){
+			return;
+		}
+		var url="{:U('Activity/applyOption')}";
+		$.post(url,{
+			'activeid':activeId,
+			'inputArray':inputArray,
+			'personNum':personNum,
+			'childNum':childNum,
+			'imgUrl':imgUrl,
+			'mobile':mobile,
+			'realname':realname
+		},function(response){
+			var html1="<div class='defaltTipInfo'>"+
+			    		"<img src='__HOME_ACTIVE__/images/tip_icon.png' />";
+			if(response.indexOf('png')>-1){
+				var html="<div style='margin:10px 10px 10px 30px;'><center>恭喜您报名成功以下是签到二维码</center><img height='90%' width='90%' src='"+response+"' /></div>"
+				$(".inforBox").html(html);
+				$(".inforSubmit").unbind('click');
+				return;
+			}else if(response.indexOf('payment')>-1){
+				html1+="<p>报名成功等待付款...<a style='color:red;' href='"+response+"'>前往付款</a></p>" 
+			}else{
+				html1+=response;
+			}
+			html1+="</div>";
+			$(".inforBox").html(html1);
+			$(".inforSubmit").unbind('click');
+		});
+	}); 
+});
+
+//加载图片
+function loadImage(){
+	/*大标题头像裁切*/
+	$(".myHeadBox").find("img").each(function(){
+		clipPic($(this),50);
+	});
+	/*小标题头像裁切*/
+	$(".signHeadBox").find("img").each(function(){
+		clipPic($(this),50);
+	});
+	/*图片裁切*/
+	var averWidth=($(".mySharePic").width()-16)/3;
+	$(".myPicBox").width(averWidth);
+	$(".myPicBox").height(averWidth);
+	$(".mySharePic").find("img").each(function(){
+		clipPic($(this),averWidth);
+	});
+	/*评论头像裁切*/
+	$(".myPraiseBox").find("img").each(function(){
+		clipPic($(this),30);
+	});
+}
+
+//提示框
+function showDialog(title,msg){
+	var $dialog = $('#dialog2');
+	$dialog.find('.weui_dialog_title').text(title);
+	$dialog.find('.weui_dialog_bd').text(msg);
+    $dialog.show();
+    $dialog.find('.weui_btn_dialog').on('click', function () {
+        $dialog.hide();
+    });
+}
+</script>
+</body>
+</html>

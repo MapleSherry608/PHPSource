@@ -1,0 +1,106 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<link href="__ADMIN_CSS__/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<style>
+		body{background:#d2e6e9; padding-bottom:63px;}
+		.btn-group-top-box{padding:10px 0; border-bottom:1px solid #a5d7de;}
+		.btn-group-top{margin:0 auto; overflow:hidden; width:200px; display:block;text-align:center;}
+		.btn-group-top .btn{width:100px; -webkit-box-shadow:none; box-shadow:none; border-color:#5ac5d4; color:#5ac5d4; background:#d1e5e9;}
+		.btn-group-top .btn:hover{color:#FFF; background:#addbe1;}
+		.btn-group-top .btn.active{color:#FFF; background:#5ac5d4;}
+		.btn.use{background:#56c6d6; color:#FFF; border:0; border-radius:4px;}
+		/*消费记录*/
+		.consume{width: 97%;}
+		.consume .record-head{width:100%; height:100px; border-bottom:1px solid #a5d7de;margin-bottom:1px;}
+		.consume .record-head ul{margin:0 auto; list-style:none; padding:0px; }
+		.consume .record-head li{height:50px; line-height:50px; background-color:#ffffff;}
+		.consume .record-head .date{padding:0px 5px; text-align:center; }
+		.consume .record-head .money{width:46%; float:left; color:#999; height:50px; padding:0 4%; line-height:50px;}
+		.consume .record-head .income{margin-right:20px;}
+		.consume .record-head .money span{color:#333;}
+		.consume .record-box{background:transparent url('resource/images/home-bg.jpg') no-repeat; background-size:100% 100%;}
+		.consume .list-item{height:70px; padding:10px 5px; border-bottom:1px solid #dddddd;}
+		.consume .list-item>div{float:left;}
+		.consume .record-box .member-detail{width:15%; text-align:center; overflow:hidden;}
+		.consume .record-box .member-detail .img-rounded{width:30px; height:30px; line-height:30px; overflow:hidden; margin:0 auto; text-align:center;}
+		.consume .record-box .member-detail .img-rounded i{font-size:20px; margin-top:4px; display:inline-block; color:#FFF;}
+		.consume .record-box .member-detail .img-rounded img{width:30px; height:30px;}
+		.consume .record-box .member-detail span{display:block; width:100%; text-align:center; overflow:hidden; text-overflow:ellipsis;  white-space:nowrap; font-size:12px; color:#999; margin-top:3px;}
+		.consume .record-box .record-detail{width:60%;}
+		.consume .record-box .record-detail > div{margin-top:4px; border-left:1px #DDD solid; padding-left:10px;}
+		.consume .record-box .record-detail > div span{display:block;}
+		.consume .record-box .record-detail > div .name{font-size:15px; width:160px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;}
+		.consume .record-box .record-detail > div .date{font-size:13px; margin-top:5px; color:#999;}
+		.consume .record-box .pay-detail{width:23%; text-align:right; margin-right:2%;}
+		.consume .record-box .pay-detail > div{margin-top:4px;}
+		.consume .record-box .pay-detail > div span{display:block; text-align:right;}
+		.consume .record-box .pay-detail > div .money{font-size:15px; font-weight:bold;}
+		.consume .record-box .pay-detail > div .state{font-size:13px; margin-top:5px; color:#999;}
+		.consume .list-group-item{background-color:#e1ecee;}
+		.nav-bardown {padding-left: 0; margin-bottom: 0;list-style: none; position: fixed; bottom: 0; left: 0; height: 3.7em; overflow: hidden; background: #f4f4f4;border-top: 1px solid #d8d5d4;width: 100%; display: -webkit-box;display: -moz-box;display: box;-webkit-box-orient: horizontal;-moz-box-orient: horizontal; box-orient: horizontal; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
+		.nav-bardown li {position: relative;float: left; width: 100%;}
+		.nav-bardown li a { padding-top: .2em; text-align: center; color: #7a7f83; text-decoration: none;position: relative; display: block;  padding: 10px 15px;}
+		.nav-bardown i {display: block; font-size: 2em;color: #a2a6a9;}
+	</style>
+</block>
+<block name="body">
+	<div class="consume">
+		<div class="btn-group-top-box">
+			<div class="btn-group btn-group-top">
+				<a href="" class="btn btn-default active">消费记录</a>
+			</div>
+			<div class="row" style="padding:0 10px;">
+				<div class="col-xs-6">
+					<a href="" >支出：{$ltscore|default='0.00'}</a>
+				</div>
+				<div class="col-xs-6">
+					<a href="">收入：{$gtscore|default='0.00'}</a>
+				</div>
+			</div>
+		</div>
+		<div class="record-box list clearfix">
+			<foreach name="list" item="vo" >
+			<div class="list-item">
+				<div class="member-detail">
+					<div class="img-rounded" style="background:#5ac5d4;">
+						<i class="fa fa-user"></i>
+					</div>
+					<span>{$vo.type_text}</span>
+				</div>
+				<div class="record-detail">
+					<div>
+						<span class="name">{$vo.remark}</span>
+						<span class="date">{$vo.createtime|time_format}</span>
+					</div>
+				</div>
+				<div class="pay-detail">
+					<div>
+						<span class="money">{$vo.num}</span>
+						<span class="state">交易成功</span>
+					</div>
+				</div>
+			</div>
+			</foreach>
+		</div>
+		<div class="btn-group-top-box">
+			<div class="btn-group btn-group-top" style="width:400px;">
+				<div class="page">
+					{$_page}
+		        </div>
+			</div>
+		</div>
+	</div>
+	<ul class="nav nav-bardown nav-justified" style="z-index:10;">
+		<li><a href="{:U('Personal/index')}" class="active"><i class="fa fa-user"></i> <span>我的加U</span></a></li>
+	</ul>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		$('.more_item_ul_url').click(function(){
+			var url = $(this).attr('url');
+			if(url != undefined && url != ''){
+				window.location.href = url;
+			}
+		});
+	</script>
+</block>

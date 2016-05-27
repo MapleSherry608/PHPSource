@@ -1,0 +1,73 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Admin Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+
+<!--            
+              CONTENT 
+                        -->
+<div id="content" class="white">
+
+  <div class="bloc">
+    <div class="title">{$F.name}配置</div>
+    <form method="post" action="">
+    <div class="content">
+      
+      <div class="input">
+        <label>名称</label>
+        <input type="text" name="name"  value="{$F.name}" />
+      </div>
+      <div class="input">
+        <label>启用</label>
+        <eq name='F.ok' value='1'>
+        <input type="radio" value="1" name="ok" checked="checked"/> 启用
+        <input type="radio" value="0" name="ok"  /> 关闭
+        <else />
+        <input type="radio" value="1" name="ok" /> 启用
+        <input type="radio" value="0" name="ok"  checked="checked"/> 关闭
+        </eq>
+        
+      </div>
+      <volist name='val' id='vo'>
+      <div class="input">
+      
+        <label>{$vo.name}</label>
+        <input name='val[{$key}][name]' value="{$vo.name}" type="hidden" />
+        <input type="text" name='val[{$key}][val]'  value="{$vo.val}" />
+      </div>
+      </volist>
+      
+      <p>
+      <a href="<php>echo __ROOT__;</php>/使用说明/支付配置说明.txt" target="_blank">注意必须配置完整,否则报错, 点击这里查看配置教程</a>
+      </p>
+      
+      <div class="submit">
+	  	 <eq name='MXPAY_DEBUG' value='1'>
+		 <label><foo>{$MXPAY_DEBUG_Name}</foo></label>
+		 <else />
+         <input type="submit" class="black" value="确定修改"/>
+         </eq>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

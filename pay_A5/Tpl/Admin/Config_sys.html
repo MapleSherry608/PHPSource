@@ -1,0 +1,116 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Admin Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+
+<!--            
+              CONTENT 
+                        -->
+<div id="content" class="white">
+  <div class="bloc">
+    <div class="title">系统配置</div>
+    <form method="post" action="">
+    <div class="content">
+      <div class="input">
+        <label for="input2">收款单位</label>
+        <input type="text" name="name" id="input2" value="{$Think.config.name}" />
+        <label  class="inline">如: 梦雪便利店-收银台</label>
+      </div>
+      <div class="input">
+        <label class="label">显示付款项目</label>
+        <eq name='Think.config.ok_xm' value='1'>
+        <input type="radio" value="1" name="ok_xm" checked="checked"/> 显示
+        <input type="radio" value="0" name="ok_xm"  /> 关闭
+        <else />
+        <input type="radio" value="1" name="ok_xm" /> 显示
+        <input type="radio" value="0" name="ok_xm"  checked="checked"/> 关闭
+        </eq>
+        <br />
+        <label class="inline">如: 付款页面会显示付款的项目或商品</label>
+      </div>
+      <div class="input">
+        <label class="label">显示快捷金额</label>
+        <eq name='Think.config.ok_kj' value='1'>
+        <input type="radio" value="1" name="ok_kj" checked="checked"/> 显示
+        <input type="radio" value="0" name="ok_kj"  /> 关闭
+        <else />
+        <input type="radio" value="1" name="ok_kj" /> 显示
+        <input type="radio" value="0" name="ok_kj"  checked="checked"/> 关闭
+        </eq>
+        <br />
+        <label class="inline">如: 付款页面会显示 10,30,50,100元选项,一般用于小网吧充值使用</label>
+      </div>
+      <div class="input">
+        <label class="label">显示输入金额</label>
+        <eq name='Think.config.ok_sl' value='1'>
+        <input type="radio" value="1" name="ok_sl" checked="checked"/> 显示
+        <input type="radio" value="0" name="ok_sl"  /> 关闭
+        <else />
+        <input type="radio" value="1" name="ok_sl" /> 显示
+        <input type="radio" value="0" name="ok_sl"  checked="checked"/> 关闭
+        </eq>
+        <br />
+        <label class="inline">如: 付款页面会显示输入任意金额</label>
+      </div>
+      <div class="input">
+        <label class="label">显示客户资料</label>
+        <eq name='Think.config.ok_zl' value='1'>
+        <input type="radio" value="1" name="ok_zl" checked="checked"/> 显示
+        <input type="radio" value="0" name="ok_zl"  /> 关闭
+        <else />
+        <input type="radio" value="1" name="ok_zl" /> 显示
+        <input type="radio" value="0" name="ok_zl"  checked="checked"/> 关闭
+        </eq>
+        <br />
+        <label class="inline">如: 要求客户填写资料,姓名,手机等 (慈善捐款可使用)</label>
+      </div>
+      <div class="input">
+        <label for="input2">关注公众号连接</label>
+        <input type="text" id="input2" name="wx_url" value="{$Think.config.wx_url}" />
+        <label class="inline">进入公众号创建素材,写上如何关注,把素材地址复制到此 (不填写不显示关注按钮)</label>
+      </div>
+      
+      <div class="input">
+        <label for="input2">是否启用微信客户</label>
+        <eq name='Think.config.wx_user' value='1'>
+        <input type="radio" value="1" name="wx_user" checked="checked"/> 启用
+        <input type="radio" value="0" name="wx_user"  /> 关闭
+        <else />
+        <input type="radio" value="1" name="wx_user" /> 启用
+        <input type="radio" value="0" name="wx_user"  checked="checked"/> 关闭
+        </eq>
+        <br />
+        <label class="inline">启用后,客户付款,须要授权登陆,并获取用户基本信息</label>
+      </div>
+      <div class="input">
+        <label for="input2">微信用户积分</label>
+        <input type="text" id="input2" name='wx_score' value="{$Think.config.wx_score}" />
+        <label for="radio2" class="inline">当启用微信客户 支付1元保存多少积分 比例 1元=?分</label>
+      </div>      
+      
+      <div class="submit">
+        <input type="submit" value="确定保存" class="black"/>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

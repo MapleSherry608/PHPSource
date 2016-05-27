@@ -1,0 +1,78 @@
+<extend name="Public/basic"/>
+
+<block name="body">
+    <ul class="nav nav-tabs">
+		<li><a href="{:U('System/index',array('do'=>'listInfo'))}">菜单列表</a></li>		
+		<li class="active"><a href="{:U('System/addMenu',array('pid'=>I('get.pid',0)))}"><i class="fa fa-plus"></i>添加菜单</a></li>
+	</ul>
+    <form action="{:U()}" method="post" class="form-horizontal">
+    	<div class="panel panel-default">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+					style="width: 130px;">标题</label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="form-control" name="menu[title]" value="{$info.title|default=''}" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+					style="width: 130px;">排序 </label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="form-control" name="menu[sort]" value="{$info.sort|default=0}" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+					style="width: 130px;">图标 </label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					{:tpl_form_field_icon('menu[ico]',$info[ico])}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+					style="width: 130px;">链接 </label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="form-control" name="menu[url]" value="{$info.url|default=''}" type="text">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 130px;">上级菜单</label>
+				<div class="col-sm-7 col-lg-9 col-xs-12">
+					<select name="menu[pid]" class="form-control">
+					  <volist name="Menus" id="vo">
+					       <option value='{$vo.id}'  <if condition=" $info.pid eq $vo.id ">selected="selected" </if>  >{$vo.title_show}</option>
+					  </volist>
+					</select>
+				</div>
+			</div>
+            <div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+					style="width: 130px;">分组 </label>
+				<div class="col-sm-8 col-lg-9 col-xs-12">
+					<input class="form-control" name="menu[group]" value="{$info.group|default=''}" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label" style="width: 130px;">是否隐藏 </label>
+				<div class="col-sm-9 col-xs-12">
+					<label for="status1" class="radio-inline"><input type="radio" name="menu[status]" value="1" id="status1"/> 否</label>
+					&nbsp;&nbsp;&nbsp;
+					<label for="status2" class="radio-inline"><input type="radio" name="menu[status]" value="0" id="status2" /> 是</label>
+					<span class="help-block"></span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="hidden" name="menu[id]" value="{$info.id|default=''}">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" /> 
+		</div>
+    </form>
+</block>
+
+<block name="script">
+    <script type="text/javascript">
+       	setFromValue("menu[status]", {$info.status|default = 0});
+        highlight_subnav('{:U('index')}');
+    </script>
+</block>

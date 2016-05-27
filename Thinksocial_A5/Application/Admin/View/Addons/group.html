@@ -1,0 +1,33 @@
+<form action="{:U('groupPost')}" method="post" class="this-model-form-horizontal">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h4 class="modal-title" id="myModalLabel"></h4>
+		</div>
+		<style type="text/css">
+			.row .control-label{padding: 6px;}
+			.row  div p{padding: 2px;}
+		</style>
+		<div class="modal-body" style="padding: 20px;">
+			<div class="row"><h4>选择当前插件菜单的分组</h4></div>
+			<volist name="addgroup" id="vo1">
+			<div class="row">
+				<label class="col-xs-12 col-sm-4 col-md-3 control-label text-right">{$vo1['title']}:</label>
+				<div class="col-xs-12 col-sm-7 col-md-8">
+					<select class="form-control" name="menu[{$vo1['id']}]">
+						<volist name=":C('ADDONS_TITLE')" id="vo2">
+						<option value="{$vo2}"<if condition="$vo2 eq $vo1['group']">selected="selected"</if> >{$vo2}</option>
+						</volist>
+					</select>
+				</div>
+			</div>
+			</volist>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+			<button class="btn btn-primary submit-btn ajax-post" id="submit" type="submit" target-form="this-model-form-horizontal">保存</button>
+		</div>
+	</div>
+</div>
+</form>

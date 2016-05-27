@@ -1,0 +1,195 @@
+<extend name="Public/basic"/>
+<block name="body">
+	<ul class="nav nav-tabs">
+	<if condition="$do eq 'listInfo'">
+			<li class="active"><a href="{:U('Reply/fans',array('do'=>'listInfo'))}">粉丝列表</a></li>		
+	<else/>		
+	     <li class="active"><a href="{:U('Reply/sendMessage',array('do'=>'sendMes'))}">发送客服消息</a></li>		
+    </if>
+	</ul>
+		<if condition="$do eq 'listInfo'">
+		<div class="clearfix">
+			<div class="panel panel-info">
+				<div class="panel-heading">筛选</div>
+				<div class="panel-body">
+					<form action="{:U('Reply/fans')}" method="post" class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">是否关注</label>
+							<div class="col-sm-8 col-xs-12">
+								<select name="status" class="form-control">
+								    <option value="2">否</option>
+									<option value="1">是</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">昵称</label>
+							<div class="col-sm-8 col-xs-12">
+									<input class="form-control" name="title" id="" type="text" value="{$title}">
+							</div>
+							<div class="col-xs-12 col-sm-2 col-lg-1 text-right">
+								<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+							</div>
+						</div>
+					</form>
+					<div class="row">
+						<div class="col-sm-3 col-sm-offset-1">
+							<span class="btn btn-default ajax-post" url="{:U('Reply/updfans')}" target-form="ids" >同步粉丝信息</span>&nbsp;
+							<span onclick="fanScope.download()" class="btn btn-default">下载所有粉丝</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="table-responsive panel-body">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th style="width:3%;"><input class="check-all" type="checkbox"></th>
+							<th style="width:10%;">ID</th>
+							<th style="width:20%;">头像</th>
+							<th style="width:15%;">昵称</th>
+							<th style="width:15%;">是否关注</th>
+							<th style="width:20%;">关注/取消时间</th>
+							<th style="width:20%;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<volist name="list" id="vo">
+							<tr>
+								<td><input class="ids" type="checkbox" name="id[]" value="{$vo['fanid']}"></td>
+								<td>{$vo.fanid}</td>
+								<td><img src="{$vo['avatar']}" onerror="this.src='./Public/Admin/Images/nopic.jpg'; this.title='图片未找到.'" width="70px"></td>
+								<td>{$vo.nickname}</td>
+								<eq name="vo.follow"  value="1">
+								    <td><span class="label label-success">关注</span></td>
+								<else/>
+								     <td><span class="label label-warning">取消关注</span></td>
+								</eq>
+								<eq name="vo.follow"  value="1">
+								    <td>{$vo.followtime}</td>
+								<else/>
+								     <td>{$vo.unfollowtime}</td>
+								</eq>
+								<td>
+									<a href="{:U('Reply/sendMesPage',array('id'=>$vo['fanid']))}"  class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="" ><i class="fa ">发送消息</i></a>
+								</td>
+							</tr>
+						</volist>
+					</tbody>
+				</table>
+				
+				 <!-- 分页 -->
+		        <div class="page">
+					{$_page}
+		        </div>
+		        
+			</div>
+		</div>
+	<!-- 发送文本消息 -->	
+	<else/>
+	</if>
+</block>
+<block name="script">
+<script type="text/javascript">
+		var fanScope={};
+		require(['jquery', 'util'], function( $, u){
+		$('#form1').submit(function(){
+			if($(":checkbox[name='delete[]']:checked").size() > 0){
+				return confirm('删除后不可恢复，您确定删除吗？');
+			}
+			alert('没有选择粉丝');
+			return false;
+		});
+			fanScope.adv = {
+				running : false,
+				syncState : '',
+				downloadState : '',
+				enabled : <php> if ($account && ($account['type'] == '1' && $account['level'] >= '3'))echo 'true';else echo 'false';</php>
+			};	
+			fanScope.sync = function(){
+				if($(":checkbox:checked").size() <= 0){
+					alert('没有选择粉丝');
+					return;
+				}
+				u.message('正在同步粉丝信息<br>请不要离开页面或进行其他操作,同步成功后系统会自动刷新本页面');
+				fanScope.adv.running = running = true;
+				var fanids = [];
+				$(':checkbox:checked').each(function(){
+					var fanid = parseInt($(this).val());
+					if(!isNaN(fanid)) {
+						fanids.push(fanid);
+					}
+				});
+				var params = {};
+				params.method = 'sync';
+				params.fanids = fanids;
+				$http.post(location.href, params).success(function(dat){
+					fanScope.adv.running = running = false;
+					if(dat == 'success') {
+						location.reload();
+					} else {
+						message('未知错误, 请稍后重试.', location.href, 'error')
+					}
+				});
+			};
+			fanScope.download = function(next, count){
+				fanScope.adv.running = running = true;
+				var params = {};
+				params.method = 'download';
+				if(next) {
+					params.next = next;
+				}
+				if(!count) {
+					count = 0;
+				}
+				$.ajax({
+				    type: 'POST',
+				    url: "{:U('Reply/download',array('unlimited'=>1))}",
+				    data: params ,
+				    success: function(dat,status){
+				    	dat=JSON.parse(dat);
+						if(dat.errno || dat.type == 'error' || dat.type == 'info') {
+							fanScope.adv.downloadState = '';
+							fanScope.adv.running = running = false;
+							u.message(dat.message, location.href, 'error');
+							return;
+						}
+						count += dat.count;
+						if(dat.total <= count) {
+							fanScope.adv.downloadState = '';
+							fanScope.adv.running = running = false;
+							u.message('粉丝下载完成,系统将开始更新粉丝数据,请不要离开页面', "{:U('Reply/renewal')}", 'success');
+							return;
+						} else {
+							fanScope.download(dat.next, count);
+							fanScope.adv.downloadState = '(' + count + '/' + dat.total + ')';
+						}
+					},error:function(dat,status){
+						console.log(dat);
+					}
+				});
+			}
+	});
+
+
+
+	highlight_subnav('{:U('Reply/fans')}');
+	setFromValue("status", {$where.status|default=0});
+	//验证文字回复
+	function check(){
+		var keyword=document.getElementById('keyword').value;
+		var content=document.getElementById('content').value;
+		if(keyword==null||keyword==""){
+			alert("请输入关键词!");
+			return false;
+		}
+		if(content==null||content==""){
+			alert("请输入回复内容!");
+			return false;
+		}
+	}
+</script>
+</block>
+	

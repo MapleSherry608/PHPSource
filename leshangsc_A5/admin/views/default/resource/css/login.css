@@ -1,0 +1,51 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	background:#383740;
+}
+#login_box{
+	width:995px;
+	height:479px;
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin-top:-239px;
+	margin-left:-497px;
+	background:url(../images/login_bg.jpg) no-repeat;
+}
+#login_box .login{
+	width:300px;
+	height:180px;
+	margin-top:90px;
+	margin-left:530px;
+}
+#login_box .login ul li{
+	list-style-type:none;
+	font-size:14px;
+	font-weight:bold;
+	color:#494764;
+	height:40px;
+	line-height:30px;
+}
+.code{
+	margin-left:8px;
+}
+.input_box{
+	width:180px;
+	height:25px;
+	line-height:25px;
+	border:1px solid #333;
+	background: url(../images/subbox_bg.jpg) repeat-x;
+}
+.input_code{
+	width:100px;
+	height:25px;
+	border:1px solid #333;
+	background: url(../images/subbox_bg.jpg) repeat-x;
+}
+.login_button{
+	width:80px;
+	height:30px;
+	line-height:30px;
+	margin-left:50px;
+}

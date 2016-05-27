@@ -1,0 +1,150 @@
+<extend name="Public/basic" />
+<block name="body"> <!-- 公众号管理 -->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4>请在公众平台->开发者中心->服务器配置 配置以下信息，并开启</h4>
+		URL(服务器地址)：<a style="color: red;">{$siteroot}/admin.php?s=/Weixin/checkToken</a><br/>			
+	</div>
+	<form action="{:U('Account/account')}" method="post"
+		class="form-horizontal" role="form" id="form1"
+		onsubmit="return check()">
+		<div class="panel panel-default">
+			<div class="form-group"></div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号名称</label>
+				<div class="col-sm-8 col-md-9 col-xs-12">
+					<input class="form-control" name="id" value="{$account['id']}" type="hidden"> 
+					<input class="form-control" name="account[name]" value="{$account['public_name']}" type="text" id="name">
+				</div>
+			</div>
+			<div class="form-group">
+			<label class="col-xs-12 col-sm-3 col-md-2 control-label">级别</label>
+			<div class="col-sm-9 col-md-9 col-xs-12">
+				<label for="status_1" class="radio-inline">
+					<input autocomplete="off" type="radio" name="account[level]" id="status_1" value="1"> 普通订阅号</label>
+				<label for="status_2" class="radio-inline">
+					<input autocomplete="off" type="radio" name="account[level]" id="status_2" value="2"> 普通服务号</label>
+				<label for="status_3" class="radio-inline">
+					<input autocomplete="off" type="radio" name="account[level]" id="status_3" value="3"> 认证订阅号</label>
+				<label for="status_4" class="radio-inline">
+					<input autocomplete="off" type="radio" name="account[level]" id="status_4" value="4"> 认证服务号</label>
+				<span class="help-block">注意：即使公众平台显示为“未认证”, 但只要【公众号设置】/【账号详情】下【认证情况】显示资质审核通过, 即可认定为认证号..</span>
+			</div>
+		</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号原始ID</label>
+				<div class="col-sm-8 col-md-9 col-xs-12">
+					<input class="form-control" name="account[public_id]" value="{$account['public_id']}" type="text" id="publicid">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">appid </label>
+				<div class="col-sm-8 col-md-9 col-xs-12">
+					<input class="form-control" name="account[appid]" value="{$account['appid']}" type="text" id="appid">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">secret</label>
+				<div class="col-sm-8 col-md-9 col-xs-12">
+					<input class="form-control" name="account[secret]" value="{$account['secret']}" type="text" id="secret">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">Token</label>
+				<div class="col-sm-8 col-md-9 col-xs-12">
+					<div class="input-group">
+						<input type="text" name="account[token]" class="form-control" id="token" value="{$account['token']}" >
+						<span class="input-group-addon" style="cursor:pointer" onclick="tokenGen();">生成新的</span>
+					</div>
+					<div class="help-block">与公众平台接入设置值一致，必须为英文或者数字，长度为3到32个字符. 请妥善保管, Token 泄露将可能被窃取或篡改平台的操作数据.</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">EncodingAESKey</label>
+				<div class="col-sm-8 col-md-9 col-xs-12">
+					<div class="input-group">
+						<input type="text" name="account[encodingaeskey]" class="form-control" id="encodingaeskey" value="{$account['encodingaeskey']}">
+						<span class="input-group-addon" style="cursor:pointer" onclick="EncodingAESKeyGen();">生成新的</span>
+					</div>
+					<div class="help-block">与公众平台接入设置值一致，必须为英文或者数字，长度为43个字符. 请妥善保管, EncodingAESKey 泄露将可能被窃取或篡改平台的操作数据.</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">头像</label>
+				<div class="col-sm-9 col-xs-12">
+					{:tpl_form_field_image('account[headface_url]', $account['headface_url'])}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">二维码</label>
+				<div class="col-sm-9 col-xs-12">
+					{:tpl_form_field_image('account[qrcode]', $account['qrcode'])}
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">关注引导页面</label>
+				<div class="col-sm-8 col-md-9 col-xs-12">
+					<input class="form-control" name="account[subscribeurl]"
+						value="{$account['subscribeurl']}" type="text" id="url">
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="编辑"
+				class="btn btn-primary col-lg-1" />
+		</div>
+	</form>
+</div>
+</block>
+<block name="script"> 
+	<script type="text/javascript">
+	setFromValue("account[level]", {$account['level']})
+	highlight_subnav("{:U('Account/account')}");
+	function check() {
+		var name = document.getElementById('name').value;
+		var publicid = document.getElementById('publicid').value;
+		var appid = document.getElementById('appid').value;
+		var secret = document.getElementById('secret').value;
+		var url = document.getElementById('url').value;
+		if (name == null || name == "") {
+			alert("请输入公众号名称!");
+			return false;
+		}
+		if (publicid == null || publicid == "") {
+			alert("请输入公众号原始ID!");
+			return false;
+		}
+		if (appid == null || appid == "") {
+			alert("请输入公众号appid!");
+			return false;
+		}
+		if (secret == null || secret == "") {
+			alert("请输入公众号secret!");
+			return false;
+		}
+		
+	}
+	
+	function tokenGen() {
+		var letters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+		var token = '';
+		for(var i = 0; i < 32; i++) {
+			var j = parseInt(Math.random() * (31 + 1));
+			token += letters[j];
+		}
+		$('#token').val(token);
+	}
+
+	function EncodingAESKeyGen() {
+		var letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+		var token = '';
+		for(var i = 0; i < 43; i++) {
+			var j = parseInt(Math.random() * 61 + 1);
+			token += letters[j];
+		}
+		$('#encodingaeskey').val(token);
+	}
+</script>
+</block>

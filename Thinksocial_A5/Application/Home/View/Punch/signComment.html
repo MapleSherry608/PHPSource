@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<title>运动打卡评论</title>
+		<link rel="stylesheet" href="__HOME_CSS__/style.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/iconfont.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/fonts.css" />
+		<link rel="stylesheet" href="__HOME_PUNCH__/css/index.css" />
+		<link rel="stylesheet" href="__HOME_PUNCH__/css/swipebox.css" />
+		<link href="__HOME_CSS__/weui.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+		<link href="__HOME_CSS__/example.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+	</head>
+<body>
+<div class="containerBox">
+	<div class="sportShareContainer">
+	    <div class="sportShareBox signCommentBox">
+	    	<div class="myHeadBox">
+	        	<div class="myHeadLeft">
+		        	<a href="{:U('Punchcard/friendIndex',array('membid'=>$punchMembInfo['id']))}">
+					    <img src="{$punchMembInfo['avatar']}">
+		        	</a>
+	        	</div>
+	            <div class="myHeadRight">
+	            	<h1 style="color:#0E90D2;">{$punchMembInfo['nickname']}</h1>
+	                <h2>{$punchInfo['punch_date']|date="Y-m-d H:i",###}</h2>
+	            </div>
+	        </div>
+	        <div class="myShareBox">
+	        	<h1 class="myShareInfro">{$punchInfo['content']}</h1>
+	            <div class="mySharePic">
+		            <notempty>
+		             	<volist name="punchInfo.images" id="image">
+		             		<div class="myPicBox">
+			                	<a rel="gallery-{$punchInfo['id']}" href="{$image|tomedia}" class="swipebox" title="{$punchInfo['title']}"><img src="{$image|getThumbUrl}" border="0" /></a>
+			                </div>
+		             	</volist>
+		            </notempty>
+	            </div>
+	        </div>
+	        <div class="myCommentBox">
+	        	<div class="myCommentTitle">
+	            	<div class="comment_icon"><i class="am-icon-comment-o"></i>评论（<span>{$commentCount}</span>）</div>
+	                <div class="praise_icon"><i class="am-icon-thumbs-o-up"></i>赞（<span>{$praiseCount}</span>）</div>
+	                <div class="sendInfro_icon"><i class="am-icon-envelope-o"></i>发消息</div>
+	            </div>
+	            <div class="myPraiseBox">
+	            	<div class="myPraiseTitle" onclick="javascript:location.href='{:U('Punchcard/PraiseList',array('punchid'=>$punchInfo['id']))}'"><i class="am-icon-heart-o"></i></div>
+		            <notempty name="praiseList">
+						<volist name="praiseList" id="praise" offset="0" length='5'>
+							<div class="myPraiseContent">
+								<div class="myPraisePic" onclick="location.href='{:U('Punchcard/friendIndex',array('membid'=>$praise['id']))}'">
+									<img src="{$praise['avatar']}">
+								</div>
+								<p>{$praise['nickname']}</p>
+							</div>
+						</volist>
+						<if condition="$punchInfo.praiseCount gt 5">
+						   <div class="myPraiseMore">...</div>
+						</if>
+					</notempty>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+    <div class="actReviewContainer">
+	   <notempty name="commentList">
+	    <volist name="commentList" id="comment">
+	    		<div class="actReviewBox">
+				 	<div class="signReviewBox">
+				     	  <div class="signHeadBox">
+						      <a href="{:U('Punchcard/friendIndex',array('membid'=>$comment['membid']))}">
+									<img src="{$comment['avatar']}">
+							  </a>
+						  </div>
+					      <div class="signReviewContent">
+					          <h1><span onclick="javascript:location.href='{:U('Punchcard/friendIndex',array('membid'=>$comment['membid']))}'">{$comment['nickname']}</span>{$comment['createtime']|date="Y-m-d H:i:s",###}</h1>
+					          <p>{$comment['content']}</p>
+					      </div>
+				  	</div>
+				 </div>
+	    	</volist>
+			<input type="hidden" value="{$nextNumber}" class="nextnum">
+	        <div class="readMore"><a><p></p><span>查看更多</span></a></div>
+	    </notempty>
+        <div class="actReview">
+        	<textarea placeholder="说点什么吧！~"></textarea>
+        </div>
+        <div class="reviewSubmit"><a>发送</a></div>
+        <input type="hidden" value="{$punchId}" id="punchId">
+    </div>
+</div>
+<div class="weui_dialog_alert" id="dialog2" style="display: none;">
+    <div class="weui_mask"></div>
+    <div class="weui_dialog">
+        <div class="weui_dialog_hd"><strong class="weui_dialog_title">温馨提示</strong></div>
+        <div class="weui_dialog_bd"></div>
+        <div class="weui_dialog_ft">
+            <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__HOME_JS__/jquery-1.9.0.min.js"></script>
+<script type="text/javascript" src="__HOME_PUNCH__/js/common.js"></script>
+<script type="text/javascript" src="__HOME_PUNCH__/js/jquery.swipebox.js"></script>
+<script type="text/javascript" src="__HOME_PUNCH__/js/idangerous.swiper-2.1.min.js"></script>
+<script type="text/javascript" src="__HOME_PUNCH__/js/idangerous.swiper.scrollbar-2.1.js"></script>
+<script type="text/javascript" src="__HOME_PUNCH__/js/code.js"></script>
+<script type="text/javascript">
+		var openid="{$openid}";
+		$(function(){
+			loadImage();
+			loadImage();
+			//加载更多
+			$(".readMore").click(function(){
+				if($(".readMore a span").css("display")=="block"){
+					$(".readMore a span").hide();
+					$(".readMore a p").show();
+				}
+				loadCommentInfo();
+			});
+			//发送评论
+			$('.reviewSubmit').click(function(){
+				if(!checkAuth()){
+					return;
+				}
+				var content=$(".actReview textarea").val();
+				if(content==null||content==""){
+					showDialog('错误提示','请填写评论');
+					return;
+				}
+				var punchId=$("#punchId").val();
+				var url="{:U('Punchcard/addComment')}";
+				
+				$.post(url,{
+					'content':content,
+					'punchid':punchId
+				},function(response){
+					$('.actReviewContainer').prepend(response);
+					$(".actReview textarea").val('');
+					var value=$('.comment_icon').children('span').text();
+					$('.comment_icon').children('span').text(parseInt(value)+1);
+					loadImage();
+				});
+				loadImage();
+			})
+			$(".praise_icon").click(function(){
+				addPraiseCount();
+			});
+			
+			$(".sendInfro_icon").click(function(){
+				showDialog('温馨提示','亲！该功能正在努力上线');
+			});
+		})
+		function loadImage(){
+			/*大标题头像裁切*/
+			$(".myHeadBox").find("img").each(function(){
+				clipPic($(this),50);
+			});
+			/*小标题头像裁切*/
+			$(".signHeadBox").find("img").each(function(){
+				clipPic($(this),50);
+			});
+			/*图片裁切*/
+			var averWidth=($(".mySharePic").width()-16)/3;
+			$(".myPicBox").width(averWidth);
+			$(".myPicBox").height(averWidth);
+			$(".mySharePic").find("img").each(function(){
+				clipPic($(this),averWidth);
+			});
+			/*评论头像裁切*/
+			$(".myPraiseBox").find("img").each(function(){
+				clipPic($(this),30);
+			});
+		}
+		/**
+		 * 点赞功能
+		 */
+		function addPraiseCount(){
+			$.post(
+				"{:U('Punchcard/praiseOption')}",
+				{
+					'punchId':$("#punchId").val(),
+					'praiseCount':$(".praise_icon").children('span').text()//点赞次数
+				},function(response){
+					if(response.code==200){
+						$(".praise_icon").children('span').text(response.praiseCount);
+						$(".myPraiseTitle").after(response.praisePeople);
+						loadImage();
+					}else{
+						showDialog('温馨提示',response.mes)
+					}
+				},
+				'json'
+			);
+			loadImage();
+		}
+		function loadCommentInfo(){
+			var url="{:U('Punchcard/ajaxComment')}";
+			var punchId=parseInt($("#punchId").val());
+			var nextNumber=$(".nextnum").val();
+			if(typeof(nextNumber)=='undefined'){
+				if($(".readMore a span").css("display")=="none"){
+					$(".readMore a span").show();
+					$(".readMore a p").hide();
+				}
+				return;
+			}
+			$(".nextnum").remove();
+			$.get(url,{
+				'punchid':punchId,
+				'nextNumber':nextNumber
+			},function(html){
+				if(html.indexOf('actReviewBox') > -1){
+					$(".actReviewContainer").prepend(html);
+					$(".swipebox").swipebox();
+				}else{
+					$('.readMore a span').text('已加载完毕');
+				}
+				if($(".readMore a span").css("display")=="none"){
+					$(".readMore a span").show();
+					$(".readMore a p").hide();
+				}
+				loadImage();
+			});
+			loadImage();
+		}
+		//提示框
+		function showDialog(title,msg){
+			var $dialog = $('#dialog2');
+			$dialog.find('.weui_dialog_title').text(title);
+			$dialog.find('.weui_dialog_bd').text(msg);
+            $dialog.show();
+            $dialog.find('.weui_btn_dialog').on('click', function () {
+                $dialog.hide();
+            });
+		}
+		//检测权限
+		function checkAuth(){
+			if(!openid){
+				showDialog('系统提示','该状态下无法进行操作');
+				return false;
+			}
+			return true;
+		}
+		</script>
+</body>
+</html>

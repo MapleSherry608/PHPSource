@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<title>有赏众帮</title>
+		<link rel="stylesheet" href="__HOME_REFUEL__/Css/style.css" />
+		<link rel="stylesheet" href="__HOME_REFUEL__/Css/give_help_list.css" />
+		<script type="text/javascript" src="__HOME_REFUEL__/Js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript">
+			document.getElementsByTagName("html")[0].style.fontSize = document.documentElement.clientWidth/3 + "px";
+		</script>
+	</head>
+	<body>
+		<div class="containerBox">
+			<ul class="giveHelpList">
+				<volist name="proList" id="v">
+					<li>
+						<a class="giveHelp" <empty name="openid">href="http://mp.weixin.qq.com/s?__biz=MzAxNDc2NjkwMg==&mid=402034274&idx=1&sn=0be282d856c135dfb2deb9bd25831231#rd"<else/>href="{:U('AwardHelp/detail',array('id'=>$v['id']))}"</empty>>
+							<div class="title">{$v['title']}</div>
+							<div class="datetime">{:date('m月d日',$v['updatetime'])}</div>
+							<div class="picture"><span style="background-image: url({$v['thumb']});"></span></div>
+							<div class="reward"><span>悬赏{:intval($v['likescore'])}积分</span><span>（ {$v['validday']} 天内）</span></div>
+							<div class="readmore"><span>阅读全文</span><span></span></div>
+						</a>
+					</li>
+				</volist>
+			</ul>
+		</div>
+		<script type="text/javascript" src="__HOME_REFUEL__/Js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript">
+			wx.config({
+			    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+			    appId: '{$signPackage['appId']}', // 必填，公众号的唯一标识
+			    timestamp: {$signPackage['timestamp']}, // 必填，生成签名的时间戳
+			    nonceStr: '{$signPackage['nonceStr']}', // 必填，生成签名的随机串
+			    signature: '{$signPackage['signature']}',// 必填，签名，见附录1
+			    jsApiList: [
+	                'onMenuShareTimeline',
+					'onMenuShareAppMessage',
+					'onMenuShareQQ',
+					'onMenuShareWeibo',
+					'onMenuShareQZone'
+			 	] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+			});
+			wx.ready(function(){
+				var link_url=window.location.href;
+				var image_url="http://img1.cache.netease.com/catchpic/0/0A/0AE29C3026B6BCB4EC589EBAE185A00A.jpg";
+				var shareData = {
+						title: "有赏众邦",
+						desc: "想推荐的书其实也有很多简单地说，就是多看。观察大师们的影像，阅读他们的文章。了解拍摄者拍摄时的心境和想法。",			
+					    link: link_url, 
+					    imgUrl:image_url,
+					    type: 'link', 
+					    success: function () { 
+					    },
+					    cancel:function() {
+					    }
+					};
+				wx.onMenuShareAppMessage(shareData);
+				wx.onMenuShareTimeline(shareData);
+				wx.onMenuShareQQ(shareData);
+				wx.onMenuShareWeibo(shareData);
+				wx.onMenuShareQZone(shareData);
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,115 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$Think.config.name} - 梦雪网络</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/style/reset.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/style/root.css" />
+<script type="text/javascript" src="__PUBLIC__/Home/js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/toogle.js"></script>
+<script type="text/javascript">
+
+</script>
+</head>
+<body>
+<include file="header" /> 
+
+<!-- start page -->
+<div class="page">
+  <div class="simplebox">
+    <div class="content">
+      <form id="form" name="form" method="post" action="{:U('Pay/index')}">
+       <eq name='Think.config.ok_xm' value='1'>
+      <div class="form-line">
+                   	  <label class="st-label">{$Think.config.name_shop}</label>
+                      <select name="pay_shop" id="select">
+                        <option>请选择</option>
+                        <php>
+                        foreach ($pay_shop as $value){
+                        	echo '<option value="'.$value.'">';
+                        	echo $value;
+                            echo '</option>';
+                        }
+                        </php>
+                        
+                        <foreach name="pay_shop" item="vo">
+                        
+                        
+                        </foreach>                 
+                      </select>
+                    </div>
+             </eq>       
+        <eq name='Think.config.ok_kj' value='1'>
+        <div class="form-line">
+          <label class="st-label">{$Think.config.name_kj}</label>
+          <label>
+            <input type="radio" name="pay_fee" value="10" />
+            10元</label>
+          <label>
+            <input name="pay_fee" type="radio" value="30" checked="checked" />
+            30元</label>
+          <label>
+            <input type="radio" name="pay_fee" value="50" />
+            50元</label>
+          <label>
+            <input type="radio" name="pay_fee" value="100" />
+            100元</label>
+        </div>
+        </eq>
+         <eq name='Think.config.ok_sl' value='1'>
+        <div class="form-line">
+          <label class="st-label">{$Think.config.name_sl}</label>
+          
+          <label>
+            <input type="text" name="pay_fee_qt" placeholder="{$Think.config.prompt_sl}" value="{$Think.config.default_sl}"  style=" width:30%;" />
+            元 </label>
+        </div>
+        </eq>
+         <eq name='Think.config.ok_zl' value='1'>
+        <div class="form-line">
+          <label class="st-label">姓名</label>
+          
+          <label>
+            <input type="text" name="user_name"  style=" width:50%;" />
+           <foo>* 必填 </foo></label>
+        </div>
+        <div class="form-line">
+          <label class="st-label">手机号</label>
+          
+          <label>
+            <input type="text" name="user_tel" style=" width:50%;" />
+            <foo>* 必填 </foo></label>
+        </div>
+        </eq>
+        
+        <div class="form-line">
+          <label class="st-label">{$Think.config.name_message}</label>
+          <textarea name="user_message" style="width:93%;" placeholder="{$Think.config.prompt_message}" rows="3" cols="3">{$Think.config.default_message}</textarea>
+        </div>
+        <div class="form-line">
+          <label class="st-label">支付方式</label>
+       <volist name='pay_list' id='vo'>
+        <div>
+          <label>
+            <input type="radio" name="pay_type" value="{$vo.class}" />
+            {$vo.name} </label>
+        </div>
+		</volist>
+         </div>
+        <div>
+          <input type="submit"  value="&nbsp;确 定 付 款&nbsp;" class="submit-button" />
+        </div>
+      </form>
+    </div>
+  </div>
+  <include file="footer" /> 
+</div>
+</body>
+</html>

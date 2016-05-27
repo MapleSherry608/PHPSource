@@ -1,0 +1,59 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<style type="text/css">
+		.table thead tr td span{ width: 100px;}
+	</style>
+</block>
+<block name="body">
+	<ol class="breadcrumb" style="padding:5px 0;">
+		<li><a href="./index.php?c=home&amp;a=welcome&amp;do=ext&amp;"><i class="fa fa-cogs"></i> &nbsp; 个人中心</a></li>
+		<li><a href="./index.php?c=home&amp;a=welcome&amp;do=ext&amp;m=allbills">主要业务模块 - 用户组</a></li>
+		<li class="active">添加用户组</li>
+	</ol>
+	<ul class="nav nav-tabs">
+		<li><a href="{:U('Member/group')}">用户组列表</a></li>		
+		<li class="active"><a href="{:U()}"><i class="fa fa-plus"></i>添加用户组</a></li>
+	</ul>
+	<form action="{:U()}" method="post" class="form-horizontal">
+    	<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>用户组名称</label>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<input type="text" name="title" id="title" class="form-control" value="{$group['title']}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>排序</label>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<input type="text" name="sort" id="sort" class="form-control" value="{$group['sort']}">
+			</div>
+		</div>
+		<!--<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label">达到该分组的条件</label>
+			<div class="col-xs-12 col-sm-8 col-md-5"  >
+				<input type="text" name="credit" id="credit" class="form-control" value="{$group['credit']}">
+			</div>
+		</div>-->
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label">等级状态</label>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<select name="status" id="status" class="form-control">
+					<option value="1" >正常</option>
+				    <option value="0" >隐藏</option>
+				   	<option value="-1">禁用</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-item">
+			<input name="id" type="hidden" value="{$id}"/>
+			<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+			<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+		</div>
+	</form>
+</block>
+<block name="script">
+<script type="text/javascript">
+	setFromValue('status', "{$group['status']}");
+	highlight_subnav("{:U('Member/group')}");
+</script>
+</block>
+	

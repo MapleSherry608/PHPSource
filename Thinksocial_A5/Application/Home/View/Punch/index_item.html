@@ -1,0 +1,67 @@
+<notempty name="punchInfoList">
+	<volist name="punchInfoList" id="punchInfo">
+		<div class="sportShareBox">
+			<div class="myHeadBox">
+				<div class="myHeadLeft">
+					<a href="{:U('Punchcard/friendIndex',array('membid'=>$punchInfo['membid']))}">
+						<img src="{$punchInfo['userInfo']['avatar']}">
+					</a>
+				</div>
+				<div class="myHeadRight">
+					<h1><a href="{:U('Punchcard/friendIndex',array('membid'=>$punchInfo['membid']))}">{$punchInfo['userInfo']['nickname']}</a></h1>
+					<h2>{$punchInfo['punchDate']}</h2>
+				</div>
+			</div>
+			<div class="myShareBox">
+				<h1 class="myShareInfro" style="color:#0F65B5;">{$punchInfo['title']}</h1>
+				<h1 class="myShareInfro">{$punchInfo['content']}</h1>
+				<div class="mySharePic">
+					<notempty name="punchInfo.images">
+						<volist name="punchInfo.images" id="image" key="k">
+							<div class="myPicBox">
+								<a rel="gallery-{$punchInfo['id']}" href="{$image|tomedia}" class="swipebox" title="{$punchInfo['title']}"><img src="{$image|getThumbUrl}" alt="" title="" border="0" /></a>
+							</div>
+						</volist>
+					</notempty>
+				</div>
+			</div>
+			<div class="myCommentBox">
+			<div class="myCommentTitle">
+				<div class="comment_icon"
+					onclick="javascript:location.href='{:U('Punchcard/commentOption',array('punchid'=>$punchInfo['id']))}'"
+					data-uuid="{$punchInfo['id']}">
+					<i class="am-icon-comment-o"></i>评论（{$punchInfo['commentCount']}） 
+				</div>
+				<div class="praise_icon" name="praise_icon"
+					onclick="addPraiseCount(this)" data-uuid="{$punchInfo['id']}">
+					<i class="am-icon-thumbs-o-up"></i>赞（<span>{$punchInfo['praiseCount']}</span>）
+				</div>
+				<div class="sendInfro_icon"
+					onclick="sendMsg('{$punchInfo['membid']}')">
+					<i class="am-icon-envelope-o"></i>发消息
+				</div>
+			</div>
+			<div class="myPraiseBox">
+				<div class="myPraiseTitle"
+					onclick="javascript:location.href='{:U('Punchcard/PraiseList',array('punchid'=>$punchInfo['id']))}'">
+					<span><i class="am-icon-heart-o"></i></span>
+				</div>
+				<notempty name="punchInfo.praiseInfo">
+					<volist name="punchInfo.praiseInfo" id="praise" offset="0" length='5'>
+						<div class="myPraiseContent">
+							<div class="myPraisePic" onclick="location.href='{:U('Punchcard/friendIndex',array('membid'=>$praise['id']))}'">
+									<img src="{$praise['avatar']}">
+								</div>
+								<p>{$praise['nickname']}</p>
+							</div>
+						</volist>
+						<if condition="$punchInfo.praiseCount gt 5">
+						   <div class="myPraiseMore">...</div>
+						</if>
+					</notempty>
+				</div>
+			</div>
+		</div>
+	</volist>
+</notempty>
+<input type="hidden" value="{$nextNumber}" class="nextnum">

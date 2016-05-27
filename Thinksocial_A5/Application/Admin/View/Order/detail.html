@@ -1,0 +1,337 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<style type="text/css">
+	    .main .form-horizontal .form-group{margin-bottom:0;}
+	    .main .form-horizontal .modal .form-group{margin-bottom:15px;}
+	    #modal-confirmsend .control-label{margin-top:0;}
+	</style>
+</block>
+<block name="body">
+	<include file="tabs" />
+	<div class="main">
+	    <form class="form-horizontal form" action="" method="post" enctype="multipart/form-data" onsubmit="return formcheck(this)">
+	        <if condition="$item['transid']">
+	        	<div  class="alert alert-error"><i class="fa fa-lightbulb"></i> 此为微信支付订单，必须要提交发货状态！</div>
+	        </if>
+	        <input type="hidden" name="dispatchid" value="{$dispatch['id']}" />
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	                	订单信息
+	            </div>
+	            <div class="panel-body">
+	            <div class="form-group">
+	                <label class="col-xs-12 col-sm-3 col-md-2 control-label">粉丝</label>
+	                <div class="col-sm-9 col-xs-12">
+	                    <img src="{$member['avatar']}" style='width:100px;height:100px;padding:1px;border:1px solid #ccc' />
+	                         {$member['nickname']}
+	                </div>
+	            </div>
+	            <div class="form-group">
+	                <label class="col-xs-12 col-sm-3 col-md-2 control-label">会员信息</label>
+	                <div class="col-sm-9 col-xs-12">
+	                    <div class='form-control-static'>姓名: {$member['realname']} / 手机号: {$member['mobile']} /微信号: {$member['weixin']}</div>
+	                </div>
+	            </div>
+	                
+                <if condition="$item['transid']">
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">微信交易号 :</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <p class="form-control-static">{$item['transid']}</p>
+	                    </div>
+	                </div>
+                </if>
+	            <div class="form-group">
+	                <label class="col-xs-12 col-sm-3 col-md-2 control-label">订单编号 :</label>
+	                <div class="col-sm-9 col-xs-12">
+	                    <p class="form-control-static">{$item['ordersn']} </p>
+	                </div>
+	            </div>
+	                
+               	<div class="form-group">
+                   <label class="col-xs-12 col-sm-3 col-md-2 control-label">订单金额 :</label>
+                   <div class="col-sm-9 col-xs-12">
+               		<p class="form-control-static">
+                    	{$item['price']} 元 （商品: {$item['goodsprice']} 元 
+                   		  运费: {$item['dispatchprice']} 元 
+				                       会员折扣: -{$item['discountprice']}元 
+				                       积分抵扣:-{$item['deductprice']}元
+				                       余额抵扣:-{$item['deductcredit2']}元
+				                       满额立减: -{$item['deductenough']}元)
+                       </p>
+                   </div>
+               </div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">配送方式 :</label>
+	                <div class="col-sm-9 col-xs-12">
+	                	<p class="form-control-static">
+	                		<if condition="empty($item['addressid'])">
+		                    	<if condition="$item['isverify'] eq 1">
+		                    		线下核销
+		                    	<else />
+		                    		自提
+		                    	</if>
+	                        <else />
+		                        <if condition="empty($dispatch)">
+									快递
+		                        <else />
+									{$dispatch['dispatchname']}
+		                        </if>
+							</if>
+						</p>
+                    </div>
+                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">付款方式 :</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <p class="form-control-static">
+	                            <if condition="$item['paytype'] eq 0">未支付</if>
+	                            <if condition="$item['paytype'] eq 1">余额支付</if>
+	                            <if condition="$item['paytype'] eq 11">后台付款</if>
+	                            <if condition="$item['paytype'] eq 21">微信支付</if>
+	                            <if condition="$item['paytype'] eq 22">支付宝支付</if>
+	                            <if condition="$item['paytype'] eq 23">银联支付</if>
+	                            <if condition="$item['paytype'] eq 3">货到付款</if>
+	                        </p>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">订单状态 :</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <p class="form-control-static">
+	                            <if condition="$item['status'] eq 0"><span class="label label-info">待付款</span></if>
+	                            <if condition="$item['status'] eq 1"><span class="label label-info">待发货</span></if>
+	                            <if condition="$item['status'] eq 2"><span class="label label-info">待收货</span></if>
+	                            <if condition="$item['status'] eq 3"><span class="label label-success">已完成</span></if>
+	                            <if condition="$item['status'] eq -1">
+	                            	<if condition="!empty($refund) and $refund['status'] eq 1">
+	                                	<span class="label label-default">已退款</span>
+	                                <else />
+	                              		<span class="label label-default">已关闭</span>
+	                              	</if>
+	                           	</if>
+	                        </p>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">下单日期 :</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <p class="form-control-static"><php> echo date('Y-m-d H:i:s', $item['createtime']);</php></p>
+	                    </div>
+	                </div>
+	                <if condition="$item['status'] egt 1">
+		                <div class="form-group">
+		                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">付款时间 :</label>
+		                    <div class="col-sm-9 col-xs-12">
+		                        <p class="form-control-static"><php> echo date('Y-m-d H:i:s', $item['paytime']);</php></p>
+		                    </div>
+		                </div>
+	                </if>
+	                
+	                <if condition="$item['status'] egt 2 and $item['isverify'] neq 1">
+		                <div class="form-group">
+		                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">发货信息 :</label>
+		                    <div class="col-sm-9 col-xs-12">
+		                        <p class="form-control-static">快递公司: {$item['expresscom']}  <br/>快递单号: {$item['expresssn']} <br/>发货时间: <php> echo date('Y-m-d H:i:s', $item['sendtime']);</php></p>
+		                    </div>
+		                </div>
+	                </if>
+	                
+	                <if condition="$item['status'] egt 3">
+		                <div class="form-group">
+		                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">完成时间 :</label>
+		                    <div class="col-sm-9 col-xs-12">
+		                        <p class="form-control-static"><php> echo date('Y-m-d H:i:s', $item['finishtime']);</php></p>
+		                    </div>
+		                </div>
+	                </if>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">备注 :</label>
+	                    <div class="col-sm-9 col-xs-12"><textarea style="height:150px;" class="form-control" name="remark" cols="70">{$item['remark']}</textarea></div>
+	                </div>
+	            </div>
+	        </div>
+	        <if condition="!empty($item['addressid'])">
+	          <div class="panel panel-default">
+	            <div class="panel-heading">
+	              	收件人信息
+	            </div>
+	            <div class="panel-body">
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">姓名 :</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <p class="form-control-static">{$user['realname']}</p>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">手机 :</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <p class="form-control-static">{$user['mobile']}</p>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">地址 :</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <p class="form-control-static">{$user['address']}</p>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	        <elseif condition="$item['isverify'] eq 1" />
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	               联系人
+	            </div>
+	            <div class="panel-body">
+	                   <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">联系人姓名 :</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <p class="form-control-static">{$user['carrier_realname']} </p>
+	                    </div>
+	                </div>
+	               <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">联系人手机 :</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <p class="form-control-static">{$user['carrier_mobile']}  </p>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	        <else />
+		          <div class="panel panel-default">
+		            <div class="panel-heading">
+		               	自提信息
+		            </div>
+		            <div class="panel-body">
+		                   <div class="form-group">
+		                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">自提人姓名 :</label>
+		                    <div class="col-sm-9 col-xs-12">
+		                        <p class="form-control-static">{$user['carrier_realname']} /  {$user['carrier_mobile']}</p>
+		                    </div>
+		                </div>
+		               <div class="form-group">
+		                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">自提地点 :</label>
+		                    <div class="col-sm-9 col-xs-12">
+		                        <p class="form-control-static">{$user['address']} (联系人： {$user['realname']} / {$user['mobile']} ) </p>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+	        </if>
+	      
+			<if condition="!empty($refund)">
+		        <div class="panel panel-default">
+		            <div class="panel-heading">
+	                	退款申请
+	           		</div>
+		            <div class="panel-body">
+		                <div class="form-group">
+		                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">退款原因 :</label>
+		                    <div class="col-sm-9 col-xs-12">
+		                        <p class="form-control-static">{$refund['reason']}</p>
+		                    </div>
+		                </div>
+		                <div class="form-group">
+		                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">退款说明 :</label>
+		                    <div class="col-sm-9 col-xs-12">
+		                        <p class="form-control-static"><php> echo empty($refund['content'])?'无':$refund['content'];</php></p>
+		                    </div>
+		                </div>
+		                
+		                <div class="form-group">
+		                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+		                    <div class="col-sm-9 col-xs-12">
+		                        <if condition="$refund['status'] eq 0">
+		                        	<a class="btn btn-danger btn-sm" href="javascript:;" onclick="$('#modal-refund').find(':input[name=id]').val('{$item['id']}')" data-toggle="modal" data-target="#modal-refund">处理退款申请</a>
+		                        <elseif condition="$refund['status'] eq -1" />
+		                        	<span class='label label-default'>已拒绝</span>
+		                        <elseif condition="$refund['status'] eq 1" />
+		                        	<span class='label label-danger'>已退款</span>
+		                        </if>
+		                    </div>
+		                </div> 
+		
+		            </div>
+	        	</div>
+	        </if>
+	        <div class="panel panel-default">
+	            <div class="panel-heading">
+	               	 商品信息
+	            </div>
+	            <div class="panel-body table-responsive">
+	                <table class="table table-hover">
+	                    <thead class="navbar-inner">
+	                        <tr>
+	                            <th style="width:5%;">ID</th>
+	                            <th style="width:10%;">商品标题</th>
+	                            <th style="width:15%;">商品规格</th>
+	                            <th style="width:10%;">商品编号</th>
+	                            <th style="width:10%;">商品条码</th>
+	                       
+	                            <th style="width:20%;">现价/原价/成本价</th>
+	                            <th style="width:10%;">属性</th>
+	                            <th style="width:5%;">购买数量</th>
+	                            <!-- <th style="width:10%;color:red;">折扣前/折扣后</th> -->
+	                            <th style="width:10%;">操作</th>
+	                        </tr>
+	                    </thead>
+	                    <foreach name="item['goods']" item="goods" >
+	                    <tr>
+	                        <td>{$goods['id']}</td>
+	                        <td>
+	                        	<if condition="$category[$goods['pcate']]['name']">
+		                            <span class="text-error">[{$category[$goods['pcate']]['name']}] </span>
+		                        </if>
+		                        <if condition="$children[$goods['pcate']][$goods['ccate']][1]">
+		                            <span class="text-info">[{$children[$goods['pcate']][$goods['ccate']][1]}] </span>
+	                            </if>
+	                            {$goods['title']}
+	                        </td>
+	                        <td><span class="label label-info">{$goods['optiontitle']}</span></td>
+	                        <td>{$goods['goodssn']}</td>
+	                        <td>{$goods['productsn']}</td>
+	                        <td>{$goods['marketprice']}元 / {$goods['productprice']}元 / {$goods['costprice']}元</td>
+	                        <td>
+	                        	<if condition="$goods['status'] eq 1">
+	                        		<span class="label label-success">上架</span>
+	                        	<else />
+	                        		<span class="label label-error">下架</span>
+	                        	</if>&nbsp;
+	                        	<span class="label label-info">
+	                        		<if condition="$goods['type'] eq 1">实体商品<else />虚拟商品</if>
+	                        	</span>
+	                        </td>
+	                        <td>{$goods['total']}</td>
+	                        <!-- <td style='color:red;font-weight:bold;'>{$goods['orderprice']}/{$goods['realprice']}</td> -->
+	                        <td>  
+	                            <a href="{:U('shop/goods', array('id' => $goods['id'], 'op' => 'post'))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="bottom" title="编辑"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+	                        </td>
+	                    </tr>
+	                    </foreach>
+	                    <tr>
+	                        <td colspan="10">
+	                           <include file="ops" />
+	                        </td>
+	                    </tr>
+	                </table>
+	            </div>
+	        </div>
+		</form>
+	</div>
+	<include file="modals" />
+</block>
+<block name="script">
+<script type="text/javascript">
+	highlight_subnav("{:U('Order/list')}");
+</script>
+<script>
+	require(['bootstrap'], function ($) {
+	    $('.btn').hover(function () {
+	        $(this).tooltip('show');
+	    }, function () {
+	        $(this).tooltip('hide');
+	    });
+	});
+</script>
+</block>

@@ -1,0 +1,53 @@
+<extend name="Public/basic" />
+
+<block name="body">
+	<!-- 标题栏 -->
+	<div class="main-title">
+		<h2>钩子列表</h2>
+	</div>
+	<?php if (IS_ROOT): ?>
+		<div class="cf" style=" margin: 20px;">
+				<a class="btn btn-success" href="{:U('addhook')}">新 增</a>
+		</div>
+	<?php endif ?>
+	<div class="panel panel-default">
+		<!-- 数据列表 -->
+		<div class="table-responsive panel-body">
+			        <table class="table table-hover">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>名称</th>
+						<th>描述</th>
+						<th>类型</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="list" id="vo">
+						<tr>
+							<td>{$vo.id}</td>
+							<td><a href="{:U('edithook?id='.$vo['id'])}">{$vo.name}</a></td>
+							<td>{$vo.description}</td>
+							<td>{$vo.type_text}</td>
+							<td>
+								<a title="编辑" href="{:U('edithook?id='.$vo['id'])}">编辑</a>
+								<a class="confirm ajax-get" title="删除" href="{:U('delhook?id='.$vo['id'])}">删除</a>
+							</td>
+						</tr>
+					</volist>
+				</tbody>
+			</table>        
+		</div>
+		<!-- 分页 -->
+	    <div class="page">
+	        {$_page}
+	    </div>
+	</div>
+</block>
+
+<block name="script">
+<script type="text/javascript">
+highlight_subnav("{:U('Addons/hooks')}");
+</script>
+</block>

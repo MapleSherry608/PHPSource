@@ -1,0 +1,63 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<style type="text/css">
+	     body {margin:0px; background:#efefef; -moz-appearance:none;}
+	    .balance_img {height:80px; width:80px; margin:70px auto 0px; background:url('__HOME_REFUEL__/Img/score.png') no-repeat; border-radius:40px; color:#fff; font-size:70px; text-align:center; line-height:90px;}
+	    .balance_text {height:20px; width:100%; margin-top:16px; text-align:center; line-height:20px; font-size:16px; color:#666;}
+	    .balance_text span{height:20px; width:100%; margin-top:16px; text-align:center; line-height:20px; font-size:14px; color:#666;}
+	    .balance_num {height:24px; width:100%; margin-top:10px; text-align:center; line-height:24px; font-size:22px; color:#444;}
+	    .balance_list {height:auto; width:100%; text-align:center; color:#92b5d6; font-size:16px; margin-top:80px;}
+		.balance_sub1 {height:44px; margin:14px 5px; background:#31cd00; border-radius:4px; text-align:center; font-size:16px; line-height:44px; color:#fff;}
+		.balance_sub2 {height:44px; margin:14px 5px; background:#f49c06; border-radius:4px; text-align:center; font-size:16px; line-height:44px; color:#fff;}
+		.balance_sub3 {height:44px; margin:14px 5px;background:#e2cb04; border-radius:4px; text-align:center; font-size:16px; line-height:44px; color:#fff;}
+		
+		.pop-dialog {position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 999;display: none;}
+	    .pop-dialog .bg {width: 100%;height: 100%;position: absolute;top: 0;left: 0;opacity: 0.9;background-color: #000;}
+	    .pop-dialog .body {position: absolute;top: 0;right: 10%;width: 80%;padding-top: 46px;color: #fff;}
+	    .pop-dialog .body > p {line-height: 1.4;font-size: 14px;padding: 6px 0;}
+	    .pop-dialog .body img.icon {width: 36px;margin: 0 5px;display: inline-block;}
+	    .pop-dialog .body img.arrow {position: absolute;right: -10%;top: 0;display: block;margin-right: -13px;width: 70px;}
+	    i.icon {padding: 4px 12px;margin: 0 3px;border-radius: 3px;background-color: #3b3b3b;font-size: 14px;}
+	    a.btn {background-color: #3b3b3b;color: #fff;margin-top:15px;display: block;margin: 0 auto;padding: 10px 20px;border-radius: 3px;text-align: center;text-decoration: none;font-size: 16px;}
+	</style>
+	<link rel="stylesheet" href="__HOME_REFUEL__/Css/messagePromptBox.css" />
+</block>
+
+<block name="body">
+    <div class="balance_img"></div>
+    <div class="balance_text"><span>1积分  = 0.01元</span></div>
+    <div class="balance_text">您的当前积分</div>
+    <div class="balance_num">￥{$member['score']}</div>
+    <div class="balance_num" style="height:30px;">
+	    <form method="post" action="index.php?s=/Personal/rechargeScore" id="scoreForm">
+		    <input type="number" name="money" value='' style="width:90%; height:38px; font-size:20px; margin:auto; border:1px solid #eee; padding:0px 2%; text-align:center;" placeholder="请输入充值的金额"/>
+	    </form>
+    </div>
+   	<div class="button balance_sub2" onclick="checkSubmit()">确认充值</div>
+	<div class="balance_sub3" onclick="location.href='{:U('Personal/bondCredit')}'">充值记录</div>
+	
+	<div class="pop-dialog" onclick="$(this).hide();">
+	    <div class="bg"></div>
+	    <div class="body">
+	        <img class="arrow" src="__STATIC__/shop/images/arrow.png">
+	        <p>1. 点击右上角 <i class="fa fa-ellipsis-h"></i> 或 <i class="fa fa-ellipsis-v"></i></p>
+	        <p>2. 由于在微信中无法打开支付宝付款页面，请选择在浏览器中打开，即可访问充值页面</p>
+	        <p>3. 充值成功后，请返回到这里点击下面的返回按钮</p>
+	        <a href="{:U('Personal/index')}" class="btn">返回</a>&nbsp;
+	    </div>
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript" src="__HOME_REFUEL__/Js/messagePromptBox.js"></script>
+	<script type="text/javascript" src="__HOME_JS__/lib/jquery.gcjs.js"></script>
+	<script>
+		function checkSubmit(){
+			 var money = $("input[name='money']").val();
+			 if(money==null||money==""){
+				 scscms_alert('请输入金额');
+				 return ;
+			 }
+             $('#scoreForm').submit();
+		}
+	</script>
+</block>

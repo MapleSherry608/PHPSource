@@ -1,0 +1,132 @@
+<php>
+$url = $_SERVER['HTTP_HOST'];
+if($url=='localhost' or $url=='127.0.0.1' or filter_var($url, FILTER_VALIDATE_IP)){
+</php>
+<script type="text/javascript">
+alert("您现在的环境是本地,无法直接使用,请在服务器上运行并使用备案域名进行使用");
+</script>
+<php>}</php>
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>梦雪实体小店收款系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+<php>if($arr['version']>version){</php>
+<script type="text/javascript">
+if(confirm("发现新的版本 v{$arr.version} 更新时间{$arr.time} \r\n您需要现在去下载新版吗?")){
+    top.location='http://pay.php127.com/';
+}else{
+   //alert('选择了否'); 
+}  
+</script>
+<php>}</php>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+<style>.cb{ font-size:16px;}</style>
+<div id="content" class="white">
+
+<div class="notif warning bloc" style="color:#F00">
+    <strong>提示 :</strong> 本程序只作为测试学习使用 ,正式版请登陆 pay.php127.com
+    <a href="#" class="close"></a>
+</div>
+
+  <h1><img src="__PUBLIC__/Admin/img/icons/home.png" alt="" /> 欢迎使用梦雪实体小店收款系统 </h1>
+  
+   <div class="bloc">
+    <div class="title"> 功能介绍 </div>
+    <div class="content">
+      <div class="cb">
+      <h2>梦雪实体小店收款系统 v<php>echo version;</php></h2>
+      <p>集成微信,支付宝,京东,云支付等等第三方支付的收款系统</p>
+      <p>应用于便利店,小网吧,小商店,只须扫描二维码即可手机付款,快捷方便,实用性强,强大后台管理,统计,分析,售后营销等功能</p>
+       <h2>主扫/被扫轻松实现 </h2>
+       <p><b><foo>被动扫码收款流程 (实际为手机wap支付 微信官方为 JSAPI支付/公众号支付/H5支付等)</foo></b></p>
+       <p>(在收银台放置固定付款二维码
+       <br />->客户微信扫一扫
+       <br />->输入金额
+       <br />->确定付款
+       <br />->收银台后台收到支付信息
+       <br />->交易完成)</p>
+       <p><b><foo>主动扫码收款流程 (只支持微信 微信官方为刷卡支付)</foo></b></p>
+       <p>(在收银台放置微信收款标志告知客户可以微信支付
+       <br />->客户使用微信钱包,点付款显示二维码与条码
+       <br />->收银员在设置好收款金额(电脑或手机)
+       <br />->(扫码枪或手机)对客户进行扫码
+       <br />->直接扣取客户资金(小金额免支付密码)
+       <br />->交易完成)</p>
+      </div>
+    </div>
+  </div>
+  <style>.dashboard ul li{ font-size:16px; margin-bottom:5px;}
+  .dashboard hh{ font-size:50px; padding:0; margin:10px 0 !important;}
+  </style>
+  <div class="bloc left">
+   <div class="title"> 开发者信息 </div>
+    <div class="content dashboard" style="height:260px;">
+        <ul style=" margin-top:10px; margin-bottom:10px;">
+        <li>开发商: 梦雪网络</li>
+         <li>程序开发: 小曾</li>
+          <li>界面设计: 度娘</li>
+		   <li>交流Q群: 324098841</li>
+           <li>官方网站: <a href="http://www.php127.com" target="_blank">www.php127.com</a></li>
+        
+        </ul>
+        <div style=" margin-left:10px;">
+        <hh>"</hh><b style="color:#999; font-size:20px; margin:10px">程序虽简? <br/>但希望能解决各行各业的线下收款需求!</b><hh>"</hh>
+        </div>
+     
+      <div class="cb"></div>
+    </div>
+  </div>
+  
+  <div class="bloc right">
+    <div class="title"> 最新订单 </div>
+    <div class="content" style="height:260px;">
+      <div >
+        <table class="noalt">
+          <thead>
+            <tr>
+              <th><em>时间</em></th>
+              <th><em>金额</em></th>
+              <th><em>单号</em></th>
+             <th><em>状态</em></th> 
+            </tr>
+          </thead>
+          <tbody>
+          <volist name='list' id='vo'>
+            <tr>
+            <td>{$vo.s_time|date="Y-m-d H:i:s",###}</td>
+              <td><h4>{$vo.pay_price|get_price}</h4></td>
+              <td>{$vo.out_trade_no}</td>
+              <td><eq name='vo.ok' value='1'>
+                  <foo>已付款</foo>
+                  <else />
+                  <ofo>未支付</ofo>
+                </eq></td>
+            </tr>
+           </volist>
+          </tbody>
+        </table>
+      </div>
+      <div class="cb"></div>
+    </div>
+  </div>
+  <div class="cb"></div>
+</div>
+</body>
+</html>

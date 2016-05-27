@@ -1,0 +1,93 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<style type="text/css">
+		.table thead tr td span{ width: 100px;}
+	</style>
+</block>
+<block name="body">
+	<ol class="breadcrumb" style="padding:5px 0;">
+		<li><a href="./index.php?c=home&amp;a=welcome&amp;do=ext&amp;"><i class="fa fa-cogs"></i> &nbsp; 个人中心</a></li>
+		<li><a href="./index.php?c=home&amp;a=welcome&amp;do=ext&amp;m=allbills">主要业务模块 - 用户组</a></li>
+		<li class="active">用户组管理</li>
+	</ol>
+	<ul class="nav nav-tabs">
+		
+			<li class="active"><a href="{:U()}">用户组列表</a></li>		
+			<li><a href="{:U('Member/addgroup')}"><i class="fa fa-plus"></i>添加用户组</a></li>
+		
+	</ul>
+	<div class="clearfix">
+		<div class="panel panel-info">
+			<div class="panel-heading">筛选</div>
+			<div class="panel-body">
+				<form action="{:U('System/index')}" method="post" class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
+						<div class="col-sm-8 col-xs-12">
+							<select name="status" class="form-control">
+								<option value="-1">所有</option>
+								<option value="1">启用</option>
+								<option value="0">禁用</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">标题</label>
+						<div class="col-sm-8 col-xs-12">
+								<input class="form-control" name="title" id="" type="text" value="{$where.tiptitle}">
+						</div>
+						<div class="col-xs-12 col-sm-2 col-lg-1 text-right">
+							<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			详细数据
+		</div>
+		<div class="table-responsive panel-body">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th><span>ID</span></th>
+						<th><span>会员组名称</span></th>
+						<th><span>等级状态</span></th>
+						<!--<th><span>达到该分组的条件</span></th>-->
+						<th><span>创建时间</span></th>
+						<th><span>排序</span></th>
+						<th><span>操作</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="list" id="vo">
+						<tr>
+							<td>{$vo.id}</td>
+							<td>{$vo.title}</td>
+							<td>{$vo.status_text}</td>
+							<!--<td>{$vo.credit}</td>-->
+							<td>{$vo.createtime|time_format}</td>
+							<td>{$vo.sort}</td>
+							<td>
+								<a href="{:U('Member/addgroup',array('id'=>$vo['id']))}" data-toggle="tooltip" data-placement="top" class="btn btn-default btn-sm" data-original-title="编辑"><i class="fa fa-edit"></i></a>
+								<a href="{:U('Member/changeStatus',array('id'=>$vo['id'],'method'=>'deleteGroup','unlimited'=>1))}" onclick="return confirm('删除后不能恢复，您确定删除吗？')" class="btn btn-default btn-sm"title="禁用"><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+					</volist>
+				</tbody>
+			</table>
+			 <!-- 分页 -->
+	        <div class="page">
+				{$_page}
+	        </div>
+		</div>
+	</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+	highlight_subnav("{:U('Member/group')}");
+</script>
+</block>
+	

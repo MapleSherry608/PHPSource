@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<title>好友资料</title>
+		<link rel="stylesheet" href="__HOME_CSS__/style.css" />
+		<link rel="stylesheet" href="__HOME_PUNCH__/css/friendIndex.css"></link>
+		<link href="__HOME_CSS__/weui.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+		<link href="__HOME_CSS__/example.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+	</head>
+	<body>·
+		<div class="containerBox">
+			<div class="basicInfoBox">
+				<div class="headPic">
+					<a>
+						<img src="{$memberInfo['avatar']}">
+					</a>
+				</div>
+				<div class="basicInfo">
+					<h1><a>{$memberInfo['nickname']}</a><span class="<if condition='memberInfo.gender eq 0'>secretClass<elseif condition='memberInfo.gender eq 1'/>manClass</else>monClass</if>"></span></h1>
+					<h2>会员等级：
+						<empty name='memberInfo.levelid'>
+							<span>无等级</span>
+						<else/>
+							<span>{$memberInfo['title']}</span>
+						</empty>
+					</h2>
+				</div>
+			</div>
+			<div class="individualInfoBox">
+				<div class="individualSign">
+					<h1>个性签名</h1>
+					<h2>{$friendInfo['bio']}</h2>
+				</div>
+				<a class="sportSignDetail" href="{:U('Punchcard/signList',array('membid'=>$memberInfo['id']))}"><span>打卡记录</span><i></i></a>
+			</div>
+			<a class="sendMsg" href="javascript:void(0);">发消息</a>
+		</div>
+		<div class="weui_dialog_alert" id="dialog2" style="display: none;">
+	        <div class="weui_mask"></div>
+	        <div class="weui_dialog">
+	            <div class="weui_dialog_hd"><strong class="weui_dialog_title">系统提示</strong></div>
+	            <div class="weui_dialog_bd">亲！该功能正在努力上线</div>
+	            <div class="weui_dialog_ft">
+	                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+	            </div>
+	        </div>
+	    </div>
+		<script type="text/javascript" src="__HOME_JS__/jquery-1.9.0.min.js"></script>
+		<script type="text/javascript" src="__HOME_PUNCH__/js/common.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				clipPic($(".headPic img"),60);
+				$(".sendMsg").click(function(){
+					var $dialog = $('#dialog2');
+                    $dialog.show();
+                    $dialog.find('.weui_btn_dialog').on('click', function () {
+                        $dialog.hide();
+                    });
+				});
+			});
+		</script>
+	</body>
+</html>

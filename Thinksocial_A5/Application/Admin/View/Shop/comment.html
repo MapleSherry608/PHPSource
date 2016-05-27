@@ -1,0 +1,487 @@
+<extend name="Public/basic"/>
+<block name="style">
+	
+</block>
+<block name="body">
+	<include file="header" />
+	<link href="__STATIC__/rating/star-rating.css" media="all" rel="stylesheet" type="text/css"/>
+	<script src="__STATIC__/rating/star-rating.js" type="text/javascript"></script>
+<if condition="$arr['operation'] eq 'add'">
+<div class="main">
+    <form id="dataform" action="{:U()}" method="post" class="form-horizontal form" onsubmit='return formcheck()'>
+    	<input type="hidden" name="op" value="add">
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                  	添加评价      
+            </div>
+            <div class='panel-body'>
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span>  选择商品</label>
+                    <div class="col-sm-5">
+                        <input type='hidden' id='goodsid' name='goodsid' value="{$arr['item']['goodsid']}" />
+                        <div class='input-group'>
+                            <input type="text" name="goods" maxlength="30" <if condition="!empty($goods)">value="[{$arr['goods']['id']}]{$arr['goods']['title']}"</if> id="goods" class="form-control" readonly />
+                            <div class='input-group-btn'>
+                                <button class="btn btn-default" type="button" onclick="popwin = $('#modal-module-menus-goods').modal();">选择商品</button>
+                                <button class="btn btn-danger" type="button" onclick="$('#uid').val('');$('#user').val('');">清除选择</button>
+                            </div>
+                        </div>
+                         <span id="goodsthumb" class='help-block' <if condition="empty($goods)">style="display:none"</if> ><img  style="width:100px;height:100px;border:1px solid #ccc;padding:1px" src="{:tomedia($arr['goods']['thumb'])}"/></span>
+                          
+                        <div id="modal-module-menus-goods"  class="modal fade" tabindex="-1">
+                            <div class="modal-dialog" style='width: 920px;'>
+                                <div class="modal-content">
+                                    <div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>选择商品</h3></div>
+                                    <div class="modal-body" >
+                                        <div class="row"> 
+                                            <div class="input-group"> 
+                                                <input type="text" class="form-control" name="keyword" value="" id="search-kwd-goods" placeholder="请输入商品名称" />
+                                                <span class='input-group-btn'><button type="button" class="btn btn-default" onclick="search_goods();">搜索</button></span>
+                                            </div>
+                                        </div>
+                                        <div id="module-menus-goods" style="padding-top:5px;"></div>
+                                    </div>
+                                    <div class="modal-footer"><a href="#" class="btn btn-default" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">用户头像</label>
+                    <div class="col-sm-9 col-xs-12">
+                         {:tpl_form_field_image('headimgurl',$arr['item']['headimgurl'])}
+                         <span class='help-block'>用户头像，如果不选择，默认从粉丝表中随机读取</span>
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">用户昵称</label>
+                    <div class="col-sm-9 col-xs-12">
+                         <input type='text' class='form-control' name='nickname' value='{$arr['item']['nickname']}' />
+                         <span class='help-block'>用户昵称，如果不填写，默认从粉丝表中随机读取</span>
+                    </div>
+                </div>
+                 <div class="form-group">
+                      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 评分等级</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <input value="<php> echo intval($arr['item']['level']);</php>" type="number" name='level' class="rating" min=0 max=5 step=1 data-size="xs" >
+                    </div>
+                </div>
+                
+                  <div class="form-group">
+                      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 首次评价</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <textarea name='content' class="form-control">{$arr['item']['content']}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                          {:tpl_form_field_multi_image('images',iunserializer($arr['item']['images']))}
+                    </div>
+                </div>
+          
+                
+                 <div class="form-group">
+                      <label class="col-xs-12 col-sm-3 col-md-2 control-label">首次回复</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <textarea name='reply_content' class="form-control">{$arr['item']['reply_content']}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                          {:tpl_form_field_multi_image('reply_images',iunserializer($arr['item']['reply_images']))}
+                    </div>
+                </div>
+                
+                  <div class="form-group">
+                      <label class="col-xs-12 col-sm-3 col-md-2 control-label">追加评价</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <textarea name='append_content' class="form-control">{$arr['item']['append_content']}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                          {:tpl_form_field_multi_image('append_images',iunserializer($arr['item']['append_images']))}
+                    </div>
+                </div>
+                
+                 <div class="form-group">
+                      <label class="col-xs-12 col-sm-3 col-md-2 control-label">追加回复</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <textarea name='append_reply_content' class="form-control">{$arr['item']['append_reply_content']}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                          {:tpl_form_field_multi_image('append_reply_images',iunserializer($arr['item']['append_reply_images']))}
+                    </div>
+                </div>
+                
+                
+            <div class="form-group"></div>
+            
+            <div class="form-group">
+	            <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+	            <div class="col-sm-9 col-xs-12">
+	               <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"  />
+	               <input type="button" name="back" onclick='history.back()' style='margin-left:10px;' value="返回列表" class="btn btn-default" />
+	            </div>
+            </div>
+                    
+            </div>
+        </div>
+     
+    </form>
+</div>
+<script language='javascript'>
+    $(function(){
+          $(".rating").rating({});
+    });
+    function formcheck(){
+        if($(':input[name=goods]').val()==''){
+            Tip.focus($(':input[name=goods]'),'请选择要评价的商品!');
+            return false;
+        }
+        if($(':input[name=level]').val()=='0'){
+            alert('请选择评价等级!');
+            return false;
+        }
+        if($.trim($('textarea[name=content]').val())==''){
+            alert('请填写评价内容!');
+            $('textarea[name=content]').focus();
+            return false;
+        }
+        if($.trim($('textarea[name=append_content]').val())==''){
+             if($.trim($('textarea[name=append_reply_content]').val())!=''){
+                    alert('请填写追加评价后才能添加追加回复!');
+                    return false;
+             }
+        }
+        return true;
+	}
+   	function search_goods() {
+        if( $.trim($('#search-kwd-goods').val())==''){
+            Tip.focus('#search-kwd-goods','请输入关键词');
+            return;
+        }
+		$("#module-menus-goods").html("正在搜索....")
+		$.get('{php echo $this->createWebUrl('shop/query')}', {
+			keyword: $.trim($('#search-kwd-goods').val())
+		}, function(dat){
+			$('#module-menus-goods').html(dat);
+		});
+	}
+	function select_good(o) {
+    	$("#goodsid").val(o.id);
+        $("#goodsthumb").show();
+        $("#goodsthumb").find('img').attr('src', o.thumb);
+        $("#goods").val( "[" + o.id + "]" + o.title);
+      	$("#modal-module-menus-goods .close").click();
+	}
+</script>
+
+<elseif condition="$arr['operation'] == 'post'" />
+<style type='text/css'>
+    .multi-item { height:110px;}
+    .img-thumbnail { width:100px;}
+    .img-nickname { position: absolute;bottom:0px;line-height:25px;height:25px;
+                    color:#fff;text-align:center;width:90px;bottom:55px;background:rgba(0,0,0,0.8);left:5px;}
+    .multi-img-details { padding:5px;}
+</style>
+<div class="main">
+    <form id="dataform" action="" method="post" class="form-horizontal form" onsubmit='return formcheck()' >
+        <input type="hidden" name="id" value="{$arr['item']['id']}" />
+        <div class='panel panel-default'>
+            <div class='panel-heading'>
+                 	回复评价
+            </div>
+            <div class='panel-body'>
+                     <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">订单号</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <div class='form-control-static'>{$arr['order']['ordersn']}</div>
+                    </div>
+                     </div>
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">评价商品</label>
+                    <div class="col-sm-9 col-xs-12">
+                   		<input type="text" name="goods" maxlength="30" <if condition="!empty($goods)">value="[{$goods['id']}]{$goods['title']}"</if> id="goods" class="form-control" readonly />
+	                	<span id="goodsthumb" class='help-block' <if condition="empty($goods)">style="display:none"</if> >\
+	                     	<img  style="width:100px;height:100px;border:1px solid #ccc;padding:1px" src="{:tomedia($goods['thumb'])}"/>
+	                    </span>
+                    </div>
+                </div>
+                <div class="form-group">
+	                <label class="col-xs-12 col-sm-3 col-md-2 control-label">评价者</label>
+	                <div class="col-sm-9 col-xs-12">
+	                	<input type="text" name="goods" maxlength="30" value="{$arr['item']['nickname']}" id="goods" class="form-control" readonly />
+	                    <span id="goodsthumb" class='help-block' >
+	                    	<img  style="width:100px;height:100px;border:1px solid #ccc;padding:1px" src="{:tomedia($arr['item']['headimgurl'])}"/>
+	                    </span>
+	                </div>
+                </div>
+                 <div class="form-group">
+                      <label class="col-xs-12 col-sm-3 col-md-2 control-label">评分等级</label>
+                    <div class="col-sm-9 col-xs-12">
+                    	<div class="form-control-static" style='color:#ff6600'>
+                    		<i class='fa fa-star'></i><!-- <i class='fa fa-star-o'></i> -->
+                        </div>
+                    </div>
+                </div>
+                
+                  <div class="form-group">
+                      <label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style='color:red'>*</span> 首次评价</label>
+                    <div class="col-sm-9 col-xs-12">
+                          <div class="form-control-static">{$arr['item']['content']}</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                        <div class="input-group multi-img-details">
+                            <php>$images = iunserializer($arr['item']['images']);</php>
+                            <volist name="images" id="img">
+	                            <div class="multi-item">
+	                                <a href='{:tomedia($img)}' target='_blank'>
+	                                <img class="img-responsive img-thumbnail" src='{:tomedia($img)}' onerror="this.src='./resource/images/nopic.jpg'; this.title='图片未找到.'">
+	                                </a>
+	                            </div>
+                            </volist>
+                        </div>
+                    </div>
+                </div>
+          
+                
+                 <div class="form-group">
+                      <label class="col-xs-12 col-sm-3 col-md-2 control-label">首次回复</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <textarea name='reply_content' class="form-control">{$arr['item']['reply_content']}</textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+                    <div class="col-sm-9 col-xs-12">
+                          {:tpl_form_field_multi_image('reply_images',iunserializer($arr['item']['reply_images']))}
+                    </div>
+                </div>
+                <if condition="!empty($arr['item']['append_content'])" >
+                
+	                <div class="form-group">
+	                      <label class="col-xs-12 col-sm-3 col-md-2 control-label">追加评价</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                         <div class="form-control-static">{$arr['item']['append_content']}</div>
+	                    </div>
+	                </div>
+                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+	                    <div class="col-sm-9 col-xs-12">
+	                    	<div class="input-group multi-img-details">
+	                         	<php>$append_images = iunserializer($arr['item']['append_images']);</php>
+	                            <volist name="append_images" id="img">
+		                            <div class="multi-item">
+		                                <a href='{:tomedia($img)}' target='_blank'>
+		                                <img class="img-responsive img-thumbnail" src='{:tomedia($img)}' onerror="this.src='./resource/images/nopic.jpg'; this.title='图片未找到.'">
+		                                </a>
+		                            </div>
+	                            </volist>
+	                        </div>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                      <label class="col-xs-12 col-sm-3 col-md-2 control-label">追加回复</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <textarea name='append_reply_content' class="form-control">{$arr['item']['append_reply_content']}</textarea>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+	                    <div class="col-sm-9 col-xs-12">
+	                          {:tpl_form_field_multi_image('append_reply_images',iunserializer($arr['item']['append_reply_images']))}
+	                    </div>
+	                </div>
+	                
+                </if>
+                
+                
+	            <div class="form-group"></div>
+	            
+	            <div class="form-group">
+	                <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+	                <div class="col-sm-9 col-xs-12">
+	                   <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"  />
+	                   <input type="button" name="back" onclick='history.back()' style='margin-left:10px;' value="返回列表" class="btn btn-default" />
+	                </div>
+	            </div>
+                    
+            </div>
+        </div>
+    </form>
+</div>
+<script language='javascript'>
+	function formcheck(){
+        if($.trim($('textarea[name=reply_content]').val())==''){
+            alert('请填写首次回复内容!');
+            $('textarea[name=reply_content]').focus();
+            return false;
+        }
+        if("{$item['append_reply_content']}"!=''){
+        	if($.trim($('textarea[name=append_reply_content]').val())==''){
+                alert('请填写追加回复内容!');
+                $('textarea[name=append_reply_content]').focus();
+                return false;
+            }
+        }
+        return true;
+    }
+</script>
+<elseif condition="$arr['operation'] == 'display'" />
+<form action="" method="get" class='form form-horizontal'>
+    <div class="panel panel-info">
+        <div class="panel-heading">筛选</div>
+        <div class="panel-body">
+            <form action="" method="post" class="form-horizontal" plugins="form">
+                <div class="form-group">
+                  <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关键词</label>
+                    <div class="col-xs-12 col-sm-8 col-lg-9">
+                        <input class="form-control" name="keyword" id="" type="text" value="{$_POST['keyword']}" placeholder="可搜索订单号/商品标题">
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">类型</label>
+                       <div class="col-xs-12 col-sm-8 col-lg-9">
+                       <select name='fade' class='form-control'>
+                          <option value='' <if condition="$_POST['fade'] eq ''">selected</if> ></option>
+                          <option value='0' <if condition="$_POST['fade'] eq 0">selected</if>>模拟评价</option>
+                          <option value='1' <if condition="$_POST['fade'] eq 1">selected</if> >真实评价</option>
+                       </select> 
+                     </div>
+                </div>
+                    <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">回复状态</label>
+                       <div class="col-xs-12 col-sm-8 col-lg-9">
+                       <select name='replystatus' class='form-control'>
+                          <option value='' <if condition="$_POST['replystatus'] eq ''">selected</if>></option>
+                          <option value='0' <if condition="$_POST['replystatus'] eq 0">selected</if>>需要首次回复</option>
+                          <option value='1' <if condition="$_POST['replystatus'] eq 1">selected</if>>需要追加回复</option>
+                       </select> 
+                     </div>
+                </div>
+                
+                 <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">按时间</label>
+                     <div class="col-sm-2">
+                       <select name='searchtime' class='form-control'>
+                          <option value='' <if condition="$_POST['searchtime'] eq ''">selected</if> >不搜索</option>
+                          <option value='1' <if condition="$_POST['searchtime'] eq 1">selected</if> >搜索</option>
+                       </select> 
+                     </div>
+                    <div class="col-sm-7 col-lg-9 col-xs-12">
+                        {:tpl_form_field_daterange('time', array('starttime'=>date('Y-m-d H:i', $arr['starttime']),'endtime'=>date('Y-m-d  H:i', $arr['endtime'])),true);}
+                    </div>
+ 
+                </div>
+                
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"> </label>
+                      <div class="col-xs-12 col-sm-2 col-lg-2">
+                        <button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+                    </div>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+    
+    <div class='panel panel-default'>
+        <div class='panel-heading' >
+          	  评价管理 (数量: {$total}  条)
+        </div>
+        <div class='panel-body'>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style='width:200px;'>订单号</th>
+                        <th style='width:300px;'>商品信息</th>
+                        <th style='width:200px;'>评价者</th>
+                        <th style='width:200px;' >评分等级</th>
+ 
+                        <th style='width:100px;'>评价状态</th>
+                        <th style='width:100px;'>回复状态</th>
+                        
+                        <th  style='width:150px;'>评价时间</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="arr['list']" id="row">
+	                    <tr>
+	                        <td>
+                            	<label class='label label-default'>模拟评价</label>
+	                        </td>
+	                        <td><img src="{:tomedia($row['thumb'])}" style="width: 30px; height: 30px;border:1px solid #ccc;padding:1px;">{$row['title']}</td>
+	                        <td><img src="{:tomedia($row['headimgurl'])}" style="width: 30px; height: 30px;border:1px solid #ccc;padding:1px;">{$row['nickname']}</td>
+	                        <td style="color:#ff6600">
+	                          <i class='fa fa-star'></i><!-- <i class='fa fa-star-o'></i> -->
+	                        </td>
+	                        <td>
+	                        	<if condition="!empty($row['append_content'])">
+	                            	<label class='label label-warning'>追加了评价</label>
+	                            <else />
+	                            	<label class='label label-primary'>首次回复</label>
+	                            </if>
+	                        </td>
+	                            <td>
+	                            <if condition="empty($row['reply_content'])">
+	                                <label class='label label-danger'>未首次回复</label>
+	                            <else />
+	                               <label class='label label-danger'>已首次回复</label>
+	                            </if>
+	                            <if condition="!empty($row['append_content'])">
+	                                <if condition="empty($row['append_reply_content'])">
+	                                	<label class='label label-warning'>未追加回复</label>
+	                                </if>
+	                            </if>
+	                        </td>
+	                             <td ><php> echo date('Y-m-d H:i:s', $row['createtime']);</php></td>
+	                        <td>
+	                        	<if condition="!empty($row['openid'])">
+		                           <a class='btn btn-default'  href="{:U('shop/comment', array('op' => 'post', 'id' => $row['id']))}" title='进行回复'><i class="fa fa-reply"></i></a>
+		                           <a class='btn btn-default'  href="{:U('shop/comment', array('op' => 'add', 'id' => $row['id']))}" title='修改评价'><i class="fa fa-edit"></i></a>
+	                            </if>
+	                            <a class='btn btn-default'  href="{:U('shop/comment', array('op' => 'add', 'goodsid' => $row['goodsid']))}" title='添加此商品评价'><i class="fa fa-plus"></i></a>
+	                            <a class='btn btn-default'  href="{:U('shop/comment', array('op' => 'delete', 'id' => $row['id']))}" onclick="return confirm('确认删除此评价吗？');return false;"><i class="fa fa-remove"></i></a>
+	                        </td>
+	                    </tr>
+                    </volist>
+                </tbody>
+            </table>
+           	{$_page}
+        </div>
+        <div class='panel-footer'>
+        	<a class='btn btn-default' href="{:U('shop/comment',array('op'=>'add'))}"><i class='fa fa-plus'></i> 添加评价</a>
+        </div>
+    </div>
+</form>
+</if>
+</block>
+<block name="script">
+<script>
+	highlight_subnav("{:U('Shop/goods')}");
+	require(['bootstrap'], function ($) {
+	    $('.btn').hover(function () {
+	        $(this).tooltip('show');
+	    }, function () {
+	        $(this).tooltip('hide');
+	    });
+	});
+</script>
+</block>

@@ -1,0 +1,19 @@
+<notempty name="activityList">
+	<volist name="activityList" id="active">
+		<a href="{:U('Activity/detail',array('activeid'=>$active['id']))}">
+			<div class="bannerBox">
+	       		<img src="{$active['conver_pic']|tomedia}" height="250">
+	      		<div class="bannerTitle">{$active['title']}</div>
+		        <div class="priceTagBox">
+		        	<if condition="$active['if_fee'] eq 0">
+		           	    <h1>免费</h1>
+		        	<else/>
+			             <h1>￥{$active['active_fee']}</h1>
+		        	</if>
+		            <p>{$active['start_time']|date="Y-m-d H:i",###}</p>
+		        </div>
+		    </div>
+	    </a>
+	</volist>
+	<input type="hidden" value="{$nextNumber}" class="nextnum">
+</notempty>

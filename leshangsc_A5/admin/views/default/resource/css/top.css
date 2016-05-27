@@ -1,0 +1,68 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	background:url(../images/top_bg.jpg) repeat-x;
+	font-family:"microsoft yahei";
+}
+.sitename{
+	width:164px;
+	height:32px;
+	margin-top:49px;
+	margin-left:30px;
+	float:left;
+	background:url(../images/top_logo.jpg) no-repeat;
+}
+.v_line{
+	width:2px;
+	height:53px;
+	background:url(../images/vertical_line.gif) repeat-y;
+	float:left;
+	margin-top:39px;
+	margin-left:33px;
+}
+.nav{
+	float:left;
+	margin-top:26px;
+	margin-left:33px;
+}
+.nav ul li.selected{
+	width:96px;
+	height:81px;
+	background:url(../images/nav_bg.gif) 0px 0px no-repeat;
+	color:#fff;
+}
+.nav ul li.selected a{
+	color:#fff;
+}
+.nav ul li.selected a:hover{
+	color:#ccc;
+	background:#53527b;
+}
+.nav ul li {
+	width:96px;
+	height:81px;
+	line-height:81px;
+	float:left;
+	background:url(../images/nav_bg.gif) -96px 0px no-repeat;
+	list-style-type:none;
+	text-align:center;
+	font-size:15px;
+}
+.nav ul li a{
+	width:96px;
+	height:81px;
+	display:block;
+	color:#b7b6e3;
+	text-decoration:none;
+}
+.nav ul li a:hover{
+	background:#615e90;
+}
+.admin_info{
+	float:right;
+	margin-right:80px;
+	height:40px;
+	line-height:20px;
+	font-size:12px;
+	color:#fff;
+}

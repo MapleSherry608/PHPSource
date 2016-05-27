@@ -1,0 +1,229 @@
+@charset "utf-8";
+/* CSS Document */
+body{
+	padding:10px;
+	background:url(../images/corner.gif) no-repeat left top #f3f3f3 fixed;
+	font-family:"microsoft yahei";
+	height:100%;
+}
+.info_bar{
+	height:36px;
+	line-height:36px;
+	font-size:14px;
+	color:#545454;
+	font-weight:bold;
+}
+.info_bar .title_left{
+	width:19px;
+	height:36px;
+	float:left;
+	background:url(../images/title_bg_left.gif) no-repeat;
+}
+.info_bar .title_bg{
+	height:34px;
+	background:url(../images/title_bg.gif) repeat-x;
+	border:1px solid #dfdfdf;
+	border-left:none;
+}
+.class_bar{
+	border:1px solid #666;
+	background:#666;
+	padding:3px;
+	text-align:right;
+	font-size:12px;
+	line-height:25px;
+	text-indent:1em;
+	color:#fff;
+	font-weight:bold;
+}
+.info{
+	font-size:12px;
+	color:#717171;
+	background:#F3F3F3;
+	color:#666;
+	margin-top:1px;
+	
+}
+.info a{
+	text-decoration:none;
+	color:#666;
+}
+.info a:hover{
+	color:#399;
+}
+.info ul li{
+	height:35px;
+	line-height:35px;
+	background:#d7d7d7;
+	border-bottom:1px solid #c5c5c5;
+	text-indent:1.5em;
+	margin-bottom:1px;
+	font-size:12px;
+}
+.fun_bar{
+	padding:5px;
+	margin:10px 0px;
+	border:1px solid #ccc;
+	background:#EAEAEA;
+}
+.fun_bar .oper{
+	float:left;
+}
+.fun_bar .page{
+	float:right;
+	height:30px;
+	line-height:30px;
+	font-size:12px;
+	margin-right:10px;
+	color:#333C37;
+}
+.fun_bar .page a{
+	color:#F00;
+	text-decoration:none;
+}
+.fun_bar .page a:hover{
+	color:#F60;
+}
+.line{
+	border-bottom:1px dotted #333;
+}
+.admin_button{
+	width:60px;
+	height:30px;
+}
+.tips{
+	font-size:14px;
+	color:red;
+	margin-left:5px;
+}
+.input_box{
+	width:250px;
+	height:25px;
+	border:1px solid #999999;
+	border-radius:3px;
+	font-size:14px;
+}
+.input_box:focus{
+	outline:none;
+	border:1px solid #666666;
+	background:#666666;
+	color:#fff;
+}
+.textarea_box{
+	font-size:14px;
+}
+.info .main_list{
+	height:30px;
+	line-height:30px;
+	color:#F00;
+	font-weight:bold;
+}
+
+
+.info .title_color{
+	background:#7b79a0;
+	color:#fff;
+}
+.info .left_color{
+	background:#fff;
+}
+.info .body_color{
+	background:#fff;
+}
+.info .product_list{
+	padding:5px;
+}
+.info .product_list span{
+	float:left;
+	margin-left:10px;
+}
+.info .product_list .p_img{
+	border:2px solid #ccc;
+}
+.info .product_list .p_img img{
+	width:45px;
+	height:45px;
+}
+
+.label-box ul li{
+	width:60px;
+	height:20px;
+	line-height:20px;
+	border:1px solid #ccc;
+	float:left;
+	margin-right:10px;
+	font-size:12px;
+	text-align:center;
+}
+.label-box ul li:hover{
+	cursor:pointer;
+	background:#999;
+	color:#fff;
+}
+.admin_button{
+	border:0px;
+	width:94px;
+	height:31px;
+	background:url(../images/admin_button_bg.jpg) no-repeat;
+}
+.admin_button:hover{
+	color:#fff;
+	background:url(../images/admin_button_bg.jpg) -94px 0px no-repeat;
+}
+.all_select {
+	cursor:pointer;
+}
+.spec {
+	width:100px;
+	height:25px;
+	border:1px dotted #FF6600;
+	background:#FF9900;
+	float:left;
+	line-height:25px;
+	margin-right:5px;
+	color:#fff;
+}
+.add_spec{
+	width:100px;
+	height:25px;
+	line-height:25px;
+	border:1px solid #0066FF;
+	background:#0099FF;
+	color:#fff;
+	float:left;
+	text-align:center;
+	display:block;
+	cursor:pointer;
+	display:none;
+}
+.add_spec:hover{
+	border:1px solid #3366CC;
+	background:#33CCCC;
+}
+.green{
+	color:#33CC00;
+}
+.red{
+	color:#FF0000;
+}
+.green_l a{
+	color:#33CC00;
+	text-decoration:none;
+}
+.green_l a:hover{
+	color:#690;
+}
+.submit_button{
+	width:80px;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	background:#F60;
+	color:#fff;
+	font-size:14px;
+	border:none;
+}
+.submit_button:hover{
+	background: #F90;
+	cursor:pointer;
+}

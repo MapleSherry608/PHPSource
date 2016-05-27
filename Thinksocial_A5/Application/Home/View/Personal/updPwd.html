@@ -1,0 +1,33 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<link rel="stylesheet" href="__HOME_CSS__/personal/style.css" />
+	<style>
+		body{background-color: #F2F2F2;}
+		.new_pwd{height: 70px;line-height: 70px;margin-left:10%;color: #7E7E7E;font-weight: bold;font-size: 20px;}
+		.input_box{border:thin solid #DEDEDE;margin-left: 5%;width:90%;height:35px;border-radius: 10px;background-color: #DEDEDE;}
+		input{height: 35px;margin-left: 10px;border: none;width:95%;background-color: #DEDEDE;}
+		.true_btn{position: fixed;bottom: 0px;height: 80px;line-height: 80px;width:100%;color:white;font-size: 24px;text-align: center;background-color:#888888;}
+	</style>
+</block>
+<block name="body">
+	<div class="containerBox">
+		<div class="new_pwd">新登密码</div>
+		<div class="input_box">
+			<input name="password" class="ajax_post_pwd" type="password"/>
+		</div>
+		<div class="new_pwd">确认新登入密码</div>
+		<div class="input_box">
+			<input name="verifyPassword" class="ajax_post_pwd" type="password"/>
+		</div>
+		<div class="new_pwd">新支付密码</div>
+		<div class="input_box">
+			<input name="paypwd" class="ajax_post_pwd" type="password"/>
+		</div>
+		<div class="new_pwd">确认新支付密码</div>
+		<div class="input_box">
+			<input name="verifyPaypwd" class="ajax_post_pwd" type="password"/>
+		</div>
+		<div class="true_btn ajax-post" url="{:U('')}" target-form='ajax_post_pwd'>确定</div>
+	</div>
+	<div id="top-alert"></div>
+</block>

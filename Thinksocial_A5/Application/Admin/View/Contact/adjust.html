@@ -1,0 +1,46 @@
+<div class="form-group">
+	<label class="col-xs-12 col-sm-2">活动名称:</label>
+	<div class="col-xs-12 col-sm-6">
+		<input class="form-control" readonly="readonly" style="background-color:white;" type="text" value="{$apply['title']}" >
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-2">报名者:</label>
+	<div class="col-xs-12 col-sm-6">
+		<input class="form-control" readonly="readonly" style="background-color:white;" type="text" value="{$apply['realname']}" >
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-2">手机:</label>
+	<div class="col-xs-12 col-sm-6">
+		<input class="form-control" readonly="readonly" style="background-color:white;" type="text" value="{$apply['mobile']}" >
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-2">报名时间:</label>
+	<div class="col-xs-12 col-sm-6">
+		<input class="form-control" readonly="readonly" style="background-color:white;" type="text" value="{$apply['add_time']}" >
+		<input type="hidden" class="ifCharge" value="{$apply['if_fee']}"/>
+	</div>
+</div>
+<notempty name="$apply.signup_pics">
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-2">上传图片:</label>
+		<div class="col-xs-12 col-sm-6">
+			<img src="{$_W['attachurl']}{$apply['signup_pics']}" style="width:100px;height:100px;"/>
+		</div>
+	</div>
+</notempty>
+<hr/>
+<notempty name="applyInfo">
+<h4>报名信息</h4>
+<hr/>
+	<volist name="applyInfo" id="vo">
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2">{$vo.user_info}:</label>
+			<div class="col-xs-12 col-sm-6">
+				<input class="form-control" readonly="readonly" style="background-color:white;" type="text" value="{$vo.user_value}" >
+			</div>
+		</div>
+	</volist>
+</notempty>

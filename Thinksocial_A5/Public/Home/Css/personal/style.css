@@ -1,0 +1,27 @@
+@charset "utf-8";
+@font-face {font-family:'方正体'; src: url("../fonts/FZDengXian.ttf")}  
+*{
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+}
+body{
+	margin: 0px;
+	padding: 0px;
+}
+div{
+	margin: 0px;
+	padding: 0px;
+}
+ul{
+	list-style: none;
+	margin:0px;
+	padding: 0px;
+}
+.containerBox{
+	padding: 0px;
+	font-family:"方正体";
+	margin: 0px;
+}
+
+

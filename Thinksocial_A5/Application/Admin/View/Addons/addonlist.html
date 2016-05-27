@@ -1,0 +1,39 @@
+<extend name="Public/basic" />
+
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="./index.php?c=home&amp;a=welcome&amp;do=ext&amp;">账号概况 - 扩展功能概况</a></li>
+	</ul>
+	<div class="clearfix welcome-container">
+		<div class="page-header">
+			<h4><i class="fa fa-cubes"></i> 已启用的模块</h4>
+		</div>
+		<div class="panel panel-default row">
+			<div class="table-responsive panel-body">
+				<table class="table">
+					<tbody>
+						<tr>
+							<th style="width:10%">ID</th>
+							<th style="width:15%">标识</th>
+							<th style="width:15%">模块名称</th>
+							<th>描述</th>
+						</tr>
+						<foreach name="list" item="vo" >
+							<tr>
+								<td>{$vo.id}</td>
+								<td>{$vo.name}</td>
+								<td>{$vo.title} </td>
+								<td>{$vo.description} </td>
+							</tr>
+						</foreach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav("{:U('Addons/addonlist')}");
+	</script>
+</block>

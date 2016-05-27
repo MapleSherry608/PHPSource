@@ -1,0 +1,182 @@
+<extend name="Public/basic"/>
+<block name="title"><title>个人信息</title></block>
+<block name="style">
+	<link rel="stylesheet" href="__HOME_CSS__/personal/style.css" />
+	<style type="text/css">
+		.myself_info{width: 100%;padding: 15px 20px;color:#9d9d9d;box-sizing: border-box;overflow: hidden;}
+		.myself_info .avatar_box{float: left;width:70px;height:70px;border-radius: 100px;background-color: brown;margin-left: 15px;}
+		.myself_info .avatar_box img{width:70px;height:70px; border-radius:100px}
+		.myself_info .user_name{width:50%;height: 20px;float: left;text-align: center;}
+		.myself_info .user_id{float: right;height: 70px;float:right;line-height: 70px;margin-right: 15px;}
+		.more_box{margin: 0px;}
+		.more_item{margin: 10px 10px;font-size: 17px;padding: 0px; color:#e4e4e4}
+		.more_item label{margin: 10px 0px; margin-left: 10px; font-size: 16px;color: #757575;}
+		.more_item>div{margin: 10px 0px; font-size: 17px; background-color: #e5e5e5; padding: 10px; border-radius: 5px;}
+		.more_item .text-input{width: 100%;height: 20px;line-height: 20px;  border-radius: 5px; background:transparent;border:0;outline: none; font-size: 16px;color: #757575;}
+		.more_item .text-textbox{ width: 100%; border-radius: 5px; background:transparent;border:0;}
+		.more_item .selectContent{width: 100%;height: 20px;line-height: 20px;font-size: 16px;color: #757575;position: relative;}
+		.more_item .selectContent select{position: absolute;top: 0;left: 0;opacity: 0; z-index: 10;}
+		.submit_more_item{margin:0 10px; background-color: #888888; border-radius: 5px;margin-bottom: 15px;}
+		.submit_more_item #submit{width: 100%;height: 42px;line-height: 42px;text-align: center; border: none;background: none;font-size: 16px;color: #fff;}
+	</style>
+</block>
+<block name="body">
+<div class="containerBox">
+	<form action="{:U()}" method="post" class="form-horizontal">
+	<div class="myself_info">
+		<div class="avatar_box">
+			<img src="{$memb['avatar']}"/>
+			<input type="hidden" name="avatar" value="{$memb['avatar']}" />
+		</div>
+		<div class="user_id">头像</div>
+	</div>
+	<div class="more_box">
+		<foreach name='mfile' item="vo1" key="ke1" >
+			<if condition="$vo1['control']['status']">
+			<switch name="vo1['type']">
+			    <case value="1"><!--选择框-->
+			    	<div class="more_item">
+						<label>{$vo1['showname']}</label>
+						<div>
+							<div class="selectContent">
+								<span>保密</span>
+								<select class="text-input" name="{$vo1['mfield']}">
+						    		<volist name=":parse_field_attr($vo1)" id="vo2">
+						    			<option value="{$vo2['ovalue']}">{$vo2['oname']}</option>
+						    		</volist>
+						    	</select>
+							</div>
+					    	<script type="text/javascript">
+					    		$(function(){
+					    			setFromValue("{$vo1['mfield']}",{$memb[$vo1['mfield']]});
+					    			$("select.text-input").siblings("span").text($(this).find('option:selected').text());
+					    		});
+					    		$("select.text-input").change(function(){
+					    			$(this).siblings("span").text($(this).find('option:selected').text());
+					    		});
+					    	</script>
+						</div>
+					</div>
+				</case>
+			    <case value="2"><!--文本域-->
+			    	<div class="more_item">
+						<label>{$vo1['showname']}</label>
+						<div><textarea class="text-input" name="{$vo1['mfield']}">{$memb[$vo1['mfield']]}</textarea></div>
+					</div>
+			    </case>
+			    <case value="3"><!--图片框-->
+			    	<div class="more_item">
+						<label>{$vo1['showname']}</label>
+						<div><input class="text-input" name="{$vo1['mfnicknameield']}" value="{$memb[$vo1['mfield']]}"></div>
+					</div>
+			    </case>
+			    <case value="4"><!--日期框-->
+			     	<div class="more_item">
+						<label>{$vo1['showname']}</label>
+						<div>
+							<!-- 日期插件 -->
+							<link rel="stylesheet" href="__HOME_REFUEL__/Css/normalize3.0.2.min.css" />
+							<link rel="stylesheet" href="__HOME_REFUEL__/Css/mobiscroll.css" />
+							<link rel="stylesheet" href="__HOME_REFUEL__/Css/mobiscroll_date.css" />
+							<input type="text" readonly="readonly" class="text-input" name="{$vo1['mfield']}" value="{$memb[$vo1['mfield']]}" id="date_pulg">
+							<!-- 日期插件JS -->
+							<script type="text/javascript" src="__HOME_REFUEL__/Js/mobiscroll_date.js"  charset="gb2312"></script>
+							<script type="text/javascript" src="__HOME_REFUEL__/Js/mobiscroll.js"></script>
+							<script type="text/javascript">
+								/*日期*/
+								var currYear = (new Date()).getFullYear();	
+								var opt={};
+								opt.date = {preset : 'date'};
+								opt.default = {
+									theme: 'sense-ui', //皮肤样式
+									display: 'modal', //显示方式 
+									mode: 'scroller', //日期选择模式
+									dateFormat: 'yy-mm-dd',
+									lang: 'zh',
+									startYear: currYear - 50, //开始年份
+									endYear: currYear + 10 //结束年份
+								};
+								$("#date_pulg").mobiscroll($.extend(opt['date'], opt['default']));
+								$(".activate_plug").click(function(){
+									if(judgeOpenid()){
+										return;
+									}
+									$("#date_pulg").focus();
+								});
+								
+								if($("#refuelId").val() != ""){
+									mark = true;
+								}
+							</script>
+						</div>
+					</div>
+			    </case>
+			    <default /><!--文本框-->
+			    <div class="more_item">
+					<label>{$vo1['showname']}</label>
+					<div><input class="text-input" name="{$vo1['mfield']}" value="{$memb[$vo1['mfield']]}"></div>
+			    </div>
+			</switch>
+			</if>
+		</foreach>
+	</div>
+	
+	<div class="submit_more_item">
+		<input name="id" type="hidden" value="{$memb['id']}"/>
+		<input  id="submit" type="submit" target-form="form-horizontal" value="确 定"/>
+	</div>
+	</form>
+</div>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		function setFromValue(name, value){
+			var first = name.substr(0,1), input, i = 0, val;
+			if(value === "") return;
+			if("#" === first || "." === first){
+				input = $(name);
+			} else {
+				input = $("[name='" + name + "']");
+			}
+	
+			if(input.eq(0).is(":radio")) { //单选按钮
+				input.filter("[value='" + value + "']").each(function(){this.checked = true});
+			} else if(input.eq(0).is(":checkbox")) { //复选框
+				if(!$.isArray(value)){
+					val = new Array();
+					val[0] = value;
+				} else {
+					val = value;
+				}
+				for(i = 0, len = val.length; i < len; i++){
+					input.filter("[value='" + val[i] + "']").each(function(){this.checked = true});
+				}
+			} else {  //其他表单选项直接设置值
+				input.val(value);
+			}
+		}
+		
+		$('.avatar_box').click(function(){
+			if(confirm('点击以后系统将自动同步微信信息，是否继续？')){
+				$.ajax({
+					type:"get",
+					url:"<?php echo U('Personal/synchroniz');?>",
+					async:true,
+					success: function(data, textStatus){
+						if(data.status){
+							location.reload();
+						}else{
+							alert(data.info);
+						}
+					},
+					error:function(XMLHttpRequest, textStatus, errorThrown){
+						console.log(XMLHttpRequest);
+					}
+				});
+			}
+		});
+		$('.user_id').click(function(){
+			$('.avatar_box').click();
+		});
+	</script>
+</block>

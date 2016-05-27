@@ -1,0 +1,77 @@
+<extend name="Public/basic"/>
+<block name="body">
+	<!-- 发送文本消息 -->	
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				和 <span class="text-danger"> {$nickname}</span> 的聊天记录
+			</div>
+			<div class="panel-body" id="log" style="max-height:400px;overflow-y:scroll">
+				<!--<div id="more" data-id="{$maxid}" class="text-center more text-info"><i class="fa fa-clock-o"></i> 查看更多消息</div>  -->
+				<div id="prev" data-id="{$maxid}">
+					<div id="position"></div>
+				</div>
+				<div id="last" data-id="{$maxid}" style="margin-bottom:30px;">{$maxid}</div>
+			</div>
+	   </div>
+		<form  class="form-horizontal" >
+			<div class="panel panel-default">
+				<div class="form-group"></div>     
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+						style="width: 130px;">回复内容</label>
+					<div class="col-sm-8 col-lg-9 col-xs-12">
+					    <input type="hidden" name="id" value="{$fanid}" id="fanid"/>
+						<textarea class="form-control" name="content" id="Mescontent" type="text"></textarea>
+					</div>
+				</div>
+			</div>
+				<div class="form-group col-sm-12">
+					<input type="button"  class="btn btn-primary col-lg-1"   id="sendMessage"  value="立即发送"/> 
+				</div>
+		</form>
+</block>
+<block name="script">
+<script type="text/javascript">
+	highlight_subnav('{:U('Reply/fans')}');
+	setFromValue("status", {$where.status|default=0});
+	//异步刷新聊天
+	function ajax_chats_log() {
+		    //最后一条记录Id
+			var id = $('#last').attr('data-id');
+			var fanid = "{$fanid}";
+			var url="{:U('Reply/chatLog')}";
+			$.post(url, {'id' : id, 'fanid' : fanid}, function(data) {
+				//追加聊天记录，并更新maxid
+				data = $.parseJSON(data);
+				if(data.str!=""){
+					  $('#last').append(data.str);
+					  $('#last').attr('data-id', data.maxid);
+					  $('#log').scrollTop(100000000000); 
+				}
+			});
+		}
+	    var int=self.setInterval("ajax_chats_log()",3000);
+		
+		//发送信息给粉丝，判断是否发送成功，并清空输入框
+		$("#sendMessage").click(function(){
+			var content=$("#Mescontent").val();
+			var id=$("#fanid").val();
+			var url="{:U('Reply/sendMessage')}";
+			if(content==null||content==""){
+				alert("内容不可为空!");
+			}else{
+				//异步发送信息   提供fansid content
+				$.post(url, {'id' : id, 'content' : content}, function(data) {
+					if(data['error']==null){
+						alert("发送成功!");
+					}else{
+						alert(data['error']);
+					}
+					//清空输入框
+					$("#Mescontent").val("");
+				});
+			}
+		});
+</script>
+</block>
+	

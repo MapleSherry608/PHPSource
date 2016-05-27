@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+		<title>打卡记录</title>
+		<link rel="stylesheet" href="__HOME_CSS__/style.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/iconfont.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/fonts.css" />
+		<link rel="stylesheet" href="__HOME_PUNCH__/css/signRecord.css" />
+		<link rel="stylesheet" href="__HOME_PUNCH__/css/swipebox.css" />
+	</head>
+	<body>
+		<div class="containerBox">
+			<ul class="signRecordBox">
+				<notempty name="punchList">
+					<volist name="punchList" id="punchInfo">
+						<li>
+							<div class="signDate"><span>{$punchInfo['daily']}</span><a>{$punchInfo['montch']}月</a></div>
+							<div class="signContent">
+								<div class="signPicBox">
+									<notempty name="punchInfo.images">
+										<volist name="punchInfo.images" id="image" key="k">
+											<div class="myPicBox">
+												<if condition='$k gt 1'>
+													<div style="display: none;">
+														<a rel="gallery-{$punchInfo['id']}" href="{$image|tomedia}" class="swipebox" title="{$punchInfo['title']}"></a>
+													</div>
+												<else/>
+													<div class="signPic">
+														<a rel="gallery-{$punchInfo['id']}" href="{$image|tomedia}" class="swipebox" title="{$punchInfo['title']}"><img src="{$image|getThumbUrl}" alt="" title="" border="0" /></a>
+													</div>
+												</if>
+											</div>
+										</volist>
+									</notempty>
+									<div class="signScore">
+										<h1>{$punchInfo['title']}</h1>
+										<notempty name="punchInfo.images">
+											<h2>共{$punchInfo['images']|count}张</h2>
+										</notempty>
+									</div>
+								</div>
+								<div class="signFeel">
+									<p>{$punchInfo['content']}</p>
+								</div>
+							</div>
+						</li>
+					</volist>
+				</notempty>
+			</ul>
+			<input type="hidden" value="{$nextNumber}" class="nextnum">
+			<input type="hidden" value="{$membid}" class="membid">
+			<div class="readMore"><a><p></p><span>查看更多</span></a></div>
+			<script type="text/javascript" src="__HOME_JS__/jquery-1.9.0.min.js"></script>
+			<script type="text/javascript" src="__HOME_PUNCH__/js/common.js"></script>
+			<script type="text/javascript" src="__HOME_PUNCH__/js/jquery.swipebox.js"></script>
+			<script type="text/javascript" src="__HOME_PUNCH__/js/idangerous.swiper-2.1.min.js"></script>
+			<script type="text/javascript" src="__HOME_PUNCH__/js/idangerous.swiper.scrollbar-2.1.js"></script>
+			<script type="text/javascript" src="__HOME_PUNCH__/js/code.js"></script>
+			<script type="text/javascript">
+				$(function(){
+					$(".signPic").find("img").each(function(){
+						clipPic($(this),80);
+					});
+					//加载更多
+					$(".readMore").click(function(){
+						if($(".readMore a span").css("display")=="block"){
+							$(".readMore a span").hide();
+							$(".readMore a p").show();
+						}
+						var url="{:U('Punchcard/ajaxSign')}";
+						var membid=parseInt($(".membid").val());
+						var nextNumber=$(".nextnum").val();
+						if(typeof(nextNumber)=='undefined'){
+							if($(".readMore a span").css("display")=="none"){
+								$(".readMore a span").show();
+								$(".readMore a p").hide();
+							}
+							return;
+						}
+						$(".nextnum").remove();
+						$.get(url,{
+							'membid':membid,
+							'nextNumber':nextNumber,
+						},function(html){
+							console.log(html);
+							if(html.indexOf('signContent') > -1){
+								$(".signRecordBox").append(html);
+								$(".swipebox").swipebox();
+							}else{
+								$('.readMore a span').text('已加载完毕');
+							}
+							if($(".readMore a span").css("display")=="none"){
+								$(".readMore a span").show();
+								$(".readMore a p").hide();
+							}
+							$(".signPic").find("img").each(function(){
+								clipPic($(this),80);
+							});
+						});
+					});
+				});
+			</script>
+		</div>
+	</body>
+</html>

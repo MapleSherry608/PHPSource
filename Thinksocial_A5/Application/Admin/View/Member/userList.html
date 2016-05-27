@@ -1,0 +1,129 @@
+<extend name="Public/basic"/>
+<block name="style">
+
+</block>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U()}">管理员列表</a></li>		
+		<li><a href="{:U('Member/addUser')}"><i class="fa fa-plus"></i>添加管理员</a></li>
+	</ul>
+	<div class="clearfix">
+		<div class="panel panel-info">
+			<div class="panel-heading">筛选</div>
+			<div class="panel-body form-horizontal">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">筛选条件</label>
+					<div class="col-sm-4 col-xs-12">
+						<input type="text" class="form-control search-input" placeholder="请输入用户名称、昵称或手机号！"  name="title" value="{:I('title')}">
+					</div>
+				</div>
+				<div class="form-group">
+					
+					<div class="col-sm-4 col-xs-12">
+						<input type="checkbox" name="title" value="{:I('title')}">今日新增会员
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
+					<div class="col-sm-2 col-xs12">
+						<label class="radio-inline">
+							<input type="radio" name="status" value="" <if condition="!is_numeric($_REQUEST['status'])&&empty($_REQUEST['status'])">checked="checked"</if> > 不限
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="1" <if condition="I('status') eq 1">checked="checked"</if> >正常
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="0" <if condition="is_numeric($_REQUEST['status'])&&empty($_REQUEST['status'])">checked="checked"</if> >禁用
+						</label>
+					</div>
+					<div class="col-xs-12 col-sm-2 col-lg-1 text-left">
+						<span class="btn btn-default" url="{:U()}" id="search"><i class="fa fa-search"></i> 搜索</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="table-responsive panel-body">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th style="width:44px;">ID</th>
+						<th style="width:100px;">账户</th>
+						<th style="width:180px;">手机或电话</th>
+						<th style="width:180px;">电子邮箱</th>
+						<th style="width:100px;">性别</th>
+						<th style="width:100px;">状态</th>
+						<th style="width:100px;">创建时间</th>
+						<th style="width:180px;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="list" id="vo">
+						<tr>
+							<td style="overflow: initial;">{$vo.id}</td>
+							<td>{$vo.username}</td>
+							<td>{$vo.mobile}</td>
+							<td>{$vo.email}</td>
+							<td>{$vo.sex_text}</td>
+							<td>{$vo.status_text}</td>
+							<td>{$vo.reg_time|time_format}</td>
+							<td>
+								<neq name="USERID" value="$vo.id">
+									<eq name="vo.status" value="1">
+										<a href="{:U('Member/changeStatus?method=forbidUser&id='.$vo['id'])}" class="btn btn-danger btn-xs ajax-get">禁用</a>
+									<else/>
+										<a href="{:U('Member/changeStatus?method=resumeUser&id='.$vo['id'])}" class="btn btn-success btn-xs ajax-get">启用</a>
+									</eq>
+								</neq>
+								<span url="{:U('Member/updUserPwd?membid='.$vo['id'])}" class="btn btn-info btn-xs init-model">改密</span>
+								<a href="{:U('Member/addUser',array('id'=>$vo['id']))}" class="btn btn-default btn-xs">编辑</a>
+								<neq name="USERID" value="$vo.id">
+									<a href="{:U('Member/changeStatus?method=deleteUser&unlimited=1&id='.$vo['id'])}" onclick="return confirm('删除后不能恢复，您确定删除吗？')" class="btn btn-default btn-xs">删除</a>
+								</neq>
+							</td>
+						</tr>
+					</volist>
+				</tbody>
+			</table>
+			 <!-- 分页 -->
+	        <div class="page">
+				{$_page}
+	        </div>
+		</div>
+	</div>
+</block>
+<block name="script">
+<div id="publicMyModalDialogs" class="modal fade" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard = "true" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.form-horizontal').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	publicModel={
+		"Initialize":function(target){
+			 $("#publicMyModalDialogs").load(target);
+			 $("#publicMyModalDialogs").modal('show');
+		}
+	};
+
+	highlight_subnav("{:U('Member/userList')}");
+</script>
+</block>
+	

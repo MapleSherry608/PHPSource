@@ -1,0 +1,54 @@
+]<extend name="Public/basic"/>
+<block name="body">
+<!-- 公众号管理 -->
+	<div class="panel panel-default">
+			<div class="panel-heading">
+			    <h4>请在公众平台->开发者中心->服务器配置 配置以下信息，并开启</h4>
+				URL(服务器地址)：<h4 style="color:red;">{:U('Admin/Weixin/checkToken')}</h5>
+				Token(令牌)：<h4  style="color:red;">bgt</h5>
+			</div>
+	 <form action="{:U('System/account')}" method="post" class="form-horizontal" role="form" id="form1">
+			<div class="panel panel-default" >
+				<div class="form-group"></div>     
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+						style="width: 130px;">公众号名称</label>
+					<div class="col-sm-8 col-lg-9 col-xs-12">
+						<input class="form-control" name="account[public_name]" value="{$account['public_name']}" type="text">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+						style="width: 130px;">公众号原始ID</label>
+					<div class="col-sm-8 col-lg-9 col-xs-12">
+						<input class="form-control" name="account[public_id]" value="{$account['public_id']}"   type="text">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+						style="width: 130px;">appid </label>
+					<div class="col-sm-8 col-lg-9 col-xs-12">
+						<input class="form-control" name="account[appid]" value="{$account['appid']}"   type="text">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+						style="width: 130px;">secret</label>
+					<div class="col-sm-8 col-lg-9 col-xs-12">
+						<input class="form-control" name="account[secret]" value="{$account['secret']}"   type="text">
+					</div> 
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+						style="width: 130px;">EncodingAESKey</label>
+					<div class="col-sm-8 col-lg-9 col-xs-12">
+						<input class="form-control" name="account[encodingaeskey]" value="{$account['encodingaeskey']}"  type="text">
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-sm-12">
+				<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" /> 
+			</div>
+		</form>
+		</div>
+</block>

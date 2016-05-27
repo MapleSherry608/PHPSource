@@ -1,0 +1,238 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<style type="text/css">
+		.table thead tr td span{ width: 100px;}
+	</style>
+</block>
+<block name="body">
+	<form action="{:U()}" method="post" class="form-horizontal">
+
+	<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+	    <ul id="myTabs" class="nav nav-tabs" role="tablist">
+	    	<li role="presentation" class="active"><a href="#profile" role="tab" id="profile-tab" data-toggle="tab" aria-controls="profile" aria-expanded="true">用户基础信息</a></li>
+	     	<li role="presentation" class=""><a href="#home" id="home-tab" role="tab" data-toggle="tab" aria-controls="home" aria-expanded="false">详细信息</a></li>
+	    </ul>
+	    <div id="myTabContent" class="tab-content">
+	      	<div role="tabpanel" class="tab-pane fade active in" id="profile" aria-labelledby="profile-tab" >
+	      		
+	        	<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>真实姓名</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="realname" id="realname" class="form-control" value="{$member['realname']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">用户昵称</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="nickname" id="nickname" class="form-control" value="{$member['nickname']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>电子邮箱</label>
+					<div class="col-xs-12 col-sm-8 col-md-5">
+						<input type="text" name="email" id="email" class="form-control" value="{$member['email']}">
+					</div>
+				</div>
+				<if condition="empty($id)">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">密码</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="password" name="password" id="password" class="form-control" value="">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">确认密码</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="password" name="repassword" id="repassword" class="form-control" value="">
+					</div>
+				</div>
+				</if>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">用户头像</label>
+					<div class="col-xs-12 col-sm-8 col-md-5"  >
+						{:tpl_form_field_image('avatar', $member['avatar'])}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">用户分组</label>
+					<div class="col-xs-12 col-sm-8 col-md-5">
+						<select name="groupid" id="groupid" class="form-control">
+							<foreach name="grouplist" item="vo" >
+							    <option value="$vo['id']" 
+							    	<if condition="empty($member['groupid'])">
+							    		<if condition="$vo['id'] eq $groupid">selected="selected"</if>
+							    	<else/>
+							    		<if condition="$vo['id'] eq $member['groupid']">selected="selected"</if>
+							    	</if>>{$vo.title}
+							    </option>
+							</foreach>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">用户等级</label>
+					<div class="col-xs-12 col-sm-8 col-md-5">
+						<select name="levelid" id="levelid" class="form-control">
+							<foreach name="lecellist" item="vo" >
+							    <option value="$vo['id']" 
+							    	<if condition="empty($member['levelid'])">
+							    		<if condition="$vo['id'] eq $levelid">selected="selected"</if>
+							    	<else/>
+							    		<if condition="$vo['id'] eq $member['levelid']">selected="selected"</if>
+							    	</if>>{$vo.title}</option>
+							</foreach>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">身份证号码</label>
+					<div class="col-xs-12 col-sm-8 col-md-5">
+						<input type="text" name="idcard" id="idcard" class="form-control" value="{$member['idcard']}">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">手机/电话</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="mobile" id="mobile" class="form-control" value="{$member['mobile']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">QQ</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="qq" id="qq" class="form-control" value="{$member['qq']}">
+					</div>
+				</div>
+				
+				
+	      	</div>
+	    	<div role="tabpanel" class="tab-pane fade" id="home" aria-labelledby="home-tab">
+	        	<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">出生日期</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="birth_date" id="birth_date" class="form-control" value="{$member['birth_date']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">性别</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="gender" id="gender" class="form-control" value="{$member['gender']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">星座</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="constellation" id="constellation" class="form-control" value="{$member['constellation']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">生肖</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="zodiac" id="zodiac" class="form-control" value="{$member['zodiac']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">固定电话</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="telephone" id="telephone" class="form-control" value="{$enlarge['telephone']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">学号</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="studentid" id="studentid" class="form-control" value="{$member['studentid']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">班级 </label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="grade" id="grade" class="form-control" value="{$member['grade']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">邮编 </label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="zipcode" id="zipcode" class="form-control" value="{$member['zipcode']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">毕业学校</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="graduateschool" id="graduateschool" class="form-control" value="{$member['graduateschool']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">公司 </label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="company" id="company" class="form-control" value="{$member['company']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">职业 </label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="occupation" id="occupation" class="form-control" value="{$member['occupation']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">职位</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="position" id="position" class="form-control" value="{$member['position']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">学历</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="education" id="education" class="form-control" value="{$member['education']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">年收入 </label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="revenue" id="revenue" class="form-control" value="{$member['revenue']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">情感状态</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="emotion" id="emotion" class="form-control" value="{$member['emotion']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">体重 </label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="weight" id="weight" class="form-control" value="{$member['weight']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">血型 </label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="bloodtype" id="bloodtype" class="form-control" value="{$member['bloodtype']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">身高</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="height" id="height" class="form-control" value="{$member['height']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">msn </label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="msn" id="msn" class="form-control" value="{$member['msn']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">支付宝</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="alipay" id="alipay" class="form-control" value="{$member['alipay']}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">淘宝账号</label>
+					<div class="col-xs-12 col-sm-2 col-md-2">
+						<input type="text" name="taobao" id="taobao" class="form-control" value="{$member['taobao']}">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">主页</label>
+					<div class="col-xs-12 col-sm-10 col-md-8">
+						<textarea name="site" id="site" class="form-control">{$member['site']}</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">自我介绍 </label>
+					<div class="col-xs-12 col-sm-10 col-md-8">
+						<textarea name="bio" id="bio" class="form-control">{$member['bio']}</textarea>
+					</div>
+					
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">兴趣爱好</label>
+					<div class="col-xs-12 col-sm-10 col-md-8">
+						<textarea name="interest" id="interest" class="form-control">{$member['interest']}</textarea>
+					</div>
+				</div>
+	        </div>
+	    </div>
+	</div>
+	<div class="form-item">
+		<input name="mid" type="hidden" value="{$id}"/>
+		<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+		<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+	</div>
+	</form>
+
+</block>
+<block name="script">
+<script type="text/javascript">
+	highlight_subnav("{:U('Member/index')}");
+</script>
+</block>
+	

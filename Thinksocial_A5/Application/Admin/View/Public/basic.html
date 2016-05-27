@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>搜雪后台</title>
+    <link href="__ROOT__/Public/sx.png" type="image/x-icon" rel="shortcut icon">
+	<link href="__ADMIN_CSS__/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="__ADMIN_CSS__/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="__ADMIN_CSS__/common.css" rel="stylesheet" type="text/css">
+	<block name="style"></block>
+</head>
+<style type="text/css">
+	.tooltipbox {
+		background:#fef8dd;border:1px solid #c40808; position:absolute; left:0;top:0; text-align:center;height:20px;
+		color:#c40808;padding:2px 5px 1px 5px; border-radius:3px;z-index:1000;
+	}
+	.list-group-item{cursor: pointer;}
+</style>
+<body>
+	<script type="text/javascript" src="__ADMIN_JS__/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="__ADMIN_JS__/app/util.js"></script>
+	<script type="text/javascript" src="__ADMIN_JS__/require.js"></script>
+	<script type="text/javascript" src="__ADMIN_JS__/app/config.js"></script>
+	<script type="text/javascript" src="__STATIC__/tooltipbox.js"></script>
+	<div class="navbar navbar-inverse navbar-static-top" role="navigation" style="position:static;">
+		<div class="container-fluid">
+			<ul class="nav navbar-nav">
+				<notempty name="__MENU__.main">
+					<volist name="__MENU__.main" id="vo">
+						<li class="{$vo.class}"><a href="{$vo.url|U}"><i class="{$vo.ico}"></i>{$vo.title}</a></li>
+					</volist>
+				</notempty>
+			</ul>					
+			<ul class="nav navbar-nav navbar-right">
+				<li class="btn-group">
+					<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+						<i class="fa fa-user"></i>{:get_admin(USERID)} (系统管理员) <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="" target="_blank"><i class="fa fa-weixin fa-fw"></i> 我的账号</a></li>
+						<li class="divider"></li>
+						<li><a href="" target="_blank"><i class="fa fa-sitemap fa-fw"></i> 系统选项</a></li>
+						<li><a href="" target="_blank"><i class="fa fa-cloud-download fa-fw"></i> 自动更新</a></li>
+						<li><a href="" target="_blank"><i class="fa fa-refresh fa-fw"></i> 更新缓存</a></li>
+						<li class="divider"></li>
+						<li><a href="{:U('Public/logout')}"><i class="fa fa-sign-out fa-fw"></i> 退出系统</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row">
+			<block name="middle">
+				<div class="col-xs-12 col-sm-3 col-lg-2 big-menu">
+					<volist name="__MENU__.child" id="sub_menu">
+	                    <!-- 子导航 -->
+	                    <notempty name="sub_menu">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">{$key}</h4>
+									<a class="panel-collapse" data-toggle="collapse" href="#frame-{$i}">
+										<i class="fa fa-chevron-circle-down"></i>
+									</a>
+								</div>
+								<ul class="list-group in" id="frame-{$i}">
+									<volist name="sub_menu" id="menu">
+										<empty name="menu.addonsurl">
+										<li><a href="{$menu.url|U}"  class="list-group-item">{$menu.title}</a></li>
+										<else />
+										<li><a href="{$menu.addonsurl|addons_url}"  class="list-group-item">{$menu.title}</a></li>
+										</empty>
+									</volist>
+								</ul>
+							</div>
+	                    </notempty>
+	                    <!-- /子导航 -->
+	                </volist>
+	                
+				</div>
+				<div class="col-xs-12 col-sm-9 col-lg-10">
+					<block name="body"></block>
+				</div>
+			</block>
+		</div>
+	</div>
+
+<script type="text/javascript">
+	require(['bootstrap','ZeroClipboard'], function ($,ZeroClipboard) {
+		window['ZeroClipboard'] = ZeroClipboard;
+	    $('.btn').hover(function () {
+	        $(this).tooltip('show');
+	    }, function () {
+	        $(this).tooltip('hide');
+	    });
+	    $('.list-group-item').click(function(){
+	    	var href=$(this).children().attr('href');
+	    	location.href=href;
+	    });
+	});
+	function setFromValue(name, value){
+		var first = name.substr(0,1), input, i = 0, val;
+		if(value === "") return;
+		if("#" === first || "." === first){
+			input = $(name);
+		} else {
+			input = $("[name='" + name + "']");
+		}
+		if(input.eq(0).is(":radio")) { //单选按钮
+			input.filter("[value='" + value + "']").each(function(){this.checked = true});
+		} else if(input.eq(0).is(":checkbox")) { //复选框
+			if(!$.isArray(value)){
+				val = new Array();
+				val[0] = value;
+			} else {
+				val = value;
+			}
+			for(i = 0, len = val.length; i < len; i++){
+				input.filter("[value='" + val[i] + "']").each(function(){this.checked = true});
+			}
+		} else {  //其他表单选项直接设置值
+			input.val(value);
+		}
+	}
+	//导航高亮
+	function highlight_subnav(url){
+   		$('.big-menu').find('a[href="'+url+'"]').addClass('active');
+	}
+	$('#myTab li a').click(function(e){
+		e.preventDefault(); 
+		$('#myTab li').removeClass("active");
+		$('.tab-content .tab-pane').hide();
+		$(this).parent().addClass("active");
+		$($(this).attr('href')).show();
+	})
+</script>
+<block name="script"></block>
+<script type="text/javascript" src="__STATIC__/common.js"></script>
+</body>
+</html>

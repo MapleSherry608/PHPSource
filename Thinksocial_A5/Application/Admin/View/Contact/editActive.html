@@ -1,0 +1,374 @@
+<extend name="Public/basic"/>
+
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li><a href="{:U('Contact/activeList')}">管理活动</a></li>
+		<li  class="active"><a href="{:U('Contact/addActive')}">添加活动</a></li>
+	</ul>
+	<div class="main">
+		<style type='text/css'>
+			.tab-pane {padding:20px 0 20px 0;}
+		</style>
+		<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<ul class="nav nav-tabs" id="myTab">
+						<li  class="active"><a href="#tab_basic">基本信息</a></li>
+						<li><a href="#tab_des">活动内容</a></li>
+					</ul>
+					<div class="tab-content" id="myTabContent">
+						<div class="tab-pane active" id="tab_basic">
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>活动关键词</label>
+								<div class="col-sm-6 col-xs-12">
+									<input type="text" name="hinge" id="title" class="form-control" value="{$active['hinge']}" />
+								</div>
+								<span class="label label-danger"> 注：关键字触发活动！</span>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>活动标题</label>
+								<div class="col-sm-6 col-xs-12">
+									<input type="hidden" name="id" class="form-control" value="{$active['id']}" />
+									<input type="text" name="title" id="title" class="form-control" value="{$active['title']}" />
+								</div>
+								<span class="label label-danger"> 注：收费活动标题不能含有小括号（），否则支付宝支付会出错！！</span>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>分类</label>
+								<div class="col-sm-4 col-xs-6">
+									<select class="form-control" style="margin-right:15px;" id="pcate" name="first_cate_id" onchange="fetchChildCategory(this.options[this.selectedIndex].value,{$active['second_cate_id']})">
+										<notemepty name="category">
+											<volist name="category" id="cate">
+												<if condition="$cate['parentid'] eq 0">
+													<if condition="$cate['id'] eq $active['first_cate_id']">
+														<option value="{$cate['id']}" selected="selected">{$cate['name']}</option>
+													<else/>
+														<option value="{$cate['id']}">{$cate['name']}</option>
+													</if>
+												</if>
+											</volist>
+										</notemepty>
+									</select>
+								</div>
+								<div class="col-sm-4 col-xs-6">
+									<select class="form-control" id="cate_2" name="second_cate_id" autocomplete="off">
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label">地区</label>
+								<div class="col-sm-9 col-xs-12">
+									<if condition="($reside neq null)">
+										{:tpl_form_field_district('dis', $reside)}
+									<else/>
+										{:tpl_form_field_district('dis')}
+									</if>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label">详细地址</label>
+								<div class="col-sm-9 col-xs-12">
+									<div class="input-append"><input type="text" name="address" value="{$active['detailaddress']}"  class="form-control" /></div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label">坐标</label>
+								<div class="col-sm-9 col-xs-12" >
+									<if condition="($item neq null)">
+										{:tpl_form_field_coordinate('baidumap', $item)}
+									<else/>
+										{:tpl_form_field_coordinate('baidumap')}
+									</if>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>活动发起人</label>
+								<div class="col-sm-6 col-xs-12">
+									<input type="text" name="initiator" id="initiator" class="form-control" value="{$active['initiator']}" />
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-6 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>报名开始时间</label>
+								<div class="col-sm-3 col-xs-2">
+									{:tpl_form_field_date('applyStarttime', !empty($active['start_time']) ? $active['start_time'] : date('Y-m-d H:i'),true);}
+								</div>
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>报名截止</label>
+								<div class="col-sm-3 col-xs-2">
+									{:tpl_form_field_date('applyEndtime', !empty($active['end_time']) ? $active['end_time'] : date('Y-m-d H:i'),true);}
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>活动开始时间</label>
+								<div class="col-sm-2 col-xs-6">{:tpl_form_field_date('starttime', !empty($active['active_begin_time']) ? $active['active_begin_time'] : date('Y-m-d H:i'),true);}</div>
+								<label class="col-xs-2 col-sm-1 col-md-1 control-label" style="width:50px;">至</label>
+								<div class="col-sm-2 col-xs-6">{:tpl_form_field_date('endtime', !empty($active['active_end_time']) ? $active['active_end_time'] : date('Y-m-d H:i'),true);}</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-6 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>列表图</label>
+								<div class="col-sm-3 col-xs-2">
+									{:tpl_form_field_image('conver_pic', $active['conver_pic'], '', array('extras' => array('text' => 'readonly')))}
+								</div>
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>详情图</label>
+								<div class="col-sm-3 col-xs-2">
+									{:tpl_form_field_image('movement_pic', $active['movement_pic'], '', array('extras' => array('text' => 'readonly')))}
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>是否收费</label>
+								<div class="col-sm-2 col-xs-12">
+									<label for="isfee1" class="radio-inline">
+										<input type="radio" name="if_fee" value="1" id="isfee1"  onclick="showFee('activeFee')" onclick="showFee()"/> 是
+									</label>
+									&nbsp;&nbsp;&nbsp;
+									<label for="isfee2" class="radio-inline">
+										<input type="radio" name="if_fee" value="0" id="isfee2"  onclick="hideFee('activeFee')"  onclick="hideFee()"/> 否
+									</label>
+									<span class="help-block"></span>
+								</div>
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>是否审核</label>
+								<div class="col-sm-2 col-xs-12">
+									<label for="isaduit1" class="radio-inline">
+										<input type="radio" name="if_auditing" value="1" id="isaduit1" /> 是
+									</label>
+									&nbsp;&nbsp;&nbsp;
+									<label for="isaduit2" class="radio-inline">
+										<input type="radio" name="if_auditing" value="0" id="isaduit2" /> 否
+									</label>
+									<span class="help-block"></span>
+								</div>
+							</div>
+							<div id="activeFee">
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-1 col-md-1 control-label"><span style='color:red'>*</span>费用</label>
+									<div class="input-group">
+										<label class="col-xs-12 col-sm-3 col-md-2 control-label">成人</label>
+										<div class="col-sm-4 col-xs-12">
+											<input type="text" name="active_fee" id="active_fee" class="form-control" value="{$active['active_fee']}" />
+										</div>
+										<label class="col-xs-12 col-sm-3 col-md-2 control-label">儿童</label>
+										<div class="col-sm-4 col-xs-12">
+											<input type="text" name="child_fee" id="child_fee" class="form-control" value="{$active['child_fee']}" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label">显示上传图片</label>
+								<div class="col-sm-1 col-xs-12">
+									<label for="ispic1" class="radio-inline">
+										<input type="radio" name="if_show_pic" value="1" id="ispic1" /> 是
+									</label>
+									&nbsp;&nbsp;&nbsp;
+									<label for="ispic2" class="radio-inline">
+										<input type="radio" name="if_show_pic" value="0" id="ispic2" /> 否
+									</label>
+								</div>
+								<span class="help-block">注: 勾选这里要求报名者上传报名图片</span>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"></label>
+								<div class="col-sm-2 col-xs-6">
+									<label for="ispicselect1" class="radio-inline">
+										<input type="radio" name="if_pic" value="1" id="ispic1"/> 必选
+									</label>
+									&nbsp;&nbsp;&nbsp;
+									<label for="ispicselect2" class="radio-inline">
+										<input type="radio" name="if_pic" value="0" id="ispic2"/> 可选
+									</label>
+								</div>
+								<span class="help-block">注: 勾选这里要求报名者上传报名图片为必填项</span>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>活动总人数</label>
+								<div class="col-sm-2 col-xs-12">
+									<input type="text" name="max_acount" id="max_acount" class="form-control" value="{$active['max_acount']}" />
+								</div>
+								<span class="help-block">注：不填为不限制,如果要允许一个微信号报名大于1人,请务必勾选下面的显示成人儿童人数</span>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>显示成人儿童</label>
+								<div class="col-sm-1 col-xs-12">
+									<label for="ispersion1" class="radio-inline">
+										<input type="radio" name="if_persion" value="1" id="ispersion1"  onclick="showFee('perSonnumber')" /> 是
+									</label>
+									&nbsp;&nbsp;&nbsp;
+									<label for="ispersion2" class="radio-inline">
+										<input type="radio" name="if_persion" value="0" id="ispersion2" onclick="hideFee('perSonnumber')" /> 否
+									</label>
+								</div>
+								<span class="help-block">注：如果允许一个微信号多报人数,请务必选此项!</span>
+							</div>
+							<div id="perSonnumber">
+								<div class="form-group">
+									<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>再报人数</label>
+									<div class="col-sm-1 col-xs-12">
+											<input type="text" name="wechatmaxnum" value="{$active['wechatmaxnum']}" id="personNum"/>
+									</div>
+									<span class="help-block" style="margin-left:320px;">注：每个微信号可再报名人数</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-3 col-md-1 control-label"><span style='color:red'>*</span>扫码标识</label>
+								<div class="col-sm-1 col-xs-12">
+										<input type="text" name="scancodeiden" value="{$active['scancodeiden']}" id="personNum"/>
+								</div>
+								<span class="help-block" style="margin-left:320px;"> 注：扫码签到时通过输入扫码标识进行扫码（可修改）</span>
+							</div>
+							<script>
+								var category = {:json_encode($children)};
+								var url="{php echo $this->createWebUrl('StartActivity',array('op'=>'postAjax'))}" 
+								var if_fee="{$active['if_fee']}";
+								var if_persion="{$active['if_persion']}";
+								$(function(){
+									if(if_fee==''){
+										$("#isfee1").attr("checked",'checked');
+									}else if(if_fee!=null&&if_fee==0){
+										$("#activeFee").hide();
+									}else if(if_fee!=null&&if_fee==1){
+										$("#activeFee").show();
+									}
+									if(if_persion==''){
+										$("#ispersion1").attr("checked",'checked');
+									}else if(if_persion!=null&&if_persion==0){
+										$("#perSonnumber").hide();
+									}else if(if_persion!=null&&if_persion==1){
+										$("#perSonnumber").show();
+									}
+								});
+								
+								function showFee(id){
+									$("#"+id).show();
+								}
+								function hideFee(id){
+									if(id=='activeFee'){
+										$("#active_fee").val(0);
+										$("#child_fee").val(0);
+										$("#activeFee").hide();
+									}else if(id=="perSonnumber"){
+										$("#personNum").val(0);
+										$("#perSonnumber").hide();
+									}
+								}
+								function fetchChildCategory(cid) {
+									var html = '<option value="0">请选择二级分类</option>';
+									if (!category || !category[cid]) {
+										$('#cate_2').html(html);
+										return false;
+									}
+									for (i in category[cid]) {
+										html += '<option value="'+category[cid][i][0]+'">'+category[cid][i][1]+'</option>';
+									}
+									$('#cate_2').html(html);
+								}
+							</script>
+						</div>
+						<div class="tab-pane" id="tab_des">
+							<div class="form-group">
+								<div class="col-sm-1"></div>
+								<div class="col-sm-10">
+									{:tpl_ueditor('content', $active['content']);}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-sm-12">
+				<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+				<input type="hidden" name="uuid" value="{$active['uuid']}" />
+			</div>
+		</form>
+	</div>
+</block>
+
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav('{:U('Contact/activeList')}');
+		setFromValue("if_fee", {$active.status|default=0});
+		setFromValue("if_pic", {$active.status|default=0});
+		setFromValue("if_show_pic", {$active.status|default=0});
+		setFromValue("if_auditing", {$active.status|default=0});
+		setFromValue("if_persion", {$active.status|default=0});
+		var first_cate_id=parseInt("{$active['first_cate_id']}");
+		var second_cate_id=parseInt("{$active['second_cate_id']}");
+		var category = {:json_encode($children)};
+		if(first_cate_id){
+			fetchChildCategory(first_cate_id,second_cate_id);
+		}
+		//验证框  
+		require(['jquery', 'util'], function($, u){
+			$("#form1").submit(function(){
+				if($(":text[name='title']").val() == ''){
+					u.message('活动标题不能为空.', '', 'error');
+					return false;
+				}
+				if($(":text[name='address']").val() == ''){
+					u.message('活动地址不能为空.', '', 'error');
+					return false;
+				}
+				if($(":text[name='initiator']").val() == ''){
+					u.message('活动发起人不能为空.', '', 'error');
+					return false;
+				}
+				if($(":text[name='applyStarttime']").val() == ''){
+					u.message('报名开始时间不能为空.', '', 'error');
+					return false;
+				}
+				if($(":text[name='applyEndtime']").val() == ''){
+					u.message('报名截止时间不能为空.', '', 'error');
+					return false;
+				}  
+				if($(":text[name='starttime']").val() == ''){
+					u.message('活动起始时间不能为空.', '', 'error');
+					return false;
+				}
+				if($(":text[name='endtime']").val() == ''){
+					u.message('活动截止时间不能为空.', '', 'error');
+					return false;
+				}
+				if($(":text[name='conver_pic']").val() == ''){
+					u.message('请选择活动图片.', '', 'error');
+					return false;
+				}
+				if($(":text[name='movement_pic']").val() == ''){
+					u.message('请选择活动封面图.', '', 'error');
+					return false;
+				}
+				if($("#isfee1").is(":checked")) {
+					if ($(":text[name='active_fee']").val() == '') {
+						u.message('请输入报名费用！', '', 'error');
+						return false;
+					}
+					if ($(":text[name='child_fee']").val() == '') {
+						u.message('请输入儿童费用！', '', 'error');
+						return false;
+					}
+				}
+				if($("#ispersion1").is(":checked")) {
+					if ($(":text[name='wechatmaxnum']").val() == '') {
+						u.message('请输入再报人数量！', '', 'error');
+						return false;
+					}
+				}
+				return true;
+			});
+		});
+		function fetchChildCategory(cid,second_id) {
+			var html = '';
+			if (!category || !category[cid]) {
+				html='<option value="0">请选择二级分类</option>';
+				$('#cate_2').html(html);
+				return false;
+			}
+			for (i in category[cid]) {
+				if(second_id&&category[cid][i][0]==second_id){
+					html += '<option value="'+category[cid][i][0]+'" selected="selected">'+category[cid][i][1]+'</option>';
+				}else{
+					html += '<option value="'+category[cid][i][0]+'">'+category[cid][i][1]+'</option>';
+				}
+			}
+			$('#cate_2').html(html);
+		}
+	</script>
+</block>

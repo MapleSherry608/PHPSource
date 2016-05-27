@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<title>支付订单</title>
+		<link rel="stylesheet" href="__HOME_CSS__/pay.css" />
+	</head>
+	<script type="text/javascript">
+		document.getElementsByTagName("html")[0].style.fontSize = document.documentElement.clientWidth/3 + "px";
+	</script>
+	<style>
+		*{
+			-webkit-tap-highlight-color:rgba(0,0,0,0);
+		}
+	</style>
+	<body>
+		<div id="context">
+			<div class="info_title">订单信息</div>
+			<div class="panel">
+				<div class="clearfix">
+					<p>商品名称 :<span class="pull-right">{$params['title']}</span></p>
+					<p>订单编号 :<span class="pull-right">{$params['ordersn']}</span></p>
+					<p>商家名称 :<span class="pull-right">{$params['account_name']}</span></p>
+					<p>支付金额 :<span class="pull-right">{:sprintf('%.2f', $params['fee'])}<span class="muted">元</span></span></p>
+				</div>
+			</div>
+			<div class="info_title">选择支付方式</div>
+			<div class="panel panel_pay">
+				<if condition="$wechat.switch eq 1">
+					<div class="pay_item">
+						<div class="item_ico wechat_ico"></div>
+						<div class="item_text">
+							微信支付
+						</div>
+						<div class="item_choise choise_img wechat_img_cx"></div>
+					</div>
+				</if>
+				<if condition="$alipay.switch eq 1">
+					<div class="pay_item">
+						<div class="item_ico alipay_ico"></div>
+						<div class="item_text">
+							支付宝支付
+						</div>
+						<div class="item_choise none_img alipay_img_cx"></div>
+					</div>
+				</if>
+			</div>
+		</div>
+		<form id="pay_form" action="{:U('Home/pay_option')}" method="post">
+			<input type="hidden" name="pay_param" value="{$pay_param}"/>
+			<input type="hidden" class="option" name="option" value="wechat"/>
+		</form>
+		<div class="interval"></div>
+		<div class="affirm_pay">确认支付</div>
+			<!--弹框结束-->
+		<script type="text/javascript" src="__HOME_JS__/jquery-1.9.0.min.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('.item_choise').click(function(){
+					//清空选中样式
+					$('.item_choise').each(function(){
+						$(this).removeClass('choise_img');
+						$(this).addClass('none_img');//切换选中模式
+					})
+					$(this).removeClass('none_img');
+					$(this).addClass('choise_img');
+					//微信支付模式
+					if($(this).hasClass('wechat_img_cx')){
+						$('.option').val('wechat');
+					}
+					//支付宝支付模式
+					if($(this).hasClass('alipay_img_cx')){
+						$('.option').val('alipay');
+					}
+				});
+				//提交支付
+				$('.affirm_pay').click(function(){
+					$("#pay_form").submit();
+				})
+			})
+		</script>
+	</body>
+</html>

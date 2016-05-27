@@ -1,0 +1,101 @@
+<php> 
+header("Content-type:application/octet-stream");
+header("Accept-Ranges:bytes");
+header("Content-type:application/vnd.ms-excel");  
+header("Content-Disposition:attachment;filename=".Date('Y-m-d').' type-'.$_GET['tyep'].'-time-'.$_GET['time'].'-key-'.$_GET['key'].".xls");
+header("Pragma: no-cache");
+</php>
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+<style type="text/css">  
+<!--  
+td {  
+background-color: #FFFFFF;  
+}  
+.txt  
+{padding-top:1px;  
+padding-right:1px;  
+padding-left:1px;  
+mso-ignore:padding;  
+color:black;  
+font-size:11.0pt;  
+font-weight:400;  
+font-style:normal;  
+text-decoration:none;  
+font-family:宋体;  
+mso-generic-font-family:auto;  
+mso-font-charset:134;  
+mso-number-format:"\@"; //关键是这里  
+text-align:general;  
+vertical-align:middle;  
+mso-background-source:auto;  
+mso-pattern:auto;  
+white-space:nowrap;}  
+-->  
+</style>
+</head>
+<body>
+<table>
+    <tr>
+      <th>编号</th>
+      <th>状态</th>
+      <th>商品</th>
+      <th>店铺号</th>
+      <th>金额</th>
+      <th>付款方式</th>
+      <th>商户单号</th>
+      <th>交易单号</th>
+      <th>发起时间</th>
+      <th>付款时间</th>
+      <th>微信openid</th>
+      <th>姓名</th>
+      <th>手机号</th>
+      <th>客户留言</th>
+    </tr>
+  </thead>
+  <tbody>
+    <volist name='list' id='vo'>
+      <tr>
+        <td>{$vo.id}</td>
+        <td><eq name='vo.ok' value='1'>
+            已付款
+            <else />
+            未支付
+          </eq></td>
+        <td>{$vo.pay_shop}</td>
+        <td><eq name='vo.pay_mall' value='0'>总店
+                  <else />{$vo.pay_mall}</eq>
+                  </td>
+        <td>{$vo.pay_price|get_price}</td>
+        <td>{$vo.pay_type|get_pay_type}</td>
+        <td>{$vo.out_trade_no}</td>
+        <td class="txt"><eq name='vo.trade_no' value='0'>-
+            <else />
+            {$vo.trade_no}</eq></td>
+        <td>{$vo.s_time|date="Y-m-d H:i:s",###}</td>
+        <td><eq name='vo.f_time' value='0'>-
+            <else />
+            {$vo.f_time|date="Y-m-d H:i:s",###}</eq></td>
+        <td>{$vo.openid}</td>
+        <td><eq name='vo.user_name' value=''>-
+            <else />
+            {$vo.user_name}</eq></td>
+        <td><eq name='vo.user_tel' value=''>-
+            <else />
+            {$vo.user_tel}</eq></td>
+        <td><eq name='vo.user_message' value=''>-
+            <else />
+            {$vo.user_message}</eq></td>
+      </tr>
+    </volist>
+</table>
+</body>
+</html>

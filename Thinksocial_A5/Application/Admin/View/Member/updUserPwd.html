@@ -1,0 +1,36 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<form action="{:U('Member/subUserPwd')}" method="post" class="this-model-form-horizontal">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">修改密码</h4>
+			</div>
+			<div class="modal-body">
+				<div class="row" style="padding: 10px;">
+					<h4>当前管理员为“admin”</h4>
+					<label class="col-xs-12 col-sm-12 col-md-12 control-label" style="text-align: left;"><span style="color:red">*</span>请输入当前管理员密码:</label>
+					<div class="col-xs-12 col-sm-12 col-md-12">
+						<input type="password" name="admpwd" id="admpwd" class="form-control" value="{$member['admpwd']}">
+					</div>
+				</div>
+				<div class="row" style="padding: 10px;">
+					<label class="col-xs-12 col-sm-12 col-md-12 control-label" style="text-align: left;"><span style="color:red">*</span>请输入该用户新密码:</label>
+					<div class="col-xs-12 col-sm-12 col-md-12">
+						<input type="password" name="password" id="password" class="form-control" value="{$member['password']}">
+					</div>
+				</div>
+				<div class="row" style="padding: 10px;">
+					<label class="col-xs-12 col-sm-12 col-md-12 control-label" style=" text-align: left;"><span style="color:red">*</span>请输入该用户确认密码:</label>
+					<div class="col-xs-12 col-sm-12 col-md-12">
+						<input type="password" name="repassword" id="repassword" class="form-control" value="{$member['repassword']}">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<input name="membid" type="hidden" value="{$membid}" />
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				<button class="btn btn-primary submit-btn ajax-post" id="submit" type="submit" target-form="this-model-form-horizontal">保存</button>
+			</div>
+		</form>
+	</div>
+</div>

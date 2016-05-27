@@ -1,0 +1,111 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<style type="text/css">
+		.table thead tr td span{ width: 100px;}
+	</style>
+</block>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U()}">用户列表</a></li>
+	</ul>
+	<div class="clearfix">
+		<div class="panel panel-info">
+			<div class="panel-heading">筛选</div>
+			<div class="panel-body form-horizontal">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">昵称</label>
+					<div class="col-sm-9 col-md-8 col-lg-8 col-xs-12">
+						<input type="text" class="form-control search-input" name="nickname" value="{:I('nickname')}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否关注</label>
+					<div class="col-sm-9 col-md-8 col-lg-8 col-xs-12">
+						<label class="radio-inline">
+							<input type="radio" name="follow" value="" <if condition="empty($_REQUEST['follow'])">checked="checked"</if> > 不限
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="follow" value="1" <if condition="I('follow') eq 1">checked="checked"</if> > 已关注
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="follow" value="2" <if condition="I('follow') eq 2">checked="checked"</if> > 取消关注
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 col-xs-offset-0 col-sm-offset-3 col-md-offset-2">
+						<span class="btn btn-default" url="{:U()}" id="search"><i class="fa fa-search"></i> 搜索</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			详细数据
+		</div>
+		<div class="table-responsive panel-body">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th><span>ID</span></th>
+						<th><span>粉丝昵称</span></th>
+						<th><span>对应用户</span></th>
+						<th><span>Openid</span></th>
+						<th><span>是否订阅</span></th>
+						<th><span>订阅时间</span></th>
+						<th><span>更新时间</span></th>
+						<th><span>操作</span></th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="list" id="vo">
+						<tr>
+							<td>{$vo.id}</td>
+							<td>{$vo.nickname}</td>
+							<td><a href="{:U('Member/add',array('id'=>$vo['membid']))}">{$vo.nickname|default='$vo.membid'}</a></td>
+							<td>{$vo.openid}</td>
+							<td>{$vo.follow_text}</td>
+							<td>{$vo.followtime|time_format}</td>
+							<td>{$vo.updatetime|time_format}</td>
+							<td>
+								<a href="{:U('Member/add',array('id'=>$vo['id']))}" class="btn btn-success btn-sm" >发送消息</a>
+							</td>
+						</tr>
+					</volist>
+				</tbody>
+			</table>
+			 <!-- 分页 -->
+	        <div class="page">
+				{$_page}
+	        </div>
+		</div>
+	</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+		//搜索功能
+		$("#search").click(function(){
+			var url = $(this).attr('url');
+	        var query  = $('.form-horizontal').find('input').serialize();
+	        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+	        query = query.replace(/^&/g,'');
+	        if( url.indexOf('?')>0 ){
+	            url += '&' + query;
+	        }else{
+	            url += '?' + query;
+	        }
+			window.location.href = url;
+		});
+		//回车搜索
+		$(".search-input").keyup(function(e){
+			if(e.keyCode === 13){
+				$("#search").click();
+				return false;
+			}
+		});
+	highlight_subnav("{:U('Member/fanslist')}");
+</script>
+</block>
+	

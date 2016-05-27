@@ -1,0 +1,18 @@
+<notempty name="commentList">
+    <volist name="commentList" id="comment">
+  		<div class="actReviewBox">
+	 	<div class="signReviewBox">
+	     	  <div class="signHeadBox">
+			      <a href="{:U('Punchcard/friendIndex',array('membid'=>$comment['membid']))}">
+						<img src="{$comment['avatar']}">
+				  </a>
+			  </div>
+		      <div class="signReviewContent">
+		          <h1><span onclick="javascript:location.href='{:U('Punchcard/friendIndex',array('membid'=>$comment['membid']))}'">{$comment['nickname']}</span>{$comment['createtime']|date="Y-m-d H:i:s",###}</h1>
+		          <p>{$comment['content']}</p>
+		      </div>
+	  	</div>
+	 </div>
+  	</volist>
+	<input type="hidden" value="{$nextNumber}" class="nextnum">
+</notempty>

@@ -1,0 +1,26 @@
+/*运动打卡*/
+.sportRecordBox{ width:100%;box-sizing: border-box;padding:0 10%;}
+.sportRecordTitle{ height:48px; line-height:48px; font-size:20px;color: white;text-align: center;}
+.sportRecord{width: 100%;}
+.sportRecord li{position: relative; width: 100%;box-sizing:border-box;padding:5px 0px;padding-left: 30px;padding-right: 20px; height: 42px;line-height: 42px; margin-top: 15px;background:#f0f0f0; border-radius: 3px;box-shadow: 0 2px 3px #ccc inset;}
+.sportRecord li input{width: 100%;box-sizing: border-box;background:none; border: none;display: block;height: 32px;line-height: 32px;outline: none;}
+.sportRecord li span{position:absolute;left: 0;top:0px;width: 30px;height: 42px;line-height: 42px;text-align: center;font-size: 18px;color:#0E90D2;}
+.sportRecord li .mySelectBox i{position:absolute;right: 0;top: 0px;width: 20px;height: 42px;line-height: 42px;text-align:left; color: #646464;}
+.sportRecord li .inputKm i{position: absolute;top: 0;right: 0px;height: 42px;width:36px;line-height: 42px;color: #646464;}
+.sportFeel{width: 100%;margin-top: 15px;}
+.sportFeel textarea{width: 100%;display: block;box-sizing: border-box;padding: 10px;border: none;border-radius: 3px;resize: none;box-shadow: 0 2px 3px #ccc inset;outline: none;}
+.sportPic{ overflow:hidden; margin-top:15px;}
+.sportPic li{float:left; width:60px; height:60px; margin-right: 10px;margin-bottom: 10px;}
+.sportPic li a{display: block;width: 60px;height: 60px;overflow: hidden;border-radius: 3px;}
+.sportPic li img{display: block;border-radius: 3px;}
+.sportPic .uploadButton{border:dashed 1px #fff; position:relative;border-radius: 3px;}
+.sportPic .uploadButton h1,.sportPic .uploadButton h2{ text-align:center; font-size:14px; margin-top:10px; line-height:14px;color: white;}
+.sportPic .uploadButton input{ position:absolute; top:0; left:0; opacity:0; filter:alpha(opacity:0); width:80px; height:60px;}
+/*下拉列表*/
+.dragListBox{display: none; position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.5);}
+.dragListBox .dragList{width: 80%;height: 60%;margin-top: 20%;margin-left: 10%;background: white;overflow: auto;border-radius: 3px;}
+.dragListBox .dragList li{width: 100%; height:42px;line-height: 42px;box-sizing: border-box;padding: 0 10px;border-bottom: solid 1px #ddd;}
+.dragListBox .dragList li:nth-last-child(1){border-bottom: none;}
+/*打卡提交*/
+.signSubmit{ width: 100%;margin-top: 15px;}
+.signSubmit a{display: block; width: 100%;height: 42px;line-height: 42px;background:#53d753;text-align: center;border-radius: 3px;font-size: 16px;color: white;}

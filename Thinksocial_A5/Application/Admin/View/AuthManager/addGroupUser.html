@@ -1,0 +1,44 @@
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h4 class="modal-title" id="myModalLabel">修改密码</h4>
+		</div>
+		<div class="modal-body">
+			<div class="row" style="padding: 20px;">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th style="width: 80px">ID</th>
+							<th>昵称</th>
+							<th style="width: 80px">状态</th>
+							<th style="width: 80px">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<volist name="_list" id="vo">
+							<tr>
+								<td>{$vo.id} </td>
+								<td>{$vo.username}</td>
+								<td>{$vo.status_text}</td>
+								<td>
+									<a href="{:U('AuthManager/addToGroup?uid='.$vo['id'].'&group_id='.I('group_id'))}" class="ajax-get">选择</a>
+								</td>
+							</tr>
+						</volist>
+					</tbody>
+				</table>
+				<div class="AjaxLoadModel">
+					{$_page}
+				</div>
+			</div>
+			<div class="modal-footer">
+				<div class="row">
+					<input name="membid" type="hidden" value="{$membid}" />
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button class="btn btn-primary submit-btn ajax-post" id="submit" type="submit" target-form="this-model-form-horizontal">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

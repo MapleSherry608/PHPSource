@@ -1,0 +1,70 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Admin Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+
+<!--            
+              CONTENT 
+                        -->
+<div id="content" class="white">
+  <div class="bloc">
+    <div class="title">微信扫码收款</div>
+    <form method="post" action="">
+    <div class="content">
+      <div class="input">
+ 
+        <div class="input">
+        <label>商品描述</label>
+        <input name="pay_shop" type="text" value="刷卡支付" />
+        </div>
+      
+         <div class="input">
+        <label>收款金额 (单位:元)</label>
+        
+		
+		<eq name='MXPAY_DEBUG' value='1'>
+		    <input name="pay_fee" type="text" value="0.01" placeholder=''  />
+		 <else />
+         	<input name="pay_fee" type="text" value="" placeholder=''  />
+         </eq>
+		
+        </div>
+	  
+	  
+         <div class="input">
+        <label>授权码</label>
+        <input name="auth_code" type="text" value="" />
+		
+		 <label  class="inline">请使用扫码枪 扫描微信支付被扫条码/二维码</label>
+      </div>
+      </div>
+      <div class="submit">
+        <input type="submit" value="立即收款"   class="black"/>
+      </div>
+      
+      <php> if($_POST){ </php>
+        <img src="http://www.liantu.com/api.php?text={$url}&bg=ffffff&fg=000000" />
+      <php> } </php>
+    </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

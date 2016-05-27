@@ -1,0 +1,231 @@
+<extend name="Public/basic"/>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="javascript:void(0);">报名管理</a></li>
+	</ul>
+	<div class="main">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<form action="{:U('Contact/applyList')}" method="post" class="form-horizontal">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">活动名称:</label>
+						<div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+							<input class="form-control" name="title" type="text" value="{$title}" placeholder="活动名称">
+						</div>
+						<input name="submit" type="submit" style="margin-left: 120px;" value="搜索" class="btn btn-primary">
+						<a class="btn btn-success" href="{:U('Contact/exportApply',array('title'=>$title))}" style="margin-left:20px;">导出excl</a>
+					</div>
+				</form>
+				<br>
+				<table class="table table-hover table-bordered">
+					<thead class="navbar-inner">
+						<tr>
+						    <th style="width:5%;">编号</th>
+						    <th style="width:20%;">活动名称</th>
+							<th style="width:10%;">报名者</th>
+							<th style="width:10%;">报名人数</th>
+							<th style="width:10%;">手机</th>
+							<th style="width:8%;">状态</th>
+							<th style="width:17%;">报名时间</th>
+							<th style="width:10%;">操作</th>
+						</tr>
+					</thead>
+					<tbody id="mainInfo">
+						<notempty name="list">
+							<volist name="list" id="vo">
+								<tr>
+									<td>{$vo.id}</td>
+									<td>{$vo.title}</td>
+									<td>{$vo.realname}</td>
+									<td>{$vo.total_acount}</td>
+									<td>{$vo.mobile}</td>
+									<td align="center">
+										<if condition="$vo.status eq 0">
+											<span class="label label-default">待审核</span>
+										<elseif condition="$vo.status eq 1"/>
+											<span class="label label-info">待付款</span>
+										<elseif condition="$vo.status eq 2"/>
+											<span class="label label-warning">驳&nbsp;&nbsp;回</span>
+										<elseif condition="$vo.status eq 3"/>
+											<span class="label label-success">成&nbsp;&nbsp;功</span>
+										<else/>
+											<span class="label label-primary">已签到</span>
+										</if>
+									</td>
+									<td>{$vo.add_time}</td>
+									<td>
+										<a href="javascript:void(0);" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="详情" onclick="showDetailInfo(this,{$vo.id},{$vo.status})"><i class="fa fa-info"></i></a>&nbsp;&nbsp;
+										<a href="javascript:void(0);" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="审核" onclick="showAdjustInfo(this,{$vo.id},{$vo.status})"><i class="fa fa-adjust"></i></a>&nbsp;&nbsp;
+										<a href="javascript:void(0);" onclick="configMeg({$vo.id})" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除"><i class="fa fa-times"></i></a>
+									</td>
+								</tr>
+							</volist>
+						</notempty>
+					</tbody>
+				</table>
+				<!-- 分页 -->
+		        <div class="page">
+					{$_page}
+		        </div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 模态框 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <button type="button" class="close"
+		               data-dismiss="modal" aria-hidden="true">
+		                  &times;
+		            </button>
+		            <h4 class="modal-title" id="myModalLabel">
+		              	报名者资料
+		            </h4>
+		         </div>
+		         <div class="modal-body"></div>
+		      </div><!-- /.modal-content -->
+	    </div><!-- /.modal -->
+	</div>
+	
+	<!-- 消息框 -->
+	<div class="modal fade" id="messModal" tabindex="-2" role="dialog" style="margin-top:200px;"
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog" style="width:300px;">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <button type="button" class="close"
+		               data-dismiss="modal" aria-hidden="true">
+		                  &times;
+		            </button>
+		            <h4 class="modal-title" >
+		            	<i class="icon-info-sign"></i>
+		            	<h3>操作提示</h3>
+		            </h4>
+		         </div>
+		         <div class="modal-body" id="myMessContext"></div>
+		         <div class="modal-footer">
+		            <button type="button" class="btn btn-success" 
+		               data-dismiss="modal">确定
+		            </button>
+		            <button type="button" class="btn btn-default"
+		               data-dismiss="modal">取消
+		            </button>
+		         </div>
+		      </div>
+	    </div>
+	</div>
+	
+	<!-- 提示框 -->
+	<div class="modal fade" id="tipModal" tabindex="-2" role="dialog" style="margin-top:200px;"
+	   aria-labelledby="myModalLabel" aria-hidden="true">
+	   <div class="modal-dialog" style="width:300px;">
+		      <div class="modal-content">
+		         <div class="modal-header">
+		            <button type="button" class="close"
+		               data-dismiss="modal" aria-hidden="true">
+		                  &times;
+		            </button>
+		            <h4 class="modal-title" >
+		            	<i class="icon-info-sign"></i>
+		            	<h3>操作提示</h3>
+		            </h4>
+		         </div>
+		         <div class="modal-body" id="myTip"></div>
+		      </div>
+	    </div>
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav("{:U('Contact/applyList')}");
+		var applyInfoUrl="{:U('Contact/applyInfo')}";
+		//查看报名信息
+		function showDetailInfo(currentThis,id,status){
+			$.post(applyInfoUrl,{
+				'i':id
+			},function(html){
+				console.log(html);
+				var innerHtml="<form class='form-horizontal' role='form' id='form2'>"+html;
+				innerHtml+="<div class='form-group'>"+
+							"<div class='col-xs-12 col-sm-12'>"+
+								"<a href='javaScript:void(0);' class='btn btn-primary' style='float:right;' data-dismiss='modal'>确定</a>"
+							"</div>"+
+						"</div></form>";
+				$(".modal-body").html(innerHtml);
+				$('#myModal').modal('show');
+			});
+		}
+		//审核报名信息
+		function showAdjustInfo(currentThis,id,status){
+			if(status>=3){
+				$("#myMessContext").html("该活动已成功报名");
+				$("#messModal").modal('show');
+				return;
+			}
+			if(status==2){
+				$("#myMessContext").html("该报名信息已驳回");
+				$("#messModal").modal('show');
+				return;
+			}
+			$.post(applyInfoUrl,{
+				'id':id
+			},function(html){
+				var innerHtml="<form class='form-horizontal' role='form' id='form2'>"+html;
+				innerHtml+="<div class='form-group'>"+
+							"<div class='col-xs-12 col-sm-12'>";
+								if(status==0){
+									innerHtml+="<a href='javaScript:void(0);' class='btn btn-primary' style='margin-left:150px;' onclick='adjustApply("+id+",1)'>通过</a>&nbsp;&nbsp;";
+								}else if(status==1){
+									innerHtml+="<a href='javaScript:void(0);' class='btn btn-primary' style='margin-left:150px;' onclick='adjustApply("+id+",1)'>成功</a>&nbsp;&nbsp;";
+								}
+								innerHtml+="<a href='javaScript:void(0);' class='btn btn-primary' style='margin-left:150px;' onclick='adjustApply("+id+",0)'>驳回</a>"+
+							"</div>"+
+						"</div></form>";
+				$(".modal-body").html(innerHtml);
+				$('#myModal').modal('show');
+			});
+		}
+		//通过/驳回审核
+		function adjustApply(id,resultId){
+			$.post("{:U('Contact/adjust')}",{
+				'id':id,
+				resultId:resultId
+			},function(response){
+				if(response.code==200){
+					window.location.reload();
+				}
+			},'json')
+		}
+		//删除提示
+		function configMeg(id){
+			$("#myTip").html("此操作不可恢复，确认删除？");
+			$("#myTip").parent().find('.modal-footer').remove();
+			var html="<div class='modal-footer'>"+
+					     "<button type='button' class='btn btn-success' onclick='deleteSelectInfo("+id+")'>确定"+
+					     "</button>"+
+					     "<button type='button' class='btn btn-default' data-dismiss='modal'>取消"+
+					     "</button>"+
+					  "</div>";
+			$("#myTip").parent().append(html);
+			$("#tipModal").modal('show');
+		}
+		//删除记录
+		function deleteSelectInfo(id){
+			$.post("{:U('Contact/delapply')}",{
+				'id':id,
+			},function(response){
+				console.log(response);
+				if(response.code==200){
+					$('#tipModal').modal('hide');
+					window.location.reload();
+				}else{
+					$("#myTip").html(response.msg);
+				}
+			},'json')
+		}
+		
+	</script>
+</block>

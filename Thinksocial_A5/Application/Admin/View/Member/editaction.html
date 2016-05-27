@@ -1,0 +1,84 @@
+<extend name="Public/basic"/>
+
+<block name="body">
+	<ol class="breadcrumb" style="padding:5px 0;">
+		<li><a href=""><i class="fa fa-cogs"></i> &nbsp; 用户</a></li>
+		<li><a href="">主要业务模块 - 积分管理</a></li>
+		<li><a href="">主要业务模块 - 用户行为管理</a></li>
+		<li class="active">添加用户行为</li>
+	</ol>
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U('Member/editAction')}"><i class="fa fa-plus"></i>添加用户行为</a></li>
+	</ul>
+	<form action="{:U('Member/saveAction')}" method="post" class="form-horizontal">
+    	<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>行为标识</label>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<input type="text" class="form-control" name="name" value="{$data.name}">
+				<span class="check-tips">（输入行为标识 英文字母）</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>行为名称</label>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<input type="text" class="form-control" name="title" value="{$data.title}">
+				<span class="check-tips">（输入行为名称）</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>积分变更额度</label>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<input type="text" class="form-control" name="score" value="{$data.score}">
+				<span class="check-tips">（输入积分变更额度,输入0则不加不减 输入正数为加, 输入负数为减）</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>余额变更额度</label>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<input type="text" class="form-control" name="deposit" value="{$data.deposit}">
+				<span class="check-tips">（输入余额变更额度,输入0则不加不减 输入正数为加, 输入负数为减）</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>行为类型</label>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<select name="type" class="form-control">
+					<volist name=":get_action_type(null,true)" id="vo">
+						<option value="{$key}">{$vo}</option>
+					</volist>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>行为描述</label>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<textarea name="remark" class="form-control">{$data.remark}</textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label">行为规则</label>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<textarea name="rule" class="form-control" rows="10">{$data.rule}</textarea>
+				<span class="check-tips">（输入行为规则，不写则只记录日志）</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-xs-12 col-sm-2 col-md-1 control-label">日志规则</label>
+			<div class="col-xs-12 col-sm-8 col-md-5">
+				<textarea name="log" class="form-control">{$data.log}</textarea>
+				<span class="check-tips">（记录日志备注时按此规则来生成，支持[变量|函数]。目前变量有：user,time,model,record,data）</span>
+			</div>
+		</div>
+		<div class="form-item">
+			<input type="hidden" name="id" value="{$data.id}"/>
+			<button type="submit" class="btn submit-btn ajax-post" target-form="form-horizontal">确 定</button>
+			<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+		</div>
+	</form>
+</block>
+
+<block name="script">
+<script type="text/javascript" charset="utf-8">
+    highlight_subnav('{:U('Member/action')}');
+</script>
+</block>

@@ -1,0 +1,71 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$Think.config.name} - 梦雪网络</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/style/reset.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/style/root.css" />
+<script type="text/javascript" src="__PUBLIC__/Home/js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/toogle.js"></script>
+<script type="text/javascript">
+    
+</script>
+</head>
+<body>
+<include file="header" /> 
+
+<!-- start page -->
+<div class="page">
+  <div class="simplebox">
+    <div class="content">
+      <form id="form" name="form" method="post" action="{:U('Pay/index')}">
+      <div class="form-line">
+                   	  <label class="st-label">{$Think.config.name_shop}</label>
+					  <input type="text" name="pay_shop" value="{$_GET['pay_shop']}" style=" width:50%;"  />
+            
+                     
+                    </div>
+            
+        
+        <div class="form-line">
+          <label class="st-label">{$Think.config.name_sl}</label>
+          
+          <label>
+            <input type="text" name="pay_fee_qt" value="{$_GET['pay_fee']}"  style=" width:30%;" />
+            元 </label>
+        </div>
+      
+        
+        <div class="form-line">
+          <label class="st-label">{$Think.config.name_message}</label>
+          <textarea name="user_message" style="width:93%;"  rows="3" cols="3">二维码收款</textarea>
+        </div>
+        <div class="form-line">
+          <label class="st-label">支付方式</label>
+        <div>
+          <label>
+            <input name="pay_type" type="radio" value="weixin" checked="checked" />微信支付</label>
+        </div>
+         </div>
+        <div>
+          <input type="submit"  value="&nbsp;确 定 付 款&nbsp;" class="submit-button" />
+        </div>
+      </form>
+    </div>
+  </div>
+  <include file="footer" /> 
+</div>
+<!-- end page -->
+<script type="text/javascript">
+document.form.submit();
+</script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/frame.js"></script>
+</body>
+</html>

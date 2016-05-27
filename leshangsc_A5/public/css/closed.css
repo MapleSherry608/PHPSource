@@ -1,0 +1,50 @@
+﻿/* CSS Document */
+
+body {
+	margin:0;
+	padding:0px;
+	font-family:Arial, Helvetica, sans-serif;
+	background: url(../images/closed_bg.jpg) repeat-x;
+	background-attachment:fixed;
+}
+form,ul,h1,h2,h3,h4,h5,h6,dl,dd,dt,li,span{
+	margin:0px;
+	padding:0px;
+	border:0px;
+}
+img {
+	border:none;
+}
+.closed_box{
+	width:760px;
+	margin:0 auto;
+}
+.closed_body_top{
+	height:184px;
+	background:url(../images/closed_body_top.jpg) no-repeat;
+}
+.closed_body{
+	height:366px;
+	padding-left:9px;
+	padding-right:9px;
+	padding-top:9px;
+	border-left:21px solid #ee0000;
+	border-right:21px solid #ee0000;
+	border-bottom:21px solid #ee0000;
+}
+.closed_body .content{
+	height:287px;
+	text-align:center;
+	font-family:"microsoft yahei";
+	font-size:72px;
+	color:#fff;
+	padding-top:70px;
+	background:url(../images/closed_body_bg.jpg) repeat-x;
+}
+.closed_shadow{
+	height:118px;
+	background:url(../images/close_box_shadow.png) no-repeat;
+}
+.clear{
+	clear:both;
+}

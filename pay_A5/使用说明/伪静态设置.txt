@@ -1,0 +1,54 @@
+
+1打开伪静态
+
+
+  修改文件 /app/Conf/config.php
+  'URL_MODEL'     	 => '1',  //URL模式  把1改为2开启伪静态
+
+
+2添加伪静态规则
+
+
+
+★Apache服务器 配置文件 .htaccess
+<IfModule mod_rewrite.c>
+  Options +FollowSymlinks
+  RewriteEngine On
+
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+</IfModule>
+
+
+
+★iis6服务器 Rewrite 配置文件 httpd.conf
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ /index.php/$1 [I]
+
+★iis7以上服务器 Rewrite 配置文件 httpd.conf
+<rewrite>
+ <rules>
+ <rule name="OrgPage" stopProcessing="true">
+ <match url="^(.*)$" />
+ <conditions logicalGrouping="MatchAll">
+ <add input="{HTTP_HOST}" pattern="^(.*)$" />
+ <add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
+ <add input="{REQUEST_FILENAME}" matchType="IsDirectory" negate="true" />
+ </conditions>
+ <action type="Rewrite" url="index.php/{R:1}" />
+ </rule>
+ </rules>
+ </rewrite>
+
+★Nginx服务器 Rewrite 
+location / { // …..省略部分代码 如果二级目录,请在location /写你的目录/
+   if (!-e $request_filename) {
+   rewrite  ^(.*)$  /index.php?s=$1  last;
+   break;
+    }
+}
+
+

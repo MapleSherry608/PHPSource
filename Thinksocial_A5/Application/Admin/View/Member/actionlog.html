@@ -1,0 +1,137 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<style type="text/css">
+		.row-selected{width: 50px;}
+	</style>
+</block>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li><a href="{:U('Member/action')}">行为列表</a></li>
+		<li class="active"><a href="{:U()}">行为日志</a></li>
+	</ul>
+	<div class="clearfix">
+		<div class="panel panel-info">
+			<div class="panel-body form-horizontal">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">日志备注</label>
+					<div class="col-xs-12 col-sm-3 col-md-2 ">
+						<input type="text" class="form-control search-input" name="remark" value="{:I('remark')}">
+					</div>
+					<label class="col-xs-12 col-sm-2 col-md-1 control-label">类型</label>
+					<div class="col-xs-12 col-sm-5 col-md-3">
+						<label class="radio-inline">
+							<input type="radio" name="issystem" value="" <if condition="empty($_REQUEST['issystem'])">checked="checked"</if> > 不限
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="issystem" value="0" <if condition="empty($_REQUEST['issystem']) && is_numeric($_REQUEST['issystem'])">checked="checked"</if> >前台操作
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="issystem" value="1" <if condition="I('issystem') eq 1">checked="checked"</if> >后台操作
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="issystem" value="2" <if condition="I('issystem') eq 2">checked="checked"</if> >模块操作
+						</label>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">状态</label>
+					<div class="col-xs-12 col-sm-3 col-md-2">
+						<label class="radio-inline">
+							<input type="radio" name="status" value="" <if condition="!is_numeric($_REQUEST['status'])&&empty($_REQUEST['status'])">checked="checked"</if> > 不限
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="1" <if condition="I('status') eq 1">checked="checked"</if> >正常
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="0" <if condition="is_numeric($_REQUEST['status'])&&empty($_REQUEST['status'])">checked="checked"</if> >禁用
+						</label>
+					</div>
+					<div class="col-xs-12 col-sm-3 col-md-2 col-lg-2 ">
+						<span class="btn btn-default" url="{:U()}" id="search"><i class="fa fa-search"></i> 搜索</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div>
+        <button class="btn ajax-get confirm" url="{:U('clear')}">清 空</button>
+		<button class="btn ajax-post confirm" target-form="ids" url="{:U('remove')}">删 除</button>
+    </div>
+	<!-- 数据列表 -->
+	<div class="table-responsive panel-body">
+	<table class="table table-hover">
+    <thead>
+        <tr>
+			<th style="width: 50px;"><input class="check-all" type="checkbox"/></th>
+			<th style="width: 50px;">编号</th>
+			<th style="width: 150px;">行为名称</th>
+			<th style="width: 100px;">日志类型</th>
+			<th style="width: 200px;">执行者</th>
+			<th>内容</th>
+			<th style="width: 150px;">执行时间</th>
+			<th style="width: 100px;">操作</th>
+		</tr>
+    </thead>
+    <tbody>
+		<notempty name="_list">
+		<volist name="_list" id="vo">
+		<tr>
+            <td><input class="ids" type="checkbox" name="ids[]" value="{$vo.id}" /></td>
+			<td>{$vo.id} </td>
+			<td>{:get_action($vo['action_id'],'title')}</td>
+			<td>
+				<PHP>$systtype=array(0=>'前台操作', 1=>'后台操作',2=>'模块操作'); echo $systtype[$vo['issystem']];</PHP>
+			</td>
+			<td>
+				<if condition="!empty($vo['membid'])">
+					{:get_nickname($vo['membid'])}
+				</if>
+				<if condition="!empty($vo['membid'])&&!empty($vo['userid'])">&nbsp;&nbsp;|&nbsp;&nbsp;</if>
+				<if condition="!empty($vo['userid'])">
+					{:get_admin($vo['userid'])}
+				</if>
+			</td>
+			<td>{$vo.remark}</td>
+			<td><span>{$vo.create_time|time_format}</span></td>
+			<td><a href="{:U('Member/edit?id='.$vo['id'])}">详细</a>
+				<a class="confirm ajax-get" href="{:U('Member/remove?ids='.$vo['id'])}">删除</a>
+                </td>
+		</tr>
+		</volist>
+		<else/>
+		<td colspan="6" class="text-center"> aOh! 暂时还没有内容! </td>
+		</notempty>
+	</tbody>
+    </table>
+	</div>
+	<!-- 分页 -->
+	<div class="page">{$_page}</div>
+	<!-- /分页 -->
+
+</block>
+<block name="script">
+<script type="text/javascript">
+//搜索功能
+		$("#search").click(function(){
+			var url = $(this).attr('url');
+	        var query  = $('.form-horizontal').find('input').serialize();
+	        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+	        query = query.replace(/^&/g,'');
+	        if( url.indexOf('?')>0 ){
+	            url += '&' + query;
+	        }else{
+	            url += '?' + query;
+	        }
+			window.location.href = url;
+		});
+		//回车搜索
+		$(".search-input").keyup(function(e){
+			if(e.keyCode === 13){
+				$("#search").click();
+				return false;
+			}
+		});
+highlight_subnav("{:U('Member/actionlog')}");
+</script>
+</block>

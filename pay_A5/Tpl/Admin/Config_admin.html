@@ -1,0 +1,57 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Admin Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+
+<div id="content" class="white">
+  <div class="bloc">
+    <div class="title">修改管理员</div>
+    <form method="post" action="">
+    <div class="content">
+      <div class="input">
+        <label for="input2">用户名</label>
+        <input name="user" type="text" id="input2" value="{$Admin.user}" />
+      </div>
+      <div class="input">
+        <label class="label">密码</label>
+         <input type="password" name="pwd"   id="input2" value="admin" />
+        <br />
+        <label class="inline">密码必填,不填为空密码</label>
+      </div>
+      
+      <div class="submit">
+	  <eq name='MXPAY_DEBUG' value='1'>
+		 <label><foo>{$MXPAY_DEBUG_Name}</foo></label>
+		 <else />
+         <input type="submit" class="black" value="确定修改"/>
+         </eq>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

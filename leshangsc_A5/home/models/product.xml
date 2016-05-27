@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form> 
+ <input name="name" type="notnull" action="both" msg="名称不能为空" /> 
+ <input name="current_price" type="notnull" action="both" msg="价格不能为空" />
+ <input name="current_price" type="currency" action="both" msg="价格格式不正确" />
+ <input name="inventory" type="notnull" action="both" msg="库存不能为空" />
+ <input name="brief" type="notnull" action="both" msg="内容不能为空" />
+ <input name="specifications" type="notnull" action="both" msg="参数介绍不能为空" />
+</form>

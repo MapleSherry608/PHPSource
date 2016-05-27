@@ -1,0 +1,62 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Admin Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+
+<!--            
+              CONTENT 
+                        -->
+<div id="content" class="white">
+  <div class="bloc">
+    <div class="title">总店微信后台(微信扫码)</div>
+    <form method="post" action="">
+    <div class="content">
+      <div class="input">
+        <br />
+        <div class="input">
+        <label>设置微信openid作为管理员权限</label>
+        <input type="text" name="openid" value="{$wx_admin_openid}" style="width:400px" />
+        <label  class="inline">多个openid请用|格开  <eq name='MXPAY_DEBUG' value='1'><foo>当前为演示模式 此功能暂时无效
+		 </foo></eq></label>
+		
+		
+      </div>
+      
+         <div class="input">
+        <label>1,微信管理地址</label>
+        <input type="text" value="{$url}" style="width:400px" />
+        <label  class="inline">请将微信管理地址 设置微信菜单或关键词回复</label>
+      </div>
+	  
+	  <div class="input">
+        <label>2,您也可以使用微信扫码进入微信管理</label> 
+		<img src="http://www.liantu.com/api.php?text={$url}&bg=ffffff&fg=000000" />
+      </div>
+	  
+      </div>
+      <div class="submit">
+        <input type="submit" value="确定保存"   class="black"/>
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

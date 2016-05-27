@@ -1,0 +1,20 @@
+<ul class="nav nav-tabs">
+	<li <if condition="ACTION_NAME eq 'goods'"> class="active" </if>>
+		<a href="{:U('Shop/goods')}">商品管理</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'category'"> class="active" </if>>
+		<a href="{:U('Shop/category')}">商品分类管理</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'dispatch'"> class="active" </if>>
+		<a href="{:U('Shop/dispatch')}">配送方式</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'adv'"> class="active" </if>>
+		<a href="{:U('Shop/adv')}">幻灯片管理</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'notice'"> class="active" </if>>
+		<a href="{:U('Shop/notice')}">公告管理</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'comment'"> class="active" </if>>
+		<a href="{:U('Shop/comment')}">评价管理</a>
+	</li>
+</ul>

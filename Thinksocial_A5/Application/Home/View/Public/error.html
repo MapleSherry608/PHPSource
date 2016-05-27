@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+<title>sxThink跳转提示</title>
+<link href="__HOME_CSS__/weui.css" rel="stylesheet" type="text/css">
+<link href="__HOME_CSS__/example.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="container js_container">
+	<div class="page slideIn msg">
+	    <div class="weui_msg">
+	        <div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>
+	        <div class="weui_text_area">
+	            <h2 class="weui_msg_title">操作失败</h2>
+	            <p class="weui_msg_desc"><?php echo($message); ?></p>
+	        </div>
+	        <div class="weui_opr_area">
+	            <p class="weui_btn_area">
+	                <a href="javascript:;" class="weui_btn weui_btn_primary" onclick="javascript:window.location.href='<?php echo($jumpUrl); ?>'">确定</a>
+	                <a href="javascript:;" class="weui_btn weui_btn_default"  onclick="stop()">取消</a>
+	            </p>
+	        </div>
+	        <div class="weui_extra_area">
+	        </div>
+	    </div>
+	</div>
+</div>
+</body>
+</html>

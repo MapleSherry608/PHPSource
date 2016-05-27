@@ -1,0 +1,76 @@
+<extend name="Public/basic"/>
+
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U('Contact/cateList')}">活动类型</a></li>
+		<li><a href="{:U('Contact/addCategory',array('parentId'=>$parentId))}">添加类型</a></li>
+	</ul>
+	<div class="main">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<form action="{:U('Contact/activeList')}" method="post" class="form-horizontal" role="form" id="form1">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">活动名称:</label>
+						<div class="col-xs-12 col-sm-1 col-md-2">
+							<input class="form-control" name="title" type="text" value="{$title}" placeholder="用户名">
+						</div>
+						<input name="submit" type="submit" style="margin-left: 120px;" value="搜索" class="btn btn-primary">
+					</div>
+				</form>
+				<br>
+				<table class="table table-hover table-bordered">
+					<thead>
+						<tr>
+							<th style="width:50px;">编号</th>
+							<th style="width:15%;">分类名</th>
+							<th style="width:5%;">父类id</th>
+							<th style="width:30%;">分类介绍</th>
+							<th style="width:10%;">状态</th>
+							<th style="width:10%;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<notempty name="cateList">
+							<volist name="cateList" id="vo">
+								<tr>
+									<td>{$vo.id}</td>
+									<td>
+										<if condition="$vo.parentid eq 0">
+											<a href="{:U('Contact/cateList',array('childId'=>$vo['id']))}">{$vo.name}</a>
+										<else/>
+											{$vo.name}
+										</if>
+									</td>						  
+									<td>{$vo.parentid}</td>
+									<td>{$vo.description}</td>
+									<td>
+										<if condition="$vo.enabled eq 0">
+											<span class="label label-error">禁用</span>
+										<else/>
+											<span class="label label-success">启用</span>
+										</if>
+									</td>
+									<td>
+										<a href="{:U('Contact/addCategory',array('id'=>$vo['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="编辑"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;
+										<a href="{:U('Contact/cate_del',array('id'=>$vo['id']))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除"><i class="fa fa-times"></i></a>
+									</td>
+								</tr>
+							</volist>
+						</notempty>
+					</tbody>
+			</table>
+		 	<!-- 分页 -->
+	        <div class="page">
+				{$_page}
+	        </div>
+		</div>
+	</div>
+</div>
+	
+</block>
+
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav('{:U('Contact/cateList')}');
+	</script>
+</block>

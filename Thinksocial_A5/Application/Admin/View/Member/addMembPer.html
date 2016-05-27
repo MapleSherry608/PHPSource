@@ -1,0 +1,53 @@
+<extend name="Public/basic"/>
+<block name="style">
+	<style type="text/css">
+		.table thead tr td span{ width: 100px;}
+	</style>
+</block>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li><a href="{:U('Member/membPerson')}">功能列表</a></li>		
+		<li class="active"><a href="{:U()}"><i class="fa fa-plus"></i>添加功能</a></li>
+	</ul>
+	<form action="{:U()}" method="post" class="form-horizontal">
+		<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+	    	<div class="form-group">
+	    		<label class="col-xs-12 col-sm-2 col-md-1 control-label">显示名称</label>
+				<div class="col-xs-12 col-sm-8 col-md-5">
+					<input type="text" name="name" id="name" class="form-control" value="{$personal['name']}">
+				</div>
+				
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>显示图标</label>
+				<div class="col-xs-12 col-sm-8 col-md-5">
+					{:tpl_form_field_image('icon', $personal['icon'])}
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-1 control-label"><span style="color:red">*</span>访问链接</label>
+				<div class="col-xs-12 col-sm-8 col-md-5">
+					<input type="text" name="url" id="url" class="form-control" value="{$personal['url']}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-2 col-md-1 control-label">排序</label>
+				<div class="col-xs-12 col-sm-8 col-md-5" >
+					<input type="text" name="sort" id="sort" class="form-control" value="{$personal['sort']}">
+				</div>
+			</div>
+			<div class="form-item">
+				<input name="id" type="hidden" value="{$personal['id']}"/>
+				<button class="btn submit-btn ajax-post" id="submit" type="submit" target-form="form-horizontal">确 定</button>
+				<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+			</div>
+		</div>
+	</form>
+
+</block>
+<block name="script">
+<script type="text/javascript">
+	highlight_subnav("{:U('Member/membPerson')}");
+</script>
+</block>
+	

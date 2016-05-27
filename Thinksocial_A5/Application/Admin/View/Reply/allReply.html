@@ -1,0 +1,109 @@
+<extend name="Public/basic"/>
+<block name="style">
+	
+</block>
+<block name="body">
+	<ul class="nav nav-tabs">
+	<li class="active"><a href="{:U('Reply/allreply',array('rm'=>$rm))}">管理{$module['title']}</a></li>
+	<li><a href="{:U('Reply/allreply',array('do'=>'post','rm'=>$rm))}"><i class="fa fa-plus"></i> 添加{$module['title']}</a></li>
+	<if condition="!empty($site_urls)">
+		<volist name="site_urls" id="site_url">
+			<li><a href="{$site_url['url']}"> {$site_url['title']}</a></li>
+		</volist>
+	</if>
+</ul>
+<div class="clearfix">
+	<div class="panel panel-info">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body">
+			<form action="{:U()}" method="get" class="form-horizontal" role="form">
+			<input type="hidden" name="c" value="platform">
+			<input type="hidden" name="a" value="reply">
+			<input type="hidden" name="m" value="{$_REQUEST['m']}" />
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
+					<div class="col-sm-8 col-xs-12">
+						<select name="status" class="form-control">
+							<option value="-1" {if $_REQUEST['status'] == '-1'} selected{/if}>所有</option>
+							<option value="1" {if $_REQUEST['status'] == '1'} selected{/if}>启用</option>
+							<option value="0" {if $_REQUEST['status'] == '0'} selected{/if}>禁用</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">关键字</label>
+					<div class="col-sm-8 col-xs-12">
+							<input class="form-control" name="keyword" id="" type="text" value="{$_REQUEST['keyword']}">
+					</div>
+					<div class="col-xs-12 col-sm-2 col-lg-1 text-right">
+						<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div>
+		<volist name="replies" id="row">
+		<div class="panel panel-default">
+			<div class="panel-heading clearfix">
+				{$row['name']}
+				<span class="pull-right">
+					<if condition="$row['displayorder'] gt 0">
+						<if condition="$row['displayorder'] eq 255">
+							<span class="label label-primary">置顶</span>
+						<else/>
+							<span class="label label-info">优先级 {$row['displayorder']}</span>
+						</if>
+					</if>
+					<if condition="$row['status'] eq '0'">
+						<span class="label label-danger">已禁用</span>
+					</if>
+				</span>
+			</div>
+			<div class="panel-body">
+				<volist name="row['keywords']" id="kw">
+				<span class="label label-default" data-toggle="tooltip" data-placement="top" title="<if condition="$kw['type'] eq 1">等于<elseif condition = "$kw['type'] eq 2">包含<elseif condition = "$kw['type'] eq 3">正则</if>">{$kw['content']}</span>&nbsp;
+				<if condition = "$kw['type'] eq 4">
+					<span class="label label-info" data-toggle="tooltip" data-placement="top" title="托管">优先级在{$row['displayorder']}之下直接生效</span>
+				</if>
+				</volist>
+			</div>
+			<div class="panel-footer clearfix">
+				<div class="btn-group pull-right">
+					<a class="btn btn-default btn-sm" href="{php echo url('platform/reply/post', array('m' => $m, 'rid' => $row['id']))}"><i class="fa fa-edit"></i> 编辑</a>
+					<a class="btn btn-default btn-sm" href="{php echo url('platform/reply/delete', array('m' => $m, 'rid' => $row['id'],'unlimited'=>1))}" onclick="return confirm('删除规则将同时删除关键字与回复，确认吗？');return false;"><i class="fa fa-times"></i> 删除</a>
+					<a class="btn btn-default btn-sm" href="{php echo url('platform/stat/trend', array('id' => $row['id'], 'm' => $row['module']))}"><i class="fa fa-bar-chart-o"></i> 使用率走势</a>
+					<if condition="$row['options']">
+					<div class="btn-group">
+						<button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+							功能选项
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" style="min-width:0px;">
+							<volist name="row['options']" id="opt">
+								<li><a href="{$opt['url']}">{$opt['title']}</a></li>
+							</volist>
+						</ul>
+					</div>
+					</if>
+				</div>
+			</div>
+		</div>
+		</volist>
+	</div>
+	{$_page}
+</div>
+
+</block>
+<block name="script">
+	<script type="text/javascript">
+require(['bootstrap'], function($){
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip();
+	})
+});
+highlight_subnav("{:U('Reply/allReply')}");
+</script>
+</block>
+	

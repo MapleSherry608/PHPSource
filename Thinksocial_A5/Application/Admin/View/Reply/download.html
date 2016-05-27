@@ -1,0 +1,30 @@
+<extend name="Public/basic" />
+<block name="middle">
+	<div class="container-fluid">
+		<div class="jumbotron clearfix alert alert-success">
+			<div class="row">
+				<div class="col-xs-12 col-sm-3 col-lg-2">
+					<i class="fa fa-5x fa-check-circle"></i>
+				</div>
+				<div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+					<h2></h2>
+					<p>正在更新粉丝数据,请不要关闭浏览器,已完成更新 {$p*50} 条数据。</p>
+					<p><a href="{:U('Reply/renewal',array('p'=>intval($p)+1))}">如果你的浏览器没有自动跳转，请点击此链接</a></p>
+					<script type="text/javascript">
+						setTimeout(function() {
+							location.href = "{:U('Reply/renewal',array('p'=>intval($p)+1))}";
+						}, 3000);
+					</script>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid footer" role="footer">
+		<div class="page-header"></div>
+		<span class="pull-left">
+		</span>
+		<span class="pull-right">
+		</span>
+	</div>
+
+</block>

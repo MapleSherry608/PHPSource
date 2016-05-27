@@ -1,0 +1,84 @@
+<extend name="Public/basic" />
+
+
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li><a href="{:U('Article/editCate')}">添加</a></li>
+		<li class="active"><a href="{:U()}">管理</a></li>
+	</ul>
+	<div class="main">
+		<div class="category">
+			<form action="" method="post" onsubmit="return formcheck(this)">
+				<div class="panel panel-default">
+					<div class="panel-body table-responsive">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th style="width:5%; text-align:center;">显示顺序</th>
+									<th style="width:25%;">分类名称</th>
+									<th style="width:20%;text-align:center;">链接</th>
+									<th style="width:5%; text-align:center;">设为栏目</th>
+									<th style="width:15%; text-align:center">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<foreach name="category" item="row" key="k" >
+									<tr>
+										<td class="text-center"><input type="text" class="form-control" name="displayorder[{$row['id']}]" value="{$row['displayorder']}"></td>
+										<td class="text-left">
+											<div style="height:30px;line-height:30px">
+												<a href="{:MURL('index/Article/indSite',array('cid'=>$row['id']))}" target="_blank">{$row['name']}</a>&nbsp;&nbsp;
+												<if condition="empty($row['parentid'])">
+												<a href="{:U('Article/editCate', array('parentid' => $row['id']))}" title="添加子分类"><i class="fa fa-plus"></i></a>
+												</if>
+											</div>
+										</td>
+										<td class="text-center"><input type="text" readonly="readonly" class="form-control" value="{:MURL('index/Article/indSite',array('cid'=>$row['id']))}"></td>
+										<td class="text-center"><php> echo $row['nid'] ? '是' : '否'</php></td>
+										<td class="text-center">
+											<a href="{:U('Article/edit', array('pcate' => $row['id']))}" title="添加文章" class="btn btn-default btn-sm"  data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
+											<a href="{:U('Article/editCate', array('id' => $row['id']))}" title="编辑" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"><i class="fa fa-edit"></i></a>
+											<a href="{:U('Article/delCate', array('id' => $row['id']))}" onclick="return confirm('确认删除此分类吗？');return false;" title="删除" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"><i class="fa fa-times"></i></a>
+										</td>
+									</tr>
+									<foreach name="children[$row['id']]" item="crow" key="k">
+									<tr>
+										<td class="text-center"><input type="text" class="form-control" name="displayorder[{$crow['id']}]" value="{$crow['displayorder']}"></td>
+										<td class="text-left">
+											<div style="padding-left:50px;height:30px;line-height:30px;background:url('./resource/images/bg_repno.gif') no-repeat -245px -545px;">
+												<a href="{:MURL('index/Article/indSite',array('cid'=>$crow['id']))}" target="_blank">{$crow['name']}</a>
+											</div>
+										</td>
+										<td class="text-center"><input type="text" readonly="readonly" class="form-control" value="{:MURL('index/Article/indSite',array('cid'=>$crow['id']))}"></td>
+										<td class="text-center"><php> echo $crow['enabled'] ? '是' : '否'</php></td>
+										<td class="text-center">
+											<a href="{:U('Article/edit', array('pcate' => $crow['parentid'], 'ccate' => $crow['id']))}" title="添加文章" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"><i class="fa fa-plus"></i></a>
+											<a href="{:U('Article/editCate', array('id' => $crow['id'],'parentid'=>$row['id']))}" title="编辑" class="btn btn-default btn-sm"><i class="fa fa-edit" data-toggle="tooltip" data-placement="top"></i></a>
+											<a href="{:U('Article/delCate', array('id' => $crow['id']))}" onclick="return confirm('确认删除此分类吗？');return false;" title="删除" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top"><i class="fa fa-times"></i></a>
+										</td>
+									</tr>
+									</foreach>
+								</foreach>
+								<tr>
+									<td colspan="5">
+										<a href="{:U('Article/editCate')}"><i class="fa fa-plus-circle" title="添加新分类"></i> 添加新分类</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="form-group col-sm-12">
+					<input name="submit" type="submit" class="btn btn-primary col-lg-1" value="提交">
+					<input type="hidden" name="token" value="fca29e79">
+				</div>
+			</form>
+		</div>
+	</div>
+
+</block>
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav("{:U('Article/siteCate')}");
+	</script>
+</block>

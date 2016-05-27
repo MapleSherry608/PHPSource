@@ -1,0 +1,48 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Admin Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+
+<!--            
+              CONTENT 
+                        -->
+<div id="content" class="white">
+  <div class="bloc">
+    <div class="title">总店多方式收款(二维码)</div>
+    <form method="post" action="">
+    <div class="content">
+      <div class="input">
+ 
+        <img src="http://www.liantu.com/api.php?text={$url}&bg=ffffff&fg=000000" />
+        
+        <br />
+        <div class="input">
+        <label>付款地址</label>
+        <input type="text" value="{$url}" style="width:500px" />
+        <label  class="inline">二维码正式打印后,请勿随修改安全码 <a href="{$url}" target="_blank">浏览地址</a></label>
+      </div>
+      
+      </div>
+    </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

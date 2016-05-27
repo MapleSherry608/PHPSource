@@ -1,0 +1,83 @@
+<div class="form-group">
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="applyNameInfo[]"  class="form-control"  onblur="updateName(this)" />
+	</div>
+</div>
+<div class="form-group">
+	<div class="col-sm-9 col-xs-3">
+		<select id="setInfo{$tag}" name="applySelectInfo[]" class='form-control' onchange="changeInfoByValue(this)">
+			<option value="1">文本框</option>
+			<option value="2">下拉框</option>
+			<option value="3">单选</option>
+			<option value="4">多选</option>
+		</select>
+	</div>
+</div>
+<div class="form-group">
+	<div class="col-sm-9 col-xs-12">
+		<label for="ispersion{$tag}1" class="radio-inline">
+			<input type="radio"  value="1" id="ispersion{$tag}1" /> 必选
+		</label>
+		&nbsp;&nbsp;&nbsp;
+		<label for="ispersion{$tag}2" class="radio-inline">
+			<input type="radio" value="0" id="ispersion{$tag}2"  />可选
+		</label>
+	</div>
+</div>
+<div class="hidden">
+	<input type="hidden" name="prepertyCount[]"  class="prepertyCount" value="0"/>
+	<div class="form-group">
+		<div class="col-sm-9 col-xs-12">
+			<button type="button" class="btn btn-primary btn-xl active glyphicon glyphicon-plus"  onclick="setPreperty(this)">设置属性值</button>
+		</div>
+	</div>
+</div>
+
+<script>
+var indexValue=0;
+function changeInfoByValue(currentThis){
+	var value=$(currentThis).val();
+	if(value>=2){
+		$(currentThis).parent().parent().next().next().attr('class','show');
+	}else{
+		$(currentThis).parent().parent().next().next().attr('class','hidden');
+		$(currentThis).parent().parent().next().next().find('.form-group').nextAll().remove();
+	}
+}
+
+function updateName(currentThis){
+	var label=$(currentThis).parent().parent().next().next().children().find('input');
+	label[0].name=$(currentThis).val();
+	label[1].name=$(currentThis).val();
+}
+
+function reduceValue(currentThis){
+	var countNode=$(currentThis).parent().parent().parent().parent().find('.prepertyCount');
+	countNode.val(parseInt(countNode.val())-1);
+	$(currentThis).parent().parent().parent().remove();
+}
+
+function setPreperty(currentThis){
+	var preperty=$(currentThis).parent().parent().parent().prev().prev().prev().find('input');
+	var preperValue=preperty.val();
+	if(preperValue==null||preperValue==""){
+		alert("请输入名称");
+		return;
+	}
+	//设置数量
+	var countNode=$(currentThis).parent().parent().parent().find('.prepertyCount');
+	countNode.val(parseInt(countNode.val())+1);
+	preperty.attr('readonly','readonly');
+	var html="<div class='form-group'>"+
+				 "<div class='col-sm-9 col-xs-3'>"+
+					"<div class='input-group '>"+
+					  "<input type='hidden' name='setPrepertyValue[]["+preperValue+"]' class='form-control' value="+indexValue+">"+
+					  "<input type='text' name='setPrepertyText[]["+preperValue+"]' class='form-control' >"+
+					  "<span onclick='reduceValue(this)' class='input-group-addon glyphicon glyphicon-minus' id='basic-addon2'></span>"+
+					"</div>"+
+				 "</div>"+
+		      "</div>";
+	indexValue++;
+	$(currentThis).parent().parent().parent().append(html);
+}
+</script>

@@ -1,0 +1,18 @@
+
+
+Nginx服务器 请开启伪静态 (方法见 伪静态设置.txt)
+
+
+
+数据库 导入 /Data/data.sql
+数据库配置 /Conf/db.php  表前缀 sk_
+
+搞定后 在 /Data/ 添加文件 install.lock 文件为这个即可,内容不管他
+
+最后进入数据库  在admin 表  添加 后台管理员 user  密码pwd   密码请用MD5加密 
+
+或执行sql语句
+
+INSERT INTO `mxpay`.`sk_admin` (`id`, `intro`, `user`, `pwd`, `time`) VALUES ('4', '系统管理员', 'admin', '21232f297a57a5a743894a0e4a801fc3', '1457156594');
+
+账号密码为admin admin 

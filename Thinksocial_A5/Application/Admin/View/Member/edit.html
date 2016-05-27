@@ -1,0 +1,138 @@
+<extend name="Public/basic" />
+
+<block name="body">
+	<div class="main-title cf">
+		<h2>查看行为日志</h2>
+	</div>
+
+	<!-- 标签页导航 -->
+	<div class="tab-wrap">
+		<div class="tab-content">
+			<!-- 基础 -->
+			<div class="col-xs-12 col-sm-11 col-lg-10">
+				<div class="panel panel-info">
+					<div class="panel-heading">操作日志</div>
+					<div class=" panel-body table-responsive">
+						<div class="row">
+							<label class="col-xs-12 col-sm-3 col-md-1 control-label">行为名称</label>
+							<div class="col-xs-12 col-sm-3 col-md-3 ">
+								<span>{:get_action($info['action_id'], "title")}</span>
+							</div>
+							<label class="col-xs-12 col-sm-3 col-md-1 control-label">状态</label>
+							<div class="col-xs-12 col-sm-3 col-md-3 ">
+								<span>{:get_action($info['action_id'], "title")}</span>
+							</div>
+						</div>
+						<div class="row">
+							<label class="col-xs-12 col-sm-3 col-md-1 control-label">执行用户</label>
+							<div class="col-xs-12 col-sm-3 col-md-3 ">
+								<span>{:get_nickname($info['membid'])}</span>
+							</div>
+							<label class="col-xs-12 col-sm-3 col-md-1 control-label">模型</label>
+							<div class="col-xs-12 col-sm-3 col-md-3 ">
+								<span>{$info['model']}</span>
+							</div>
+						</div>
+						<div class="row">
+							<label class="col-xs-12 col-sm-3 col-md-1 control-label">执行IP</label>
+							<div class="col-xs-12 col-sm-3 col-md-3 ">
+								<span>{:long2ip($info['action_ip'])}</span>
+							</div>
+							<label class="col-xs-12 col-sm-3 col-md-1 control-label">执行时间</label>
+							<div class="col-xs-12 col-sm-3 col-md-3 ">
+								<span>{:date('Y-m-d H:i:s',$info['create_time'])}</span>
+							</div>
+						</div>
+						<div class="row">
+							<label class="col-xs-12 col-sm-3 col-md-1 control-label">执行内容</label>
+							<div class="col-xs-12 col-sm-9 col-md-7 ">
+								<span>{$info.remark}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-11 col-lg-10">
+
+				<div class="panel panel-info">
+					<div class="panel-heading">变更日志</div>
+					<div class=" panel-body table-responsive">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th style="width:100px">积分类型</th>
+									<th style="width:100px">操作员</th>
+									<th style="width:100px">积分数量</th>
+									<th style="width:200px">操作时间</th>
+									<th>备注</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>积分</td>
+									<td>admin</td>
+									<td>5.00</td>
+									<td>2015-11-30 11:40:45</td>
+									<td>关注平台奖励</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<!-- 按钮 -->
+			<div class="col-xs-12 col-sm-11 col-lg-10">
+				<label class="item-label"></label>
+				<div class="controls edit_sort_btn">
+					<button class="btn btn-return" onclick="javascript:history.back(-1);return false;">返 回</button>
+				</div>
+			</div>
+			</form>
+		</div>
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript" src="__STATIC__/jquery.dragsort-0.5.1.min.js"></script>
+	<script type="text/javascript" charset="utf-8">
+		Think.setValue("extend", {
+			$info.extend |
+				default = 0
+		});
+		//导航高亮
+		$(function() {
+				highlight_subnav('{:U('
+					Member / actionlog ')}');
+				showTab();
+			})
+			//拖曳插件初始化
+		$(function() {
+			$(".dragsort").dragsort({
+				dragSelector: 'li',
+				placeHolderTemplate: '<li class="draging-place">&nbsp;</li>',
+				dragBetween: true, //允许拖动到任意地方
+				dragEnd: function() {
+					var self = $(this);
+					self.find('input').attr('name', 'field_sort[' + self.closest('ul').data('group') + '][]');
+					//updateVal();
+				}
+			});
+			$('#sortUl li b').click(function() {
+				$(this).parent().remove();
+				updateVal();
+			});
+			// 更新排序后的隐藏域的值
+			function updateVal() {
+				var fields = new Array();
+				$('.form_field_sort').each(function() {
+					var i = 1;
+					var self = this;
+					var group = $(self).attr('group');
+					$(self).find('li').each(function() {
+						var id = $(this).find('em').attr('data');
+						$('#field-' + id).val(id + ':' + group + ':' + i++);
+					});
+				});
+			}
+		})
+	</script>
+</block>

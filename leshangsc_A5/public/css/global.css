@@ -1,0 +1,41 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+body {
+	margin:0;
+	padding:0px;
+	height:100%;
+}
+
+img {
+	border:none;
+}
+
+form,ul,h1,h2,h3,h4,h5,h6{
+	margin:0px;
+	padding:0px;
+	border:0px;
+}
+
+.clear{
+	clear:both;
+}
+.left{
+	float:left;
+}
+.right{
+	float:right;
+}
+.web{
+	width:1000px;
+	margin:0 auto;
+	background:#fff;
+	padding:10px;
+}
+li{
+	list-style-type:none;
+}
+p{
+	margin:0;
+}

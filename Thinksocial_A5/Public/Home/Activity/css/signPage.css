@@ -1,0 +1,24 @@
+/*初始化*/
+*{margin: 0;padding: 0;font-size: 14px;font-family: "微软雅黑";box-sizing: border-box;color: #323232;}
+h1,h2{font-weight: normal;font-size: 14px;}
+li{list-style: none;}
+a{text-decoration: none;}
+.containerBox{width: 100%;}
+.mainBox{width: 100%;margin-bottom: 60px;}
+/*广告图片*/
+.adPic{width: 100%;}
+.adPic img{width: 100%;display: block;}
+/*登录*/
+.agent_login{width: 100%;padding:0 10%;margin-top: 30px;}
+.loginUser,.loginPwd{position: relative; width: 100%;padding-left: 44px;padding-right: 10px; height: 48px;line-height: 48px; border: solid 1px #ddd;margin-top: 20px;border-radius: 5px;}
+.loginUser input,.loginPwd input{width: 100%;font-size: 16px;border: none;background: none;outline: none;}
+.loginUser span{position: absolute;top: 10px;left: 10px;width:24px;height:24px;background: url(../images/yonghu.png) no-repeat;background-size: 24px 24px;}
+.loginPwd span{position: absolute;top: 10px;left: 11px;width:22px;height:22px;background: url(../images/mima.png) no-repeat;background-size: 22px 22px;}
+.loginBtn{width: 100%;margin-top: 30px;}
+.loginBtn a{display: block;width: 100%;height: 42px;line-height: 42px;text-align: center;background: #10d11d;color: #fff;font-size: 16px;border-radius: 5px;}
+/*底部*/
+.agent_footerBox{position: fixed;bottom: 0;left: 0;width: 100%;height: 48px;border-top: solid 1px #ddd;background: #fafafa;}
+.agent_footerBox li{float: left;width:33.3%;}
+.agent_footerBox li a{display: block; height: 48px;line-height: 48px;text-align: center;font-size: 16px;border-left: solid 1px #ddd;color: #646464;}
+.agent_footerBox li:nth-last-child(0) a{border-left: none;}
+.agent_footerBox li a.currentA{color: #ef330e;border-top: solid 2px #EF330E;background: #fff;}	

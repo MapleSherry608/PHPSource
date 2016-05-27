@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=0" />
+		<title>活动列表</title>
+		<link rel="stylesheet" href="__HOME_CSS__/style.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/iconfont.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/fonts.css" />
+		<link rel="stylesheet" href="__HOME_CSS__/weui.css" />
+		<link rel="stylesheet" href="__HOME_ACTIVE__/css/slideDate.css" />
+		<link rel="stylesheet" href="__HOME_ACTIVE__/css/activeList.css" />
+		<link rel="stylesheet" href="__HOME_ACTIVE__/css/myActiveStyle.css" />
+	</head>
+	<body>
+	<div class="containerBox">
+		<div class="topBarBox">
+			<div class="topLeft">
+				<i class="iconfont">&#xe606;</i>
+			</div>
+			<div class="topTitle">
+				<span>全部</span>
+				<input class="searchValue" type="hidden">
+				<input class="getDateValue" type="text" style="display: none;">
+			</div>
+			<div class="topRight">
+				<i class="iconfont">&#xe641;</i>
+			</div>
+		</div>
+	    <div class="bannerContainer">
+	    	<notempty name="activityList">
+	    		<volist name="activityList" id="active">
+	    			<a href="{:U('Activity/detail',array('activeid'=>$active['id']))}">
+						<div class="bannerBox">
+				       		<img src="{$active['conver_pic']|tomedia}" height="250">
+				      		<div class="bannerTitle">{$active['title']}</div>
+					        <div class="priceTagBox">
+					        	<if condition="$active['if_fee'] eq 0">
+					           	    <h1>免费</h1>
+					        	<else/>
+						             <h1>￥{$active['active_fee']}</h1>
+					        	</if>
+					            <p>{$active['start_time']|date="Y-m-d H:i",###}</p>
+					        </div>
+					    </div>
+				    </a>
+	    		</volist>
+	    		<input type="hidden" value="{$nextNumber}" class="nextnum">
+	    	<else/>
+		    	<div class="emptyBox">
+		    		<div class="tipIconBox">
+		    			<i class="weui_icon_safe weui_icon_info"></i>
+		    		</div>
+		    		<div class="tipMsg">
+		    			暂无活动
+		    		</div>
+		    	</div>
+	    	</notempty>
+	    </div>
+	    <notempty name="activityList">
+	    	<div class="loadMore"><a><p></p><span>加载更多</span></a></div>
+	    <else/>
+	    	<div class="loadMore" style="display: none;"><a><p></p><span>加载更多</span></a></div>
+	    </notempty>
+		<div class="sideslipMark"></div>
+		<div class="sideslipBox">
+			<h1 class="sideslipTitle">全部旅游产品目的地</h1>
+			<ul class="sideslip">
+				<notempty name="cateList">
+					<volist name="cateList" id="cate">
+						<li>
+							<a>{$cate['name']}<span><i class="am-icon-caret-down"></i></span></a>
+							<p>
+								<notempty name="cate._child">
+									<volist name="cate._child" id='ccate'>
+										<span date-ccateid="{$ccate['id']}">{$ccate['name']}</span>
+									</volist>
+								</notempty>
+							</p>
+						</li>
+					</volist>
+				</notempty>
+			</ul>
+		</div>
+		<div id="datePlugin"></div>
+	</div>
+	<include file='Public:contact_foot'/>
+	<script type="text/javascript" src="__HOME_JS__/jquery-1.9.0.min.js" ></script>
+	<script type="text/javascript" src="__HOME_ACTIVE__/js/date.js" ></script>
+	<script type="text/javascript" src="__HOME_ACTIVE__/js/iscroll.js" ></script>
+	<script type="text/javascript">
+	$(function(){
+		//官方路径
+		var url="{:U('Activity/ajaxIndex')}";
+		var htmle="<div class='emptyBox'>\
+						<div class='tipIconBox'>\
+							<i class='weui_icon_safe weui_icon_info'></i>\
+						</div>\
+						<div class='tipMsg'>\
+							暂无活动\
+						</div>\
+					</div>";
+		//加载更多
+		$(".loadMore").click(function(){
+			if($(".loadMore a span").css("display")=="block"){
+				$(".loadMore a span").hide();
+				$(".loadMore a p").show();
+			}
+			var nextNumber=$(".nextnum").val();
+			if(typeof(nextNumber)=='undefined'){
+				if($(".loadMore a span").css("display")=="none"){
+					$(".loadMore a span").show();
+					$(".loadMore a p").hide();
+				}
+				return;
+			}
+			$(".nextnum").remove();
+			var searchValue=$('.searchValue').val();
+			var timeDate='default_time';
+			var cateId=0;
+			if(searchValue!=null&&searchValue!=""){
+				if(searchValue.indexOf('-')>-1){
+					timeDate=searchValue;
+				}else{
+					cateId=parseInt(searchValue);
+				}
+			}
+			$.get(url,{
+				'nextNumber':nextNumber,
+				'timeDate':timeDate,
+				'cateId':cateId
+			},function(html){
+				if(html.indexOf('bannerBox')>-1){
+				   $('.bannerContainer').append(html);
+				}else{
+					$('.loadMore a').find('span').text("已加载完毕！");
+				}
+				if($(".loadMore a span").css("display")=="none"){
+					$(".loadMore a span").show();
+					$(".loadMore a p").hide();
+				}
+			});
+		});
+		//侧滑分栏
+		$(".topLeft").click(function(){
+			$(".sideslipMark").show();
+			$(".sideslipBox").animate({"left":"0px"},500);
+		});
+		$(".sideslipMark").click(function(e){
+			$(".sideslipMark").hide();
+			$(".sideslipBox").css("left","-200px");
+		});
+		$(".sideslip li a").click(function(){
+			var currP = $(this).next("p");
+			var currI = $(this).find("i");
+			if(currP.css("display") == "block"){
+				currP.hide();
+				currI.removeClass("am-icon-caret-up");
+			}else{
+				$(".sideslip li p").hide();
+				currP.show();
+				$(".sideslip li a span i").removeClass("am-icon-caret-up");
+				currI.addClass("am-icon-caret-up");
+			}
+		});
+		//显示全部
+		$(".sideslipTitle").click(function(){
+			$(".topTitle span").html("全部");
+			$('.searchValue').val(0);
+			$.post(url,{
+				'nextNumber':0,
+				'cateId':0
+			},function(html){
+				if(html.indexOf('bannerBox')>-1){
+				   $('.bannerContainer').html(html);
+				   $('.loadMore a').find('span').text("加载更多");
+				   $('.loadMore').show();
+				}else{
+				   $('.bannerContainer').html(htmle);
+				}
+				if($(".loadMore a span").css("display")=="none"){
+					$(".loadMore a span").show();
+					$(".loadMore a p").hide();
+				}
+			});
+			$(".sideslipMark").trigger("click");
+		});
+		//按类别筛选
+		$(".sideslip li p span").click(function(){
+			$(".topTitle span").html($(this).html());
+			var cateId=parseInt($(this).attr('date-ccateid'));
+			$('.searchValue').val(cateId);
+			$.post(url,{
+				'nextNumber':0,
+				'cateId':cateId
+			},function(html){
+				if(html.indexOf('bannerBox')>-1){
+				   $('.bannerContainer').html(html);
+				   $('.loadMore a').find('span').text("加载更多");
+				   $('.loadMore').show();
+				}else{
+				   $('.bannerContainer').html(htmle);
+				   $('.loadMore').hide();
+				}
+				if($(".loadMore a span").css("display")=="none"){
+					$(".loadMore a span").show();
+					$(".loadMore a p").hide();
+				}
+			});
+			$(".sideslipMark").trigger("click");
+		});
+		//按时间筛选
+		$(".getDateValue").date({},function(datetime){
+			$(".topTitle span").html(datetime);
+			$('.searchValue').val(datetime);
+			$.post(url,{
+				'nextNumber':0,
+				'timeDate':datetime
+			},function(html){
+				if(html.indexOf('bannerBox')>-1){
+				   $('.bannerContainer').html(html);
+				   $('.loadMore a').find('span').text("加载更多");
+				   $('.loadMore').show();
+				}else{
+				   $('.bannerContainer').html(htmle);
+				   $('.loadMore').hide();
+				}
+				if($(".loadMore a span").css("display")=="none"){
+					$(".loadMore a span").show();
+					$(".loadMore a p").hide();
+				}
+			});
+		});
+		$(".topRight").click(function(){
+			$(".getDateValue").trigger("click");
+		});
+	});
+	</script>
+	</body>
+</html>

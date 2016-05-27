@@ -1,0 +1,52 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Admin Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+<div id="content" class="white">
+  <div class="bloc">
+    <div class="title"> 接口管理 </div>
+    <div class="content">
+      <table>
+        <thead>
+          <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>状态</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <volist name='list' id='vo'>
+            <tr>
+              <td>{$vo.id}</td>
+              <td>{$vo.name}</td>
+              <td><eq name='vo.ok' value='1'>开启中
+                  <else />
+                  已停用</eq></td>
+              <td class="actions" style="text-align:left"><a href="{:U('Config/pay_up','id='.$vo['id'])}" title="修改"><img src="__PUBLIC__/Admin/img/icons/actions/edit.png" alt="" /></a></td>
+            </tr>
+          </volist>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</body>
+</html>

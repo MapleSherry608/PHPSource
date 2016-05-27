@@ -1,0 +1,119 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>实体店微信收款系统-梦雪网络</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/style/reset.css" />
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/style/root.css" />
+<script type="text/javascript" src="__PUBLIC__/Home/js/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/toogle.js"></script>
+<script type="text/javascript">
+//调用微信JS api 支付
+function jsApiCall() {
+    WeixinJSBridge.invoke('getBrandWCPayRequest', {$jsApiParameters} , function(res) {
+        WeixinJSBridge.log(res.err_msg);
+        alert(res.err_code + res.err_desc + res.err_msg);
+    });
+}
+
+function callpay() {
+    if (typeof WeixinJSBridge == "undefined") {
+        if (document.addEventListener) {
+            document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+        } else if (document.attachEvent) {
+            document.attachEvent('WeixinJSBridgeReady', jsApiCall);
+            document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+        }
+    } else {
+        jsApiCall();
+    }
+}
+//callpay();
+//获取共享地址
+function editAddress() {
+    WeixinJSBridge.invoke('editAddress',  {$jsApiParameters}  , function(res) {
+        var value1 = res.proviceFirstStageName;
+        var value2 = res.addressCitySecondStageName;
+        var value3 = res.addressCountiesThirdStageName;
+        var value4 = res.addressDetailInfo;
+        var tel = res.telNumber;
+        //alert(value1 + value2 + value3 + value4 + ":" + tel);
+    });
+}
+window.onload = function() {
+    if (typeof WeixinJSBridge == "undefined") {
+        if (document.addEventListener) {
+            document.addEventListener('WeixinJSBridgeReady', editAddress, false);
+        } else if (document.attachEvent) {
+            document.attachEvent('WeixinJSBridgeReady', editAddress);
+            document.attachEvent('onWeixinJSBridgeReady', editAddress);
+        }
+    } else {
+        editAddress();
+    }
+};
+</script>
+</head>
+<body>
+<!-- start header -->
+<div id="header"> 
+  <!--<a href="#"><img src="__PUBLIC__/Home/img/logo.png"  alt="logo" class="logo" /></a>
+         	<a href="index.html" class="button back"><img src="__PUBLIC__/Home/img/back-button.png" width="15" height="16" alt="icon" /></a>--> 
+  <!--<a href="#" class="button search"><img src="__PUBLIC__/Home/img/search.png" width="16" height="16" alt="icon"/></a>
+         	<a href="form.html" class="button create"><img src="__PUBLIC__/Home/img/create.png" width="16" height="16" alt="icon"/></a>-->
+  <div class="clear"></div>
+</div>
+<!-- end header --> 
+
+<!-- start searchbox -->
+<div class="searchbox">
+  <form id="form1" name="form1" method="post" action="">
+    <input type="text" name="textfield" id="textfield" class="txtbox" />
+  </form>
+</div>
+<!-- end searchbox --> 
+
+<!-- start page -->
+<div class="page">
+  <div class="simplebox">
+    <h1 class="titleh">订单信息</h1>
+    <div class="content">
+      <div class="form-line">
+      <label class="st-label">支付金额 </label>  <label>{$fee} 元</label>
+      </div>
+      <div class="form-line">
+      <label class="st-label">订单号</label> <label>{$SetOut_trade_no}</label>
+      </div>
+      <div class="form-line">
+      <label class="st-label">留言</label> <label>{$body}</label>
+      </div>
+      <div class="form-line">
+      <button style="width:95%; height:50px; border-radius: 15px;background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;" type="button" onclick="callpay()" >确定支付</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- start top button 
+            <div class="topbutton"><a href="#header"><span>Top</span></a></div>
+             end top button --> 
+  
+  <!-- start footer 
+            <div class="footer">
+            © 2014 - 2015  科蚁网 <a href="http://www.ke01.com">www.ke01.com</a>
+            </div>
+             end footer -->
+  
+  <div class="clear"></div>
+</div>
+<!-- end page -->
+
+</body>
+</html>
+<script type="text/javascript" src="__PUBLIC__/Home/js/frame.js"></script>

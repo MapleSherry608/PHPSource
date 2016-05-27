@@ -1,0 +1,56 @@
+<extend name="Public/basic"/>
+<block name="style">
+
+</block>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li><a href="{:U('Member/listDetail')}">返回列表</a></li>
+		<li class="active"><a href="{:U()}">积分日志</a></li>
+		<li><a href="{:U('Member/depositDetail',array('id'=>$id))}">余额日志</a></li>
+	</ul>
+	<div class="panel panel-default">
+	<div class=" panel-body table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th style="width:100px">ID</th>
+					<th style="width:100px">积分类型</th>
+					<th style="width:100px">操作员</th>
+					<th style="width:100px">积分数量</th>
+					<th style="width:200px">操作时间</th>
+					<th>备注</th>
+				</tr>
+			</thead>
+			<tbody>
+				<volist name="list" id="vo">
+					<tr>
+						<td>{$vo.id}</td>
+						<td>{$vo.type_text}</td>
+						<td>{:get_admin($vo['operator'])}</td>	
+						<td>{$vo.num}</td>
+						<td>{$vo.createtime|time_format}</td>	
+						<td>{$vo.remark}</td>
+					</tr>
+				</volist>
+			</tbody>
+		</table>
+	</div>
+	 <!-- 分页 -->
+        <div class="page">
+			{$_page}
+        </div>
+</div>
+</block>
+<block name="script">
+<div id="publicMyModalDialogs" class="modal fade" tabindex="-1" role="dialog" data-backdrop="false" data-keyboard = "true" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+<script type="text/javascript">
+	publicModel={
+		"Initialize":function(target){
+			 $("#publicMyModalDialogs").load(target);
+			 $("#publicMyModalDialogs").modal('show');
+		}
+	};
+	highlight_subnav("{:U('Member/listDetail')}");
+</script>
+</block>
+	

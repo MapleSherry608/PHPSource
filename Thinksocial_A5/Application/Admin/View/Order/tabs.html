@@ -1,0 +1,26 @@
+<ul class="nav nav-tabs">
+	<li <if condition="ACTION_NAME eq 'list' && $_GET['status'] eq '' "> class="active" </if>>
+		<a href="{:U('Order/list')}">全部订单</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'list' && $_GET['status'] eq '0' "> class="active" </if>>
+		<a href="{:U('Order/list?status=0')}">代付款</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'list' && $_GET['status'] eq 1"> class="active" </if>>
+		<a href="{:U('Order/list?status=1')}">待发货</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'list' && $_GET['status'] eq 2"> class="active" </if>>
+		<a href="{:U('Order/list?status=2')}">待收货</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'list' && $_GET['status'] eq 3"> class="active" </if>>
+		<a href="{:U('Order/list?status=3')}">已完成</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'list' && $_GET['status'] eq -1"> class="active" </if>>
+		<a href="{:U('Order/list?status=-1')}">已关闭</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'list' && $_GET['status'] eq 4"> class="active" </if>>
+		<a href="{:U('Order/list?status=4')}">退款申请</a>
+	</li>
+	<li <if condition="ACTION_NAME eq 'list' && $_GET['status'] eq 5"> class="active" </if>>
+		<a href="{:U('Order/list?status=5')}">已退款</a>
+	</li>
+</ul>

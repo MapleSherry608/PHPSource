@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+		<title>发新帖</title>
+	</head>
+	<link href="__HOME_CSS__/weui.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+	<link href="__HOME_CSS__/example.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+	<link href="__HOME_PUNCH__/css/webuploader.css?v={:SITE_VERSION}" rel="stylesheet" type="text/css">
+	<body>
+		<div class="container js_container">
+			<form method="post">
+				<div class="page cell">
+			    	<div class="weui_toptips weui_warn js_tooltips">格式不对</div>
+			        <div class="weui_cells_title">&nbsp;</div>
+			        <div class="weui_cells weui_cells_form">
+			            <div class="weui_cell">
+			                <div class="weui_cell_hd"></div>
+			                <div class="weui_cell_bd weui_cell_primary">
+			                    <input class="weui_input" name="title" type="text" placeholder="标题,4~20个字">
+			                </div>
+			            </div>
+			        </div>
+			        <div class="weui_cells weui_cells_form">
+			            <div class="weui_cell">
+			                <div class="weui_cell_bd weui_cell_primary">
+			                    <textarea class="weui_textarea" name="content" placeholder="内容，10~120个字" rows="3" maxlength="200"></textarea>
+			                    <div class="weui_textarea_counter"><span>0</span>/200</div>
+			                </div>
+			            </div>
+			        </div>
+			        <div class="weui_cells_title" style="width:50%;float:left;">图片上传&nbsp;&nbsp;(2M以内)</div>
+			        <div class="weui_cells_title weui_cell_ft"><span id="iconCount">0</span>/<span>9</span></div>
+			        <div class="weui_cells weui_cells_form">
+			            <div class="weui_cell">
+			                <div class="weui_cell_bd weui_cell_primary">
+			                    <div class="weui_uploader">
+			                        <div class="weui_uploader_bd">
+			                            <ul class="weui_uploader_files">
+			                            </ul>
+			                            <div class="weui_uploader_input_wrp" id="picBtn">
+			                                &nbsp;
+			                            </div>
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			        </div>
+					<div class="weui_btn_area">
+						<div style="display:none;">
+			            	<a class="weui_btn weui_btn_primary" href="javascript:" id="showTooltips">图片上传</a>
+			            	<button type="submit" class="submitBtn">提交</button>
+			            	<input type="hidden" class="makeThumbCount" value="0"/>
+			            	<input type="hidden" class="makeThumbNum" value="0"/>
+						</div>
+			            <a class="weui_btn weui_btn_primary" href="javascript:" id="sendInfo">发帖</a>
+			        </div>
+			        <div class="imageInput" style="display:none;"></div>
+			    </div>
+			    {__TOKEN__}
+		    </form>
+   		</div>
+   		 <!-- loading toast -->
+	    <div id="loadingToast" class="weui_loading_toast" style="display:none;">
+	        <div class="weui_mask_transparent"></div>
+	        <div class="weui_toast">
+	            <div class="weui_loading">
+	                <div class="weui_loading_leaf weui_loading_leaf_0"></div>
+	                <div class="weui_loading_leaf weui_loading_leaf_1"></div>
+	                <div class="weui_loading_leaf weui_loading_leaf_2"></div>
+	                <div class="weui_loading_leaf weui_loading_leaf_3"></div>
+	                <div class="weui_loading_leaf weui_loading_leaf_4"></div>
+	                <div class="weui_loading_leaf weui_loading_leaf_5"></div>
+	                <div class="weui_loading_leaf weui_loading_leaf_6"></div>
+	                <div class="weui_loading_leaf weui_loading_leaf_7"></div>
+	                <div class="weui_loading_leaf weui_loading_leaf_8"></div>
+	                <div class="weui_loading_leaf weui_loading_leaf_9"></div>
+	                <div class="weui_loading_leaf weui_loading_leaf_10"></div>
+	                <div class="weui_loading_leaf weui_loading_leaf_11"></div>
+	            </div>
+	            <p class="weui_toast_content">正在上传</p>
+	        </div>
+	    </div>
+	    <div class="weui_dialog_alert" id="dialog2" style="display: none;">
+	        <div class="weui_mask"></div>
+	        <div class="weui_dialog">
+	            <div class="weui_dialog_hd"><strong class="weui_dialog_title">温馨提示</strong></div>
+	            <div class="weui_dialog_bd"></div>
+	            <div class="weui_dialog_ft">
+	                <a href="javascript:;" class="weui_btn_dialog primary">确定</a>
+	            </div>
+	        </div>
+	    </div>
+   		<script type="text/javascript" src="__HOME_JS__/jquery-1.9.0.min.js" ></script>
+   		<script type="text/javascript" src="__HOME_PUNCH__/js/zepto.min.js" ></script>
+   		<script type="text/javascript" src="__HOME_PUNCH__/js/webuploader.html5only.min.js" ></script>
+   		<script type="text/javascript" src="__HOME_PUNCH__/js/diyUpload.js" ></script>
+   		<script type="text/javascript">
+   			$(function(){
+   				var uid=parseInt("{$uid}");
+   				$("input[name=title]").val(null);
+   				$("textarea[name=content]").val(null);
+   				$('.imageInput').html(null);
+   				$('#picBtn').diyUpload({
+					url:"{:U('Punchcard/uploadify')}",
+					success:function( data ) {
+						if(data.code==200){
+							show_tooltips('上传图片过大！');
+							return;
+						}else{
+							if(data.imgUrl==null||data.imgUrl==""){
+								show_tooltips('图片上传失败！');
+			   				}else{
+				   				$(".imageInput").append("<input type='text' name='imageslist[]' value='"+data.imgUrl+"' >");
+			   				}
+						}
+					},
+					error:function( err ) {
+						show_tooltips(err);
+					}
+				});
+   				
+   				$("#sendInfo").click(function(){
+   					if(!uid){
+   						var $dialog = $('#dialog2');
+						$dialog.find('.weui_dialog_bd').text("该状态下无法进行任何操作");
+	                    $dialog.show();
+	                    $dialog.find('.weui_btn_dialog').on('click', function () {
+	                        $dialog.hide();
+	                    });
+	                    return;
+   					}
+   					if(!$("input[name=title]").val()){
+   						show_tooltips('标题不能为空!');
+   						return;
+   					}
+					$count=parseInt($(".makeThumbCount").val());
+   					if($count<=0){
+   						show_tooltips('亲!有图有真相哦！');
+   						return;
+   					}
+					$("#showTooltips").click();//上传图片
+					var $loadingToast = $('#loadingToast');
+                    $loadingToast.show();
+                   	judgeCondition();
+					
+   				});
+   				
+   				$('.weui_textarea').keydown(function(){
+   					var len=parseInt($(this).val().trim().length)-1;
+   					len = len>=0?len:0;
+   					$('.weui_textarea_counter span').text(len);
+   				});
+   				$('.weui_textarea').keyup(function(){
+   					var len=parseInt($(this).val().trim().length);
+   					len = len>=0?len:0;
+   					$('.weui_textarea_counter span').text(len);
+   				});
+   			});
+   			function judgeCondition(){
+   				myTime=setInterval(function(){
+	   				$count=parseInt($(".makeThumbCount").val());
+	   				$num=parseInt($(".makeThumbNum").val());
+   					if($count==$num){
+   						$('#loadingToast').hide();
+   						$('.submitBtn').click();
+   						var html=$('.imageInput').html();
+   	   					if(html==null||html==""){
+   	   						show_tooltips('请上传图片!');
+   	   						return;
+   	   					}
+   						clearInterval(myTime);
+   					}
+   				},200)
+   			}
+   			//显示错误提示框
+   			function show_tooltips(tip_info){
+   				var $tooltips = $('.js_tooltips');
+   				$tooltips.text(tip_info);
+                if ($tooltips.css('display') != 'none') {
+                    return;
+                }
+                // 如果有`animation`, `position: fixed`不生效
+                $('.page.cell').removeClass('slideIn');
+                $tooltips.show();
+                setTimeout(function () {
+                    $tooltips.hide();
+                }, 2000);
+   			}
+   		</script>
+	</body>
+</html>

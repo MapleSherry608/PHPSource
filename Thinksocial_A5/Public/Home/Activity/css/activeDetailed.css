@@ -1,0 +1,68 @@
+/*banner*/
+.bannerBox{ position:relative; margin-left:auto; margin-right:auto; width:100%;}
+.bannerBox img{ display:block; width:100%;}
+.bannerTitle{ position:absolute; height:42px; background:rgba(0,0,0,0.3); line-height:42px; bottom:0; left:0; font-size:16px; color:white; width:95%; padding-left:5%; font-weight:bold;}
+/*活动信息*/
+.actInfroBox{ width:96%; padding-left:2%; padding-right:2%; background:#fff; border-top:solid 1px #ddd;border-bottom:solid 1px #ddd; margin-top:10px;}
+.actInfroBox li i{margin-left: 10px;margin-right: 10px;color: #0E90D2;font-size: 18px;}
+.actInfro{ height:36px; border-bottom:solid 1px #e6e6e6; line-height:36px; font-size:14px;}
+.actInfro_last{border-bottom: none;}
+.actInfro span{ color:#646464;}
+/*活动时间*/
+.actTime{ height:36px; border-bottom:solid 1px #e6e6e6; line-height:36px;}
+.actTime_last{border-bottom: none;}
+.actTime span{color:#646464;}
+.actTime p{display:inline-block; font-size:14px;}
+/*报名盒子*/
+.actDetailContainer{width: 100%; background: white;margin:10px 0;border-top: solid 1px #ddd; border-bottom:solid 1px #ddd;}
+/*活动内容*/
+.actIntroBox{ width:100%; height:44px;border-bottom: solid 1px #ddd;}
+.actIntroBox li{ float:left; width:33.3%;box-sizing: border-box; height:44px; text-align:center; font-size:16px;}
+.actIntroBox li a{ display: block;width: 100%; box-sizing: border-box; height:22px;line-height: 22px;margin-top: 11px; border-right: solid 1px #e6e6e6;}
+.actIntroBox .currentLi{border-bottom: solid 3px #0E90D2;}
+.actIntroBox .currentLi a{color:#0E90D2;}
+.actContent{width:92%; margin-left:4%; margin-right:4%; margin-top:20px; height:100%; line-height:20px; font-size:14px; overflow:null;}
+.actContent img{width:100%;}
+.actSlide{ width:92%;margin:20px 4%;color:#c83e19; font-size:14px;}
+/*报名信息*/
+.inforBox{ width:100%; margin-top:20px;margin-bottom: 20px;}
+.yourInfo,.selectInfo,.uploadInfo{width: 92%;margin: 0 4%; overflow:hidden; margin-top:10px;}
+.yourInfo p,.selectInfo p,.uploadInfo p{ float:left; width:30%;box-sizing: border-box;padding-right: 15px;text-align:right; font-family:"微软雅黑"; font-size:14px; color:#323232; line-height:35px;}
+.yourInfo p span,.selectInfo p span{color: #C83E19;font-size: 16px;margin-right: 5px;}
+.yourInfo .infoInput{float: left;width: 70%;box-sizing: border-box;height:36px;border: solid 1px #ddd;padding:3px 5px;padding-right: 20px;border-radius: 3px;box-shadow: 0 1px 3px #eee inset;position: relative;}
+.selectInfo .infoInput{float: left;width: 70%;box-sizing: border-box;}
+.selectInfo .infoInput input{margin-left:10px;margin-right:5px;}
+.selectInfo .infoInput label{margin-right: 10px;line-height: 36px;}
+.uploadInfo .infoInput{float: left;width: 70%;}
+.uploadInfo .infoInput #picBtn{position: relative; display: block;width:90px;height: 80px;border: dashed 1px #ccc;border-radius: 3px;background-repeat:no-repeat; background-position: center center;background-size: 90px 80px;}
+.mySelectBox i{position:absolute;right: 0;top: 0px;width: 20px;height: 36px;line-height: 36px;text-align:center; color: #646464;}
+.yourInfo input{display: block; width:100%; height:28px; line-height:28px;border: none;background:none; font-size:14px;outline: none;}
+.inforSubmit{width:80%;margin: 0 10%;margin-top: 10px;text-align: center;}
+.inforSubmit a{display: inline-block;text-align:center; width:120px;height: 36px;line-height: 36px;border: none;background: #3BB4F2;color: white;border-radius: 3px;}
+.defaltTipInfo img{display: block;margin: 0 auto;width: 60px;height: 60px;} 
+.defaltTipInfo p{text-align: center;font-size: 16px;margin-top: 15px;}
+/*我的评论*/
+.actReviewContainer{ display:none;margin-top: 10px; margin-bottom: 20px;}
+.actReview{width:92%; margin-left:4%; margin-right:4%; margin-top:10px;box-sizing: border-box;padding: 10px;border: solid 1px #ddd;border-radius: 5px;box-shadow: 0 2px 3px #eee inset;}
+.actReview textarea{display: block; width:100%;border: none;resize: none;outline: none;}
+.actReviewBox{width:92%; margin-left:4%; margin-right:4%;}
+.myReviewBox{ overflow:hidden; padding:10px 0;border-bottom: solid 1px #e6e6e6;}
+.myHeadBox{ float:left; width:20%;box-sizing: border-box;padding-right:10px;}
+.myHeadBox a{display: block;width: 50px;height: 50px;border-radius: 5px;overflow: hidden;}
+.myHeadBox img{ display: block;border-radius: 5px;}
+.myReviewContent{ float:left; width:80%;}
+.myReviewContent h1{color:#969696;}
+.myReviewContent span{ margin-right:10px; color:#0E90D2;font-size: 16px;}
+.myReviewContent p{ margin-top:10px; font-size:14px;}
+.reviewSubmit{width: 92%;margin-left: 4%;margin-right: 4%;text-align: right;margin-top: 10px;}
+.reviewSubmit a{display: inline-block;text-align: center; width:72px;height: 36px;line-height: 36px;border: none;background:#3BB4F2;color: white;border-radius: 5px;}
+/*查看更多*/
+.readMore{width: 92%;margin-left: 4%;margin-right: 4%;margin-top: 10px;}
+.readMore a{display: block;width: 100%;height: 36px;line-height: 36px;background: #f0f0f0;text-align: center;border-radius:3px;}
+.readMore a span{display: block;width: 100%;height: 100%;text-align: center;}
+.readMore a p{display: none; width: 24px; height: 36px;margin-left: auto;margin-right: auto; background: url(../images/loading.gif) no-repeat center center; background-size: 24px 24px;}
+/*下拉列表*/
+.dragListBox{display: none; position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.5);}
+.dragListBox .dragList{width: 80%;height: 60%;margin-top: 20%;margin-left: 10%;background: white;overflow: auto;border-radius: 3px;}
+.dragListBox .dragList li{width: 100%; height:42px;line-height: 42px;box-sizing: border-box;padding: 0 10px;border-bottom: solid 1px #ddd;}
+.dragListBox .dragList li:nth-last-child(1){border-bottom: none;}

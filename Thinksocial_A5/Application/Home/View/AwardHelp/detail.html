@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<title>有赏众帮</title>
+		<link rel="stylesheet" href="__HOME_REFUEL__/Css/style.css" />
+		<link rel="stylesheet" href="__HOME_REFUEL__/Css/give_help_detail.css" />
+		<script type="text/javascript" src="__HOME_REFUEL__/Js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript">
+			document.getElementsByTagName("html")[0].style.fontSize = document.documentElement.clientWidth/3 + "px";
+		</script>
+		<script type="text/javascript">
+			$(function(){
+				var proid = "{$proInfo['id']}";
+				var opt = [];
+				var comObj = $("#commentContent");
+				var submitObj = $("#submitBtn");
+				var verify = false;
+				$(".voteList p.option").click(function(){
+					var optid = parseInt($(this).attr("data-id"));
+					var com = $.trim(comObj.val());
+					if($(this).hasClass("selected")){
+						$(this).removeClass("selected");
+						opt.splice($.inArray(optid,opt),1);
+					}else{
+						$(this).addClass("selected");
+						opt.push(optid);
+					}
+					$("#answerOption").val(JSON.stringify(opt));
+					if(opt.length != 0){
+						verify = true;
+						submitObj.addClass("active");
+					}else{
+						if(com == ""){
+							verify = false;
+							submitObj.removeClass("active");
+						}
+					}
+				});
+				
+				var bind_name = 'input';
+				if (navigator.userAgent.indexOf("MSIE") != -1){
+					bind_name = 'propertychange';
+				}
+				comObj.bind(bind_name, function(){
+					var com = $.trim(comObj.val());
+					if(com != ""){
+						verify = true;
+						submitObj.addClass("active");
+					}else{
+						if(opt.length == 0){
+							verify = false;
+							submitObj.removeClass("active");
+						}
+					}
+				})
+				
+				submitObj.click(function(){
+					if(verify){
+						document.publishForm.submit();
+					}
+				});
+				$(".loadMore a").click(function(){
+					var This = $(this);
+					var totalNum = parseInt($(".commentNum").text());
+					var listNum = $(".commentList li").length;
+					if(listNum < totalNum){
+						This.text("正在加载...");
+						$.post("__MODULE__"+"/AwardHelp/loadComment",{"proid":proid,"currNum":listNum},function(data){
+							if(data != "0"){
+								var result = JSON.parse(data);
+								var str = "";
+								for(var i = 0;i < result.length;i++){
+									str += '<li>';
+									str += '	<div class="leftSide"><a href="javascript:null;" style="background-image: url(' + result[i].avatar + ');"></a></div>';
+									str += '	<div class="rightSide">';
+									str += '		<p class="user"><span>' + result[i].nickname + '</span><span>' + result[i].createMonth + '月' + result[i].createDay + '日</span></p>';
+									str += '		<p class="common">' + result[i].content + '</p>';
+									str += '	</div>';
+									str += '</li>';
+								}
+								$(".commentList").append(str);
+							}
+							This.text("加载更多");
+						});
+					}else{
+						This.text("已全部加载");
+					}
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div class="containerBox">
+			<div class="content_column">
+				<div class="content">{$proInfo['content']}</div>
+			</div>
+			<div class="help_column"><span>悬赏{:intval($proInfo['likescore'])}积分 </span><span>( {$proInfo['validday']} 天内)</span></div>
+			<if condition="$is_publish == 0">
+				<div class="operate_column">
+					<ul class="voteList">
+						<volist name="optList" key="k" id="v">
+							<li>
+								<p class="title">{$k}.{$v['title']}</p>
+								<volist name='v._child' key="ke" id="val">
+									<p class="option" data-id="{$val['id']}"><span></span><span>{:getLetter($ke)}：{$val['answer']}</span></p>
+								</volist>
+							</li>
+						</volist>
+					</ul>
+					<div class="formGroup">
+						<form name="publishForm" method="post" action="{:U('AwardHelp/handlePublish')}">
+							<p class="title">您有什么好的建议和想法？</p>
+							<div class="content"><textarea rows="3" name="comment" id="commentContent" placeholder="写建议......"></textarea></div>
+							<div class="btn">
+								<input type="hidden" name="proid" value="{$proInfo['id']}">
+								<input type="hidden" name="option" id="answerOption">
+								<a id="submitBtn" href="javascript:null;">发布</a>
+							</div>
+						</form>
+					</div>
+				</div>
+			<elseif condition="$is_publish == 1" />
+				<div class="result_column">
+					<ul class="voteList">
+						<volist name="optList" key="k" id="v">
+							<li>
+								<p class="title">{$k}.{$v['title']}</p>
+								<volist name='v._child' key="ke" id="val">
+									<p class="option">
+										<span class="letter">{:getLetter($ke)}：</span>
+										<span class="rateBar">
+											<em></em>
+											<if condition="$ke%4 == 1">
+												<em style="background: #ed7000; width: {$val['percentage']}%;"></em>
+											<elseif condition="$ke%4 == 2" />
+												<em style="background: #f8b200; width: {$val['percentage']}%;"></em>
+											<elseif condition="$ke%4 == 3" />
+												<em style="background: #20b0dc; width: {$val['percentage']}%;"></em>
+											<elseif condition="$ke%4 == 0" />
+												<em style="background: #8da92a; width: {$val['percentage']}%;"></em>
+											</if>
+										</span>
+										<span class="percent">{$val['percentage']}%</span>
+									</p>
+								</volist>
+							</li>
+						</volist>
+					</ul>
+					<if condition="$toatoCommentNum">
+						<div class="commentContent">
+							<p class="title">评论(<span class="commentNum">{$toatoCommentNum}</span>)</p>
+							<ul class="commentList">
+								<volist name="commentList" id="v">
+									<li>
+										<div class="leftSide"><a href="javascript:null;" style="background-image: url({$v['avatar']});"></a></div>
+										<div class="rightSide">
+											<p class="user"><span>{$v['nickname']}</span><span>{:date('m月d日',$v['createtime'])}</span></p>
+											<p class="common">{$v['content']}</p>
+										</div>
+									</li>
+								</volist>
+							</ul>
+							<if condition="$toatoCommentNum gt 10">
+								<div class="loadMore"><a href="javascript:null;">加载更多</a></div>
+							</if>
+						</div>
+					</if>
+				</div>
+			</if>
+		</div>
+	</body>
+</html>

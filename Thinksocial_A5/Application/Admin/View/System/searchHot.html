@@ -1,0 +1,88 @@
+<extend name="Public/basic" />
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:U()}">热搜词列表</a></li>
+		<li><a href="{:U('System/addSearchHot')}"><i class="fa fa-plus"></i>添加热搜词</a></li>
+
+	</ul>
+	<div class="clearfix">
+		<div class="panel panel-info">
+			<div class="panel-heading">筛选</div>
+			<div class="panel-body">
+				<form action="{:U('System/index')}" method="post" class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
+						<div class="col-sm-8 col-xs-12">
+							<select name="status" class="form-control">
+								<option value="-1">所有</option>
+								<option value="1">启用</option>
+								<option value="0">禁用</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">标题</label>
+						<div class="col-sm-8 col-xs-12">
+							<input class="form-control" name="title" id="" type="text" value="{$where.tiptitle}">
+						</div>
+						<div class="col-xs-12 col-sm-2 col-lg-1 text-right">
+							<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			详细数据
+		</div>
+		<div class="table-responsive panel-body">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th style="width:100px;">ID</th>
+						<th>关键词名称</th>
+						<th>状态</th>
+						<th>类型</th>
+						<th>创建时间</th>
+						<th>命中次数</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="list" id="vo">
+						<tr>
+							<td>{$vo.id}</td>
+							<td><a href="{:U('index?pid='.$vo['id'])}">{$vo.hotname}</a></td>
+							<td>{$vo.status_text}</td>
+							<td>{$vo.type_text}</td>
+							<td>{$vo.createtime|time_format}</td>
+							<td>{$vo.scorehit}</td>
+							<td>
+								<eq name="vo.status" value="1">
+									<a href="{:U('System/changeStatus?method=forbidsearchhot&id='.$vo['id'])}" class="btn btn-danger btn-xs ajax-get">禁用</a>
+								<else/>
+									<a href="{:U('System/changeStatus?method=resumesearchhot&id='.$vo['id'])}" class="btn btn-success btn-xs ajax-get">启用</a>
+								</eq>
+								<a href="{:U('System/addSearchHot',array('id'=>$vo['id']))}" class="btn btn-default btn-sm"title="编辑"><i class="fa fa-pencil"></i></a>
+								<a href="{:U('System/delMenu',array('id'=>$vo['id']))}" onclick="return confirm('删除后不能恢复，您确定删除吗？')" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="" data-original-title="删除"><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+					</volist>
+				</tbody>
+			</table>
+			<!-- 分页 -->
+			<div class="page">
+				{$_page}
+			</div>
+		</div>
+	</div>
+
+</block>
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav("{:U('System/searchHot')}");
+		setFromValue("status", {$where.status|default = 0});
+	</script>
+</block>

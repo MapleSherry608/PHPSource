@@ -1,0 +1,19 @@
+.nav-box{
+}
+.nav-box ul li{
+	height:20px;
+	line-height:20px;
+	text-align:center;
+	list-style-type:none;
+	padding:10px;
+	border-bottom:1px dotted #ccc;
+	float:left;
+	width:70px;
+	margin-right:5px;
+}
+.nav-box ul li a{
+	text-decoration:none;
+}
+.ui-pannel-inner{
+		padding:20px;
+	}

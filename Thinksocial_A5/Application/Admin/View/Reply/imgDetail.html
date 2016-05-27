@@ -1,0 +1,96 @@
+<extend name="Public/basic"/>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li ><a href="{:U('Reply/imgReply',array('do'=>'imgReplyInfo'))}">管理图文回复</a></li>		
+		<li class="active"><a href="{:U('Reply/addImgReply')}"><i class="fa fa-plus"></i>添加图文回复</a></li>
+	</ul>
+		<form action="{:U('Reply/addImgReply')}" method="post" class="form-horizontal" role="form" id="formData">
+			<div class="panel panel-default">
+				<div class="form-group"></div>     
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 130px;">关键词</label>
+					<div class="col-sm-8 col-lg-9 col-xs-12">
+						<input class="form-control"   id="keyword" type="text"  name="rule" value="{$reply['name']}" >
+						<input type="hidden" value="{$reply['id']}" name="id"/>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 130px;">标题</label>
+					<div class="col-sm-8 col-lg-9 col-xs-12">
+						<input class="form-control"   id="title" type="text"  name="imgReply[title]" value="{$reply['title']}" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 130px;">回复内容</label>
+					<div class="col-sm-9 col-xs-12">
+						{:tpl_ueditor('imgReply[content]',$reply['content'])}
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label"
+						style="width: 130px;">路径</label>
+					<div class="col-sm-8 col-lg-9 col-xs-12">
+						<input class="form-control" name="imgReply[url]" id="url" type="text" value="{$reply['url']}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label" style="width: 130px;">图片</label>
+					<div class="col-sm-8 col-lg-9 col-xs-12"> 
+						{:tpl_form_field_image("imgReply[thumb]",$reply['thumb'])}
+					</div>
+				</div>
+			</div>
+			<div class="form-group col-sm-12">
+				<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" /> 
+			</div>
+		</form>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav('{:U('Reply/imgReply')}');
+		//验证框  
+		require(['jquery', 'util'], function($, u){
+			highlight_subnav('{:U('Reply/imgReply')}');
+			setFromValue("status", {$where.status|default=0});
+			$("#formData").submit(function(){
+				var keyword=document.getElementById('keyword').value;
+				var content=document.getElementById('content').value;
+		        var url=document.getElementById('url').value;
+		        if(keyword==null||keyword==""){
+		        	u.message("请输入关键词!", '', 'error');
+					return false;
+		        }
+		        
+		        if(url==null||url==""){
+		        	u.message("请输入路径!", '', 'error');
+					return false;
+		        }else{
+		        	return CheckUrl(url);
+		        }
+		        
+				if(content==null||content==""){
+					u.message("请输入回复内容!", '', 'error');
+					return false;
+				}
+				
+				if($(":text[name='title']").val() == ''){
+					u.message('活动标题不能为空.', '', 'error');
+					return false;
+				}
+				return true;
+			});
+		});
+		//验证url
+		function CheckUrl(str) { 
+			var RegUrl = new RegExp(); 
+			RegUrl.compile("^[A-Za-z]+://[A-Za-z0-9-_]+\\.[A-Za-z0-9-_%&\?\/.=]+$");//jihua.cnblogs.com 
+			if (!RegUrl.test(str)) { 
+				alert("请输入正确的路径！");
+			    return false; 
+			}else{
+				return true;	
+			}
+		}
+	</script>
+</block>
+	

@@ -1,0 +1,125 @@
+<!--
+//开发: 小曾
+//扣扣: 839024615
+//本程序只作为测试学习使用
+//正式版请登陆pay.php127.com
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<title>Your Admin Panel</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+<!-- jQuery AND jQueryUI -->
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jquery/1.6/jquery.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Admin/js/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/css/min.css" />
+<script type="text/javascript" src="__PUBLIC__/Admin/js/min.js"></script>
+<style>
+#content .selector, #content .selector select, #content .selector span{
+	width:80px !important;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript" src="__PUBLIC__/Admin/content/settings/main.js"></script>
+<link rel="stylesheet" href="__PUBLIC__/Admin/content/settings/style.css" />
+<div id="content" class="white">
+  <div class="bloc">
+    <div class="content">
+   <form method="get" action="">
+      <div class="left input" style=" width:inherit !important">
+       
+        <select name="type">
+          <option value="0">全部</option>
+          <option value="pay_mall" <eq name="_GET['type']" value="pay_mall">selected</eq>>店铺号</option>
+          <option value="out_trade_no" <eq name="_GET['type']" value="out_trade_no">selected</eq>>商户单号</option>
+          <option value="trade_no" <eq name="_GET['type']" value="trade_no">selected</eq>>交易单号</option>
+          <option value="user_name" <eq name="_GET['type']" value="user_name">selected</eq>>姓名</option>
+          <option value="user_tel" <eq name="_GET['type']" value="user_tel">selected</eq>>手机号</option>
+          <option value="user_message" <eq name="_GET['type']" value="user_message">selected</eq>>留言</option>
+          <option value="openid" <eq name="_GET['type']" value="openid">selected</eq>>微信openid</option>
+        </select>
+      </div>
+       <div class="left input" style=" width:inherit !important">
+     <input type="text" name="key" style="width:200px;" placeholder="搜索单号/姓名/手机/等等" value="{:I('get.key')}" />
+     </div>
+      <div class="left submit" style=" width:inherit !important; margin-top: 7px; padding-left:10px;">
+        <input type="submit" class="button" value="搜索">
+      </div>
+      </form>
+      <div class="submit" style=" float:right; width:inherit !important; margin-top: 4px; padding-left:10px;">
+      <input type="button" class="button" onclick="location.href='{:U('index','time=1')}'" value="今天">
+       <input type="button" class="button" onclick="location.href='{:U('index','time=2')}'" value="昨天">
+        <input type="button" class="button" onclick="location.href='{:U('index','time=7')}'" value="7天内">
+        <input type="button" class="button" onclick="location.href='{:U('index','time=30')}'" value="本月">
+        <input type="button" class="button" onclick="location.href='{:U('index','time=60')}'" value="上月">
+        <input type="button" class="button" onclick="location.href='{:U('index')}'" value="全部">
+      </div>
+    </div>
+  </div>
+  <div class="bloc">
+    <div class="title"> <eq name="_GET['key']" value="">收款账单<else />搜索"<foo>{:I('get.key')}</foo>" 找到条<foo>{$count}</foo>结果</eq> <span style="float:right; margin-right:20px;">共{$z_trade_no}条 共{$z_price|get_price}元 已付{$f_price|get_price}元 未付{$w_price|get_price}元</span></div>
+    <div class="content">
+      <table>
+        <thead>
+          <tr>
+            <th>编号</th>
+            <th>状态</th>
+            <th>店铺</th>
+            <th>金额</th>
+            <th>付款方式</th>
+            <th>商户单号</th>
+            <th>交易单号</th>
+            <th>发起时间</th>
+            <th>付款时间</th>
+            <!--<th>姓名</th>
+                    <th>手机号</th>
+                    <th>客户留言</th>-->
+            <th>更多</th>
+          </tr>
+        </thead>
+        <tbody>
+          <volist name='list' id='vo'>
+            <tr>
+              <td>{$vo.id}</td>
+              <td><eq name='vo.ok' value='1'>
+                  <foo>已付款</foo>
+                  <else />
+                  <ofo>未支付</ofo>
+                </eq></td>
+              <td>
+              <eq name='vo.pay_mall' value='0'>总店
+                  <else />{$vo.pay_mall}</eq>
+              </td>
+              <td>{$vo.pay_price|get_price}</td>
+              <td>{$vo.pay_type|get_pay_type}</td>
+              <td>{$vo.out_trade_no}</td>
+              <td><eq name='vo.trade_no' value='0'>-
+                  <else />
+                  {$vo.trade_no}</eq></td>
+              <td>{$vo.s_time|date="Y-m-d H:i:s",###}</td>
+              <td><eq name='vo.f_time' value='0'>-
+                  <else />
+                  {$vo.f_time|date="Y-m-d H:i:s",###}</eq></td>
+              <!--<td><eq name='vo.user_name' value=''>-<else />{$vo.user_name}</eq></td>
+                    <td><eq name='vo.user_tel' value=''>-<else />{$vo.user_tel}</eq></td>
+                    <td><eq name='vo.user_message' value=''>-<else />{$vo.user_message}</eq></td>-->
+              <td class="actions" style="text-align:left">
+              <a href="#" title="商品:{$vo.pay_shop} <br />姓名: {$vo.user_name} <br />手机号: {$vo.user_tel} <br />留言: {$vo.user_message}">详情</a>
+              
+              </td>
+            </tr>
+          </volist>
+        </tbody>
+      </table>
+      <div class="left submit">
+        <input type="button" class="black" style="margin-top:10px;" onclick="location.href='{:U('delnopay')}'"  value="清除未付款">
+        <input style="margin-top:10px;" type="button"  class="black"  onclick="location.href='{:U('xls','time='.$_GET['time'].'&type='.$_GET['type'].'&key='.$_GET['key'])}'"  value="导出搜索结果 为Excel格式">
+      </div>
+      <div class="pagination"> {$page} </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

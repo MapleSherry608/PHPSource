@@ -1,0 +1,98 @@
+<extend name="Public/basic"/>
+<block name="body">
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="">打卡列表</a></li>		
+	</ul>
+	<div class="clearfix">
+		<div class="panel panel-info">
+			<div class="panel-heading">筛选</div>
+			<div class="panel-body form-horizontal">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">筛选条件</label>
+					<div class="col-sm-4 col-xs-12">
+						<input type="text" class="form-control search-input" placeholder="请输入内容！"  name="title" value="{:I('title')}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-2 col-md-2 col-lg-1 control-label">状态</label>
+					<div class="col-sm-2 col-xs12">
+						<label class="radio-inline">
+							<input type="radio" name="status" value="" <if condition="!is_numeric($_REQUEST['status'])&&empty($_REQUEST['status'])">checked="checked"</if> > 不限
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="1" <if condition="I('status') eq 1">checked="checked"</if> >正常
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="status" value="0" <if condition="is_numeric($_REQUEST['status'])&&empty($_REQUEST['status'])">checked="checked"</if> >禁用
+						</label>
+					</div>
+					<div class="col-xs-12 col-sm-2 col-lg-1 text-left">
+						<span class="btn btn-default" url="{:U('PunchAdmin/punchClockList')}" id="search"><i class="fa fa-search"></i> 搜索</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="table-responsive panel-body">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+						<th style="width:80px;">ID</th>
+						<th style="width:200px;">粉丝名称</th>
+						<th style="width:150px;">状态</th>
+						<th>内容</th>
+						<th style="width:180px;">评论时间</th>
+						<th style="width:180px;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<volist name="list" id="vo">
+						<tr>
+							<td>{$vo.id}</td>
+							<td>{:getNameTableid($vo['membid'],'Member','nickname')}</td>
+							<td>{$vo.status_text}</td>
+							<td>{$vo.content}</td>
+							<td>{$vo.createtime|time_format}</td>
+							<td>
+								<eq name="vo.status" value="1">
+									<span href="{:U('PunchAdmin/changeStatus',array('id'=>$vo['id'],'method'=>'forbidpunchcomment'))}" class="btn btn-danger btn-xs ajax-get">禁用</span>
+								<else/>
+									<span href="{:U('PunchAdmin/changeStatus',array('id'=>$vo['id'],'method'=>'resumepunchcomment'))}" class="btn btn-success btn-xs ajax-get">启用</span>
+								</eq>
+								<a href="{:U('PunchAdmin/changeStatus',array('id'=>$vo['id'],'method'=>'deletePunchComment'))}" onclick="return confirm('删除后不能恢复，您确定删除吗？')" class="btn btn-default btn-xs">删除</a>
+							</td>
+						</tr>
+					</volist>
+				</tbody>
+			</table>
+			 <!-- 分页 -->
+	        <div class="page">{$_page}</div>
+		</div>
+	</div>
+</block>
+<block name="script">
+<script type="text/javascript">
+	//搜索功能
+	$("#search").click(function(){
+		var url = $(this).attr('url');
+        var query  = $('.form-horizontal').find('input').serialize();
+        query = query.replace(/(&|^)(\w*?\d*?\-*?_*?)*?=?((?=&)|(?=$))/g,'');
+        query = query.replace(/^&/g,'');
+        if( url.indexOf('?')>0 ){
+            url += '&' + query;
+        }else{
+            url += '?' + query;
+        }
+		window.location.href = url;
+	});
+	//回车搜索
+	$(".search-input").keyup(function(e){
+		if(e.keyCode === 13){
+			$("#search").click();
+			return false;
+		}
+	});
+	highlight_subnav("{:U('PunchAdmin/punchComment')}");
+</script>
+</block>

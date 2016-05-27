@@ -1,0 +1,61 @@
+/*顶部切换*/
+.topTabBox{width: 100%;}
+.topTabBox .topTab{width: 70%;margin: 10px 15%; background: #527BEF;border-radius: 5px;overflow: hidden;}
+.topTabBox .topTab li{float: left;width: 50%;}
+.topTabBox .topTab li a{ display: block;width: 100%;height: 20px;line-height: 20px;margin: 8px 0; color: #ccc;box-sizing: border-box;text-align: center;font-size: 16px;}
+.topTabBox .topTab li:nth-child(1) a{border-right: solid 1px #fff;}
+.topTabBox .topTab li.currentLi a{color: #fff;}
+/*运动分享*/
+.sportShareContainer{width:100%;}
+.sportShareBox{ width:100%; background:#fff;margin-bottom: 10px; box-shadow:0px 3px 3px #ccc; overflow:hidden; position:relative;}
+/*头像*/
+.myHeadBox{ overflow:hidden; margin-top:10px; width:96%; padding-right:2%; padding-left:2%;}
+.myHeadLeft{ float:left; width:20%;}
+.myHeadLeft a{ display: block;width: 50px;height: 50px;overflow: hidden; border-radius:5px;}
+.myHeadLeft img{display: block; border-radius: 5px;}
+.myHeadRight{ float:left; width:80%;}
+.myHeadRight h1{ font-size:16px; margin-bottom:10px;}
+.myHeadRight h1 a{color: #0E90D2;}
+.myHeadRight h2{ font-size:14px; color:#969696;}
+/*分享内容*/
+.myShareBox{ width:98%; margin-left:2%;}
+.myShareInfro{ margin-top:10px; margin-bottom:10px; font-size:16px;}
+.mySharePic{width: 100%; overflow:hidden;}
+.myPicBox{ float:left; overflow:hidden;margin-right: 5px;margin-bottom: 5px;}
+/*我的评论*/
+.myCommentBox{ background:#f5f5f5; border-top:solid 1px #e6e6e6; width:100%;}
+.myCommentTitle{ width: 100%;display: table; margin-top:10px; margin-bottom:10px;}
+.myCommentTitle i{ font-size: 16px; margin-right: 10px; color: #0E90D2;}
+.comment_icon{ display: table-cell;text-align: center; font-size:14px;}
+.praise_icon{display: table-cell;text-align: center; font-size:14px;}
+.sendInfro_icon{display: table-cell;text-align: center; font-size:14px;}
+.myPraiseBox{ overflow:hidden; margin-left:2%; width:98%;}
+.myPraiseTitle{ width:30px; height:30px;line-height: 30px; text-align: center; float:left; border:solid 1px #e6e6e6; border-radius:3px; margin-right:10px;margin-bottom:10px;}
+.myPraiseMore{ width:30px; height:30px;line-height: 30px; text-align: center; float:left;}
+.myPraiseTitle span{display:inline-block;width:20px;heigth:20px;margin-top:5px;}
+.myPraiseTitle i{ font-size: 20px;color: #0E90D2;}
+.myPraiseContent{ float:left; width:30px; margin-right:10px; margin-bottom:5px;}
+.myPraisePic{ width:30px; height:30px; overflow:hidden; border-radius:3px; display:block;}
+.myPraiseContent p{ font-size:8px; margin-top:5px; width:30px; overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align: center;}
+/*打卡评论*/
+.signCommentBox{box-shadow: none;border-bottom: solid 1px #ddd;}
+/*我的评论*/
+.actReviewContainer{margin-top: 10px;margin-bottom: 10px; padding-bottom: 20px;background: white;border-top: solid 1px #ddd; border-bottom: solid 1px #ddd;}
+.actReview{width:92%; margin-left:4%; margin-right:4%; margin-top:10px;box-sizing: border-box;padding: 10px;border: solid 1px #ddd;border-radius: 5px;box-shadow: 0 2px 3px #eee inset;}
+.actReview textarea{display: block; width:100%;border: none;resize: none;outline: none;}
+.actReviewBox{width:92%; margin-left:4%; margin-right:4%;}
+.signReviewBox{width:100%; display:table; padding:10px 0;border-bottom: solid 1px #e6e6e6;}
+.signHeadBox{display:table-cell; width:60px;box-sizing: border-box;padding-right:10px;vertical-align: middle;}
+.signHeadBox a{display: block;width: 50px;height: 50px;overflow: hidden;border-radius: 5px;}
+.signHeadBox img{ display: block;border-radius: 5px;}
+.signReviewContent{ display:table-cell;vertical-align: middle;}
+.signReviewContent h1{color:#969696;}
+.signReviewContent span{ margin-right:10px; color:#0E90D2;font-size: 16px;}
+.signReviewContent p{ margin-top:10px; font-size:14px;}
+.reviewSubmit{width: 92%;margin-left: 4%;margin-right: 4%;text-align: right;margin-top: 10px;}
+.reviewSubmit a{display: inline-block;text-align: center; width:72px;height: 36px;line-height: 36px;border: none;background:#3BB4F2;color: white;border-radius: 5px;}
+/*查看更多*/
+.readMore{width: 92%;margin-left: 4%;margin-right: 4%;margin-top: 10px;}
+.readMore a{display: block;width: 100%;height: 36px;line-height: 36px;background: #f0f0f0;text-align: center;border-radius:3px;}
+.readMore a span{display: block;width: 100%;height: 100%;text-align: center;}
+.readMore a p{display: none; width: 24px; height: 36px;margin-left: auto;margin-right: auto; background: url(../img/loading.gif) no-repeat center center; background-size: 24px 24px;}

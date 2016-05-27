@@ -1,0 +1,56 @@
+<extend name="Public/basic"/>
+<block name="style"></block>
+<block name="body">
+	<include file="tabs" />
+	<div class="main">
+	    <form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" >
+	        <input type='hidden' name='setid' value="{$arr['set']['id']}" />
+	        <input type='hidden' name='op' value="shop" />
+	        <div class="panel panel-default">
+	            <div class='panel-body'>  
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商城名称</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        <input type="text" name="shop[name]" class="form-control" value="{$arr['set']['shop']['name']}" />
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商城LOGO</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        {:tpl_form_field_image('shop[logo]', $arr['set']['shop']['logo'])}
+	                        <span class='help-block'>正方型图片</span>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">店招</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        {:tpl_form_field_image('shop[img]', $arr['set']['shop']['img'])}
+	                        <span class='help-block'>商城首页店招，建议尺寸640*450</span>
+	                    </div>
+	                </div>
+	                <div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">商城海报</label>
+	                    <div class="col-sm-9 col-xs-12">
+	                        {:tpl_form_field_image('shop[signimg]', $arr['set']['shop']['signimg'])}
+	                        <span class='help-block'>推广海报，建议尺寸640*640</span>
+	                    </div>
+	                </div>
+	                
+	                <div class="form-group"></div>
+	                
+	            	<div class="form-group">
+	                    <label class="col-xs-12 col-sm-3 col-md-2 control-label"></label>
+	                    <div class="col-sm-9 col-xs-12">
+                            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1"  />
+                     	</div>
+	            	</div>
+	            </div>
+	        </div>     
+	    </form>
+	</div>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav("{:U('Sysset/index')}");
+	</script>
+</block>

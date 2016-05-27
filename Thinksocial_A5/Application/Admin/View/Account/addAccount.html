@@ -1,0 +1,308 @@
+<extend name="Public/basic"/>
+<block name="body">
+
+
+<ul class="nav nav-tabs nav-width">
+	<li <if condition="$step==1">class="active" </if> class="normal"><a href="javascript:;">1. 账号基本信息</a></li>
+	<li <if condition="$step==2">class="active" </if> class="normal"><a href="javascript:;">2. 一键获取公众号信息</a></li>
+	<li <if condition="$step==3">class="active"</if> class="normal"><a href="javascript:;">3. 设置公众号信息</a></li>
+	<li <if condition="$step==4">class="active"</if>  class="normal"><a href="javascript:;">4.引导页面</a></li>
+</ul>
+
+<div class="clearfix">
+   <if condition="$step==1">  
+	  <form action="{:U('Account/addAccount')}" method="post"  class="form-horizontal" role="form" enctype="multipart/form-data" id="form1" onsubmit="return checkStep1()">
+		<input type="hidden" name="step" value="2">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				基础信息
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="name" value="{$account['name']}" class="form-control" autocomplete="off" id="wxname">
+						<span class="help-block">名称为了方便标识此公众号的作用及身份。可以为商户、组织或是公司的名称。</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">描述</label>
+					<div class="col-sm-9 col-xs-12">
+						<textarea style="height: 80px;" class="form-control" name="description" id="desc">{$account['description']}</textarea>
+						<span class="help-block">用于说明此公众号的功能及用途。</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-12">
+				<input name="submit" type="submit" value="下一步" class="btn btn-primary col-lg-1" />
+				<input type="hidden" name="step" value="2" />
+			</div>
+		</div>
+	</form>
+	<elseif condition="$step==2"/>  
+	<form action="{:U('Account/addAccount')}" method="post"  class="form-horizontal" role="form" enctype="multipart/form-data" id="form1" onsubmit="return checkStep2()">
+		<input type="hidden" name="step" value="3">
+		<input type="hidden" name="name" value="{$name}">
+		<input type="hidden" name="description" value="{$description}">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				一键获取公众号信息
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众登录用户</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="wxusername" id="username" class="form-control" value="{$account['username']}" autocomplete="off"/>
+						<span class="help-block">请输入你的公众平台用户名</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众登录密码</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="password" name="wxpassword" id="pwd" class="form-control" value="" autocomplete="off"/>
+						<span class="help-block">请输入你的公众平台密码</span>
+					</div>
+				</div>
+				<div class="form-group" style="display:none;">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">登录验证码</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="verify" id="wxverify" class="txt grid-1 alpha pin form-control" value="" autocomplete="off" />
+						<span class="help-inline"><img src="" id="imgverify"> <a href="javascript:;" id="toggle">换一张</a></span>
+					</div>
+				</div>
+			</div>
+		</div>
+			<div class="form-group">
+			<div class="col-sm-12">
+				<input name="submit" type="submit" value="下一步" class="btn btn-primary" />
+			</div>
+		</div>
+	</form>
+  <elseif condition="$step==3"/>
+	<form action="{:U('Account/addAccount')}" method="post"  class="form-horizontal" role="form" enctype="multipart/form-data" id="form1" onsubmit="return checkStep3()">
+		<input type="hidden" name="step" value="4">
+		<input type="hidden" name="flag" value="1">
+		<input type="hidden" name="description" value="{$description}">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				设置公众号信息
+			</div>
+			<div class="panel-body">
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red">*</span> 公众号名称</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="account[public_name]" class="form-control" value="{$account['public_name']}" autocomplete="off" id="gzname"/>
+						<span class="help-block">填写公众号的帐号名称</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">公众号帐号</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="account[account]" class="form-control" value="{$account['account']}" autocomplete="off" id="gzuser"/>
+						<span class="help-block">填写公众号的帐号，一般为英文帐号</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">原始ID</label>
+					<div class="col-sm-9 col-xs-12">
+						<input type="text" name="account[public_id]" class="form-control" value="{$account['public_id']}" autocomplete="off"  id="publicid"/>
+						<span class="help-block">在给粉丝发送客服消息时,原始ID不能为空。建议您完善该选项</span>
+					</div>
+				</div>
+				<div id="panel_1">
+					<div class="form-group">
+						<label class="col-xs-12 col-sm-3 col-md-2 control-label">级别</label>
+						<div class="col-sm-9 col-xs-12">
+							<label for="status_1" class="radio-inline"><input   type="radio" name="account[level]" id="status_1" value="1"  <if condition="$account['level'] == 1" >checked</if> /> 普通订阅号</label>
+							<label for="status_2" class="radio-inline"><input   type="radio" name="account[level]" id="status_2" value="2"  <if condition="$account['level'] == 2"> checked</if> /> 普通服务号</label>
+							<label for="status_3" class="radio-inline"><input  type="radio" name="account[level]" id="status_3" value="3"  <if condition="$account['level'] == 3"> checked</if> /> 认证订阅号</label>
+							<label for="status_4" class="radio-inline"><input  type="radio" name="account[level]" id="status_4" value="4"  <if condition="$account['level'] == 4"> checked</if>/> 认证服务号</label>
+							<span class="help-block">注意：即使公众平台显示为“未认证”, 但只要【公众号设置】/【账号详情】下【认证情况】显示资质审核通过, 即可认定为认证号.</span>
+						</div>
+					</div>
+					<div id="adv">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">AppId</label>
+							<div class="col-sm-9 col-xs-12">
+								<input type="text" name="account[appid]" class="form-control" value="{$account['appid']}" autocomplete="off" id="appid"/>
+								<div class="help-block">请填写微信公众平台后台的AppId</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">AppSecret</label>
+							<div class="col-sm-9 col-xs-12">
+								<input type="text" name="account[secret]" class="form-control" value="{$account['secret']}" autocomplete="off" id="secret"/>
+								<div class="help-block">请填写微信公众平台后台的AppSecret, 只有填写这两项才能管理自定义菜单</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="panel_2">
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">头像</label>
+					<div class="col-sm-9 col-xs-12">
+						<img src="https://mp.weixin.qq.com/misc/getheadimg?token={$account['token']}&fakeid={$account['fakeid']}" width="150"/>
+						<span class="help-block">只支持JPG图片</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">二维码</label>
+					<div class="col-sm-9 col-xs-12">
+						 <img src="https://mp.weixin.qq.com/misc/getqrcode?fakeid={$account['fakeid']}&token={$account['token']}&style=1" width="150"/>
+						<span class="help-block">只支持JPG图片</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-12">
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<input name="submit" type="submit" value="下一步" class="btn btn-primary" />
+			</div>
+		</div>
+	</form>
+   <elseif condition="$step==4"/>  
+	<div class="panel panel-default guide">
+		<div class="panel-heading">
+			高级设置
+		</div>
+		
+		<div class="panel-body">
+			<h4 class="alert alert-info">您绑定的微信公众号：<em>{$name}</em>，请按照下列引导完成配置。</h4>
+			<div class="list-group">
+				<div class="list-group-item">
+					<h5 class="page-header">登录 <a href="https://mp.weixin.qq.com/" target="_blank">微信公众平台</a>，点击左侧菜单最后一项，进入 [ <em>开发者中心</em> ]</h5>
+					<div class="con">
+						<p># 如果您未成为开发者，请勾选页面上的同意协议，再点击 [ <em>成为开发者</em> ] 按钮</p>
+					</div>
+				</div>
+				<div class="list-group-item">
+					<h5 class="page-header">在开发者中心，找到［<em> 服务器配置</em> ］栏目下URL和Token设置</h5>
+					<div class="con">
+						<p># 将以下链接链接填入对应输入框：</p>
+						<form action="" method="post" class="form-horizontal" role="form">
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label">URL:</label>
+								<div class="col-sm-9 col-xs-12 input-group ">
+									<p class="form-control-static"><a href="javascript:;" ><php>echo "http://".$_SERVER['HTTP_HOST'];</php>/admin.php?s=/Weixin/checkToken</a</p>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-xs-12 col-sm-2 col-md-1 col-lg-1 control-label">Token:</label>
+								<div class="col-sm-9 col-xs-12 input-group">
+									<p class="form-control-static"> <a href="javascript:;" >bgt</p>
+								</div>
+							</div>
+						</form>
+						<p># 如果以前已填写过URL和Token，请点击[<em> 修改配置 </em>] ，再填写上述链接</p>
+						<p># 请点击 [<em> 启用 </em>] ，以启用服务器配置：</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</if>
+</div>
+</block>
+<block name="script">
+	<script type="text/javascript">
+		highlight_subnav("{:U('Account/account')}");
+		$(function(){
+			$('p.form-control-static a').each(function(){
+				u.clip(this, $(this).text());
+			});
+			$('#username').blur(function(){
+				if ($('#username').val()) {
+					var type = $('input[name="type"]:checked').val() ? $('input[name="type"]:checked').val() : 1;
+					var username=$('#username').val();
+					var urlsrc="{:U('Account/account_wxcode',array('username'=>"+username+"))}";
+					urlsrc+="/username/"+username;
+					$('#imgverify').attr('src',urlsrc);
+					$('#imgverify').parent().parent().parent().show();
+					return false;
+				}
+			});
+			$('#toggle').click(function(){
+				if ($('#username').val()) {
+					var type = $('input[name="type"]:checked').val() ? $('input[name="type"]:checked').val() : 1;
+					var username=$('#username').val();
+					var urlsrc="{:U('Account/account_wxcode',array('username'=>"+username+"))}";
+					$('#imgverify').attr('src',urlsrc);
+					$('#imgverify').parent().parent().parent().show();
+					return false;
+				}
+			});
+			
+			/* $(".form-group").find(':file').filestyle({buttonText: '上传图片'});
+			
+			$('div[id^="panel"]').hide();
+			$('#panel_'+$('input:radio[name="type"]:checked').val()).show();
+			$("input[name='type']").click(function(){
+				$('div[id^="panel"]').hide();
+				$('#panel_'+$(this).val()).show();
+			}); */
+		});
+		//验证第一步
+		function checkStep1(){
+			var wxname=document.getElementById('wxname').value;
+			var desc=document.getElementById('desc').value;
+			 if(wxname==null||wxname==""){
+		        	alert("请输入公众号名称!");
+					return false;
+		     }
+			 if(desc==null||desc==""){
+		        	alert("请输入公众号描述!");
+					return false;
+		     }
+		}
+		//验证第二步
+		function checkStep2(){
+			var username=document.getElementById('username').value;
+			var pwd=document.getElementById('pwd').value;
+			var wxverify=document.getElementById('wxverify').value;
+			if(username==null||username==""){
+	        	alert("请输入登录帐号!");
+				return false;
+	    	 }
+			if(pwd==null||pwd==""){
+	        	alert("请输入登录密码!");
+				return false;
+	     	}
+			if(wxverify==null||wxverify==""){
+	        	alert("请输入验证码!");
+				return false;
+	     	}
+		}
+		//验证第三步
+		function checkStep3(){
+			var gzname=document.getElementById('gzname').value;  
+			var gzuser=document.getElementById('gzuser').value; 
+			var publicid=document.getElementById('publicid').value; 
+			var appid=document.getElementById('appid').value; 
+			var secret=document.getElementById('secret').value;
+			if(gzname==null||gzname==""){
+	        	alert("请输入公众号名称!");
+				return false;
+	    	 }
+			if(gzuser==null||gzuser==""){
+	        	alert("请输入公众号帐号!");
+				return false;
+	    	 }
+			if(publicid==null||publicid==""){
+	        	alert("请输入原始ID!");
+				return false;
+	    	 }
+			if(appid==null||appid==""){
+	        	alert("请输入APPID!");
+				return false;
+	    	 }
+			if(secret==null||secret==""){
+	        	alert("请输入secret!");
+				return false;
+	    	 }
+		}
+	</script>
+</block>
